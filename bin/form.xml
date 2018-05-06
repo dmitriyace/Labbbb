@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<pijamacollection>
+	<pijama>
+		<person>Карлсон</person>
+		<pijamasize>ok</pijamasize>
+		<pijamaclearance>washed</pijamaclearance>
+		<pijamalocation>near_bed</pijamalocation>
+	</pijama>
+<pijama>
+		<person>Малыш</person>
+		<pijamasize>long</pijamasize>
+		<pijamaclearance>unwashed</pijamaclearance>
+		<pijamalocation>near_kitchen</pijamalocation>
+	</pijama>
+<pijama>
+		<person>Бимбо</person>
+		<pijamasize>short</pijamasize>
+		<pijamaclearance>unwashed</pijamaclearance>
+		<pijamalocation>in_living_room</pijamalocation>
+	</pijama>
+
+</pijamacollection>

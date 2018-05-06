@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/EPj.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/EPjc.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ExcFall.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Heroes.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/In.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Moves.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Over.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/P_i.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Pj.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Scenary.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Type.java" charset="windows-1251" />
+  </component>
+</project>
