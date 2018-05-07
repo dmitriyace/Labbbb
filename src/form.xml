@@ -1,23 +1,60 @@
 <?xml version="1.0" ?>
 
 <pijamacollection>
-	<pijama>
-		<person>Карлсон</person>
-		<pijamasize>ok</pijamasize>
-		<pijamaclearance>washed</pijamaclearance>
-		<pijamalocation>near_bed</pijamalocation>
-	</pijama>
-<pijama>
-		<person>Малыш</person>
-		<pijamasize>long</pijamasize>
-		<pijamaclearance>unwashed</pijamaclearance>
-		<pijamalocation>near_kitchen</pijamalocation>
-	</pijama>
-<pijama>
-		<person>Бимбо</person>
-		<pijamasize>short</pijamasize>
-		<pijamaclearance>unwashed</pijamaclearance>
-		<pijamalocation>in_living_room</pijamalocation>
-	</pijama>
+    <pijama>
+        <pijamasize>ok</pijamasize>
+        <pijamaclearance>washed</pijamaclearance>
+        <pijamalocation>near_bed</pijamalocation>
+        <pijamacolor>RED</pijamacolor>
+        <pijamaname>Oh</pijamaname>
+    </pijama>
+    <pijama>
+        <pijamasize>long</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>near_kitchen</pijamalocation>
+        <pijamacolor>wHitE</pijamacolor>
+        <pijamaname>Gre</pijamaname>
 
+    </pijama>
+    <pijama>
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>living_room</pijamalocation>
+        <pijamacolor>blue</pijamacolor>
+        <pijamaname>Tcha</pijamaname>
+
+    </pijama>
+    <pijama>
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>washed</pijamaclearance>
+        <pijamalocation>living_room</pijamalocation>
+        <pijamacolor>blue</pijamacolor>
+        <pijamaname>Ka</pijamaname>
+
+    </pijama>
+    <pijama>
+
+        <pijamasize>long</pijamasize>
+        <pijamaclearance>washed</pijamaclearance>
+        <pijamalocation>ss</pijamalocation>
+        <pijamacolor>blue</pijamacolor>
+        <pijamaname>Kaya</pijamaname>
+
+    </pijama>
+    <pijama>
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>ss</pijamalocation>
+        <pijamacolor>red</pijamacolor>
+        <pijamaname>Vstre</pijamaname>
+
+    </pijama>
+    <pijama>
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>ss</pijamalocation>
+        <pijamacolor>red</pijamacolor>
+        <pijamaname>Cha</pijamaname>
+
+    </pijama>
 </pijamacollection>

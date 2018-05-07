@@ -1,4 +1,10 @@
-public class Pj extends Over implements P_i {
+import Enums.*;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Pj extends Over implements P_i, Comparable, Serializable {
 
     protected EPj epj;
     protected EPjc epjc;
@@ -6,27 +12,26 @@ public class Pj extends Over implements P_i {
     protected Type t;
     protected Emotional e;
     protected String name;
-    protected Location loca;
+    protected Enum<Location> loca;
+    protected ColorsEnum color;
     protected String h;
-    protected Heroes hero;
-    int hashcode = 1;// переменная используемая в переопределении хэшкода
+    SimpleDateFormat ft =
+            new SimpleDateFormat("hh:mm:ss:SSS");
+    protected String dt;
+    int id;
+    public static Pj d_f = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
 
-
-    public Pj(EPj epj, EPjc epjc, Location loca, Heroes hero) {
+    public Pj(String name, EPj epj, EPjc epjc, Enum<Location> loca, ColorsEnum color, int num) {
+        this.name = name;
+        id = num;
         this.epj = epj;
         this.epjc = epjc;
         this.loca = loca;
-        this.h = hero.getName() + "'s";
+        this.color = color;
+        this.dt = ft.format(new Date());
 
     }
 
-    public String getWhos() {
-        return hero.getName() + "'s";
-    }
-
-    public Location getLoca() {
-        return loca;
-    }
 
     public EPj getSize() {
         return epj;
@@ -51,10 +56,7 @@ public class Pj extends Over implements P_i {
 
     @Override
     public int hashCode() {
-        hashcode = hashcode * 33 + epj.hashCode();
-        hashcode = hashcode * 33 + epjc.hashCode();
-        hashcode = hashcode * 33 + loca.hashCode();
-        hashcode = hashcode * 33 + hero.hashCode();
+        int hashcode = id ^ (id >>> 16);
         return hashcode;
     }
 
@@ -64,7 +66,17 @@ public class Pj extends Over implements P_i {
         if (obj == null) return false;
         if (this.getClass() != obj.getClass()) return false;
         Pj pe = (Pj) obj;
-        return (this.hashCode() == pe.hashCode()) || ((this.epj == pe.epj) && (this.epjc == pe.epjc) && (this.loca == pe.loca) && (this.hero == pe.hero));
+        return (this.hashCode() == pe.hashCode());
     }
 
+    @Override
+    public int compareTo(Object o) {
+        if (this.id == ((Pj) o).id)
+            return 0;
+        else if (this.id < ((Pj) o).id)
+            return 1;
+        else
+            return -1;
+
+    }
 }

@@ -10,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <enumeration id="2" language="java" name="Emotional" project="Lab3" file="/Lab3/src/Emotional.java" binary="false" 
+  <enumeration id="2" language="java" name="Enums.Emotional" project="Lab3" file="/Lab3/src/Enums.Emotional.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="509" y="702"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -19,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <enumeration id="3" language="java" name="Type" project="Lab3" file="/Lab3/src/Type.java" binary="false" 
+  <enumeration id="3" language="java" name="Enums.Type" project="Lab3" file="/Lab3/src/Enums.Type.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="335" y="701"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -28,7 +28,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <enumeration id="4" language="java" name="EPjc" project="Lab3" file="/Lab3/src/EPjc.java" binary="false" 
+  <enumeration id="4" language="java" name="Enums.EPjc" project="Lab3" file="/Lab3/src/Enums.EPjc.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="57" y="335"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -37,7 +37,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <enumeration id="5" language="java" name="EPj" project="Lab3" file="/Lab3/src/EPj.java" binary="false" 
+  <enumeration id="5" language="java" name="Enums.EPj" project="Lab3" file="/Lab3/src/Enums.EPj.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="54" y="479"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

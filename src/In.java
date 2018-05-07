@@ -1,47 +1,61 @@
-import java.io.*;
-import java.util.HashSet;
-import java.util.Scanner;
+import Enums.ColorsEnum;
+import Enums.EPj;
+import Enums.EPjc;
+import Enums.Location;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class In {
-    public static void getPjeys(String path, String encoding, Heroes hero, HashSet<Pj> pjeys) {
 
-        String checkheroname = "", strSize, strClear, strLocation, strName=hero.name;
+    public static void getPjeys(String path, CopyOnWriteArrayList<Pj> pjeys) {
+        String checkheroname = "", strSize, strClear, strLocation, strColor;
         EPj size;
         EPjc clearance;
-        Location loca;
-
-        try {
-            Scanner inputXML = new Scanner(new File(path));
+        Enum<Location> loca;
+        int id = 0;
+        int i = 0;
+//        String dt;
+        String name;
+        ColorsEnum color;
+        SimpleDateFormat sdt = new SimpleDateFormat("hh:mm:ss:SSS");
+        try (Scanner inputXML = new Scanner(new File(path))) {
             inputXML.useDelimiter("</");
-            for (int i = 0; i < 4; i++) {//количество циклов фор можно посчитать по количеству
-                //пижам. количество пижам считается счетчиком в цикле вайл пока сканнер ищет пижамы
-                if (checkheroname.equals(strName)) {
-
-                    checkheroname = inputXML.findWithinHorizon("<pijamasize>", 40);
-                    strSize = inputXML.next().trim().toUpperCase();
-                    checkheroname = inputXML.findWithinHorizon("<pijamaclearance>", 40);
-                    strClear = inputXML.next().trim().toUpperCase();
-                    checkheroname = inputXML.findWithinHorizon("<pijamalocation>", 40);
-                    strLocation = inputXML.next().trim().toUpperCase();
-                    size = EPj.valueOf(strSize);
-                    clearance = EPjc.valueOf(strClear);
-                    loca = Location.valueOf(strLocation);
-
-                    pjeys.add(new Pj(size,clearance,loca,hero));
-                    System.out.println(pjeys.size()+" "+pjeys.hashCode());
-                } else {
-                    checkheroname = inputXML.findWithinHorizon("<person>", 100000);
-                    checkheroname = inputXML.next();
-                    System.out.println(checkheroname);
+            while (!(inputXML.findWithinHorizon("</pijamacollection>", 60) instanceof String)) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }
+                checkheroname = inputXML.findWithinHorizon("<pijamasize>", 100000);
+                strSize = inputXML.next().trim().toUpperCase();
+                checkheroname = inputXML.findWithinHorizon("<pijamaclearance>", 60);
+                strClear = inputXML.next().trim().toUpperCase();
+                checkheroname = inputXML.findWithinHorizon("<pijamalocation>", 60);
+                strLocation = inputXML.next().trim().toUpperCase();
+                checkheroname = inputXML.findWithinHorizon("<pijamacolor>", 60);
+                strColor = inputXML.next().trim().toUpperCase();
+                checkheroname = inputXML.findWithinHorizon("<pijamaname>", 60);
+                name = inputXML.next().trim().toUpperCase();
 
+                size = EPj.valueOf(strSize);
+                clearance = EPjc.valueOf(strClear);
+                loca = Location.valueOf(strLocation);
+                color = ColorsEnum.valueOf(strColor);
+
+
+                id++;
+//                dt = sdt.format(new Date());
+
+//                System.out.println(dt);
+                pjeys.add(new Pj(name, size, clearance, loca, color, id));
+            }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found");
+        } catch (IOException io) {
+            System.out.println("Input exception");
         }
     }
 

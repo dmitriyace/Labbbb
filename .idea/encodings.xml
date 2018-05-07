@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/EPj.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/EPjc.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/ColorsEnum.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/EPj.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/EPjc.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/Emotional.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/Location.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Enums/Type.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/ExcFall.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Hero_Pj.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Heroes.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/In.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/In.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Moves.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Output.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Output.txt" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Over.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/P_i.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Pj.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/Scenary.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/Type.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/PjCollection.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Scenary.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Server.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Server1.java" charset="windows-1251" />
   </component>
 </project>
