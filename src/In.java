@@ -50,7 +50,7 @@ public class In {
 //                dt = sdt.format(new Date());
 
 //                System.out.println(dt);
-                pjeys.add(new Pj(name, size, clearance, loca, color, id));
+                pjeys.add(new Pj(name, size, clearance, loca, color, id ));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");

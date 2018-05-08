@@ -5,32 +5,32 @@ import java.util.Scanner;
 
 public class Scenary {
 
-    static Heroes Carlson = new Heroes("РљР°СЂР»СЃРѕРЅ", Emotional.HAPPY, Type.FAIRY);
+    static Heroes Carlson = new Heroes("Карлсон", Emotional.HAPPY, Type.FAIRY);
 
-    static Heroes Boy = new Heroes("РњР°Р»С‹С€", Emotional.HAPPY, Type.HUMAN);
+    static Heroes Boy = new Heroes("Малыш", Emotional.HAPPY, Type.HUMAN);
 
-    static Heroes Bimbo = new Heroes("Р‘РёРјР±Рѕ", Emotional.HAPPY, Type.ANIMAL);
+    static Heroes Bimbo = new Heroes("Бимбо", Emotional.HAPPY, Type.ANIMAL);
     protected static Heroes heroes;
 
 
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
-                Output.save(path_save, PjCollection.pjeys);
-            }
-        });
-
+//        Runtime.getRuntime().addShutdownHook(new Thread() {
+//            public void run() {
+//                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+//                Output.save(path_save, PjCollection.pjeys);
+//            }
+//        });
 
         Scanner scn = new Scanner(System.in);
-
+//In.getPjeys();
 // String path = "D:\\PROGAYU\\Eclipseeeee\\Lab3\\src\\form.xml";
-//        String path = "C:\\Users\\chist\\Documents\\РёС‚РјРѕ\\РїСЂРѕРіР°\\Lab3\\src\\form.xml";
-//        In.getPjeys(path, PjCollection.pjeys);
-        String path_save = "C:\\Users\\chist\\Documents\\РёС‚РјРѕ\\РїСЂРѕРіР°\\Lab3\\src\\Output.txt";
+        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+        In.getPjeys(path, PjCollection.pjeys);
+//        PjCollection p = new PjCollection();
+        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
         Output.save(path_save, PjCollection.pjeys);
 
-        Carlson.choosingPj(PjCollection.pjeys);
+//        Carlson.choosingPj(PjCollection.pjeys);
 // Boy.choosingPj(PjCollection.pjeys);
 // Bimbo.choosingPj(PjCollection.pjeys);
         help();
@@ -69,21 +69,21 @@ public class Scenary {
 
     }
 
-      static void starting() throws ExcFall {
-        System.out.println("Р’СЃРµ РіРµСЂРѕРё РѕРґРµС‚С‹. Р’СЃРµ РЅР°С‡Р°Р»Рё РіРѕС‚РѕРІРёС‚СЊСЃСЏ РєРѕ СЃРЅСѓ");
+    static void starting() throws ExcFall {
+        System.out.println("Все герои одеты. Все начали готовиться ко сну");
         Carlson.preparingProcess(Hero_Pj.h_p, 0);
         Boy.preparingProcess(Hero_Pj.h_p, 1);
         Bimbo.preparingProcess(Hero_Pj.h_p, 2);
     }
 
     static void help() {
-        System.out.println("show - РѕС‚РѕР±СЂР°Р¶Р°РµС‚ СЌР»РµРјРµРЅС‚С‹ РєРѕР»Р»РµРєС†РёРё РІ РєР°СЃС‚РѕРјРёР·РёСЂРѕРІР°РЅРЅРѕР№ С„РѕСЂРјРµ");
-        System.out.println("start - Р·Р°РїСѓСЃРєР°РµС‚ СЃСЋР¶РµС‚");
-        System.out.println("size - РїРѕРєР°Р·С‹РІР°РµС‚ СЂР°Р·РјРµСЂ РєРѕР»Р»РµРєС†РёРё");
-        System.out.println("remove_lower РёР»Рё rl - СѓРґР°Р»СЏРµС‚ СЌР»РµРјРµРЅС‚С‹ РєРѕР»Р»РµРєС†РёРё РЅРёР¶Рµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ");
-        System.out.println("remove_greater - СѓРґР°Р»СЏРµС‚ СЌР»РµРјРµРЅС‚С‹ РєРѕР»Р»РµРєС†РёРё РІС‹С€Рµ РІС‹Р±СЂР°РЅРЅРѕРіРѕ");
-        System.out.println("remove_by_value - СѓРґР°Р»СЏРµС‚ СЌР»РµРјРµРЅС‚ РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ");
-        System.out.println("out - СЃРѕС…СЂР°РЅСЏРµС‚ РєРѕР»Р»РµРєС†РёСЋ РІ С„Р°Р№Р»");
-        System.out.println("help - СЃРїСЂР°РІРѕС‡РЅРёРє РєРѕРјР°РЅРґ");
+        System.out.println("show - отображает элементы коллекции в кастомизированной форме");
+        System.out.println("start - запускает сюжет");
+        System.out.println("size - показывает размер коллекции");
+        System.out.println("remove_lower или rl - удаляет элементы коллекции ниже выбранного");
+        System.out.println("remove_greater - удаляет элементы коллекции выше выбранного");
+        System.out.println("remove_by_value - удаляет элемент по заданному значению");
+        System.out.println("out - сохраняет коллекцию в файл");
+        System.out.println("help - справочник команд");
     }
 }

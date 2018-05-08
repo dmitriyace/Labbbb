@@ -16,42 +16,46 @@ class PjCollection implements Serializable {
 
 
     protected static String commands(String command) throws ExcFall {
+        String[] commands = {"sort", "show", "start", "size", "remove_lower", "remove_greater",
+                "remove_by_value", "out", "help", "q"};
+
         String kekery = null;
-        switch (command) {
-            case "sort":
+        int i;
+        for (i = 0; i < commands.length; i++) if (command.startsWith(commands[i])) break;
+        switch (i) {
+            case 0:
                 PjCollection.pjeysSrt(pjeys);
                 break;
-            case "show":
-                 PjCollection.show();
+            case 1:
+                PjCollection.show(new CopyOnWriteArrayList<Pj>());
                 break;
-            case "start":
+            case 2:
                 Scenary.starting();
                 break;
 
-            case "size":
+            case 3:
                 System.out.println(PjCollection.pjeys.size());
                 break;
-            case "remove_lower":
+            case 4:
                 PjCollection.getElemByString(command);
                 PjCollection.removeLower(PjCollection.pj_save);
                 break;
-            case "remove_greater":
+            case 5:
                 PjCollection.getElemByString(command);
                 PjCollection.removeGreater(PjCollection.pj_save);
                 break;
-            case "remove_by_value":
-                Scanner scan_element = new Scanner(command);
+            case 6:
                 PjCollection.getElemByString(command);
                 PjCollection.remove(PjCollection.pj_save);
                 break;
-            case "out":
+            case 7:
                 String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
                 Output.save(path_save, PjCollection.pjeys);
                 break;
-            case "help":
+            case 8:
                 Scenary.help();
                 break;
-            case "q":
+            case 9:
                 System.exit(0);
                 break;
             default:
@@ -61,10 +65,10 @@ class PjCollection implements Serializable {
 
     }
 
-    protected static void show() {
+    protected static void show(CopyOnWriteArrayList<Pj> collectionName) {
         int counter = 0;
         String result = "";
-//        for (Pj pj : pjeys) {
+//        for (Pj pj : collectionName) {
 //
 //
 //            String strSize = pj.epj.toString();
@@ -78,8 +82,7 @@ class PjCollection implements Serializable {
 //            result += "It was found in \"" + strLocation.toLowerCase() + "\n";
 //
 //        }System.out.println(result);
-        pjeys.forEach(n -> System.out.println(formatOut(n)));
-
+        collectionName.forEach(n -> System.out.println(formatOut(n)));
     }
 
     protected static String formatOut(Pj pj) {
@@ -137,7 +140,7 @@ class PjCollection implements Serializable {
         for (Pj pjiteratored : pjArrayList) {
             pjeys.remove(pjiteratored);
         }
-       pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) >-1).collect(Collectors.toList());
+        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList());
 
 
     }
@@ -173,17 +176,21 @@ class PjCollection implements Serializable {
     }
 
     public static void getElemByString(String line) {
-        pj_save = Pj.d_f;
+        pj_save = Pj.defaultPj;
         Scanner scan_element = new Scanner(line);
         scan_element.useDelimiter("\",");
-        String poisk = scan_element.findWithinHorizon("epj\":\"", 30);
+        String poisk = scan_element.findWithinHorizon("epj\":\"", 100);
         String size = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("epjc\":\"", 30);
         String clearance = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("name\":\"", 30);
+        String name = scan_element.next().trim().toUpperCase();
+        poisk = scan_element.findWithinHorizon("loca\":\\{\"name\":\"", 30);
         String location = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("color\":\"", 40);
         String color = scan_element.next().trim().toUpperCase();
+        poisk = scan_element.findWithinHorizon("dt\":\"", 40);
+        String date = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("id\":", 40);
         scan_element.useDelimiter("}");
         String id = scan_element.next().trim().toUpperCase();
@@ -194,6 +201,8 @@ class PjCollection implements Serializable {
         pj_save.loca = Location.valueOf(location.trim().toUpperCase());
         pj_save.color = ColorsEnum.valueOf(color.trim().toUpperCase());
         pj_save.id = (Integer.parseInt(id));
+        pj_save.name = name;
+        pj_save.dt = date;
 
     }
 

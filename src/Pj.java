@@ -15,11 +15,11 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected Enum<Location> loca;
     protected ColorsEnum color;
     protected String h;
-    SimpleDateFormat ft =
+    transient SimpleDateFormat ft =
             new SimpleDateFormat("hh:mm:ss:SSS");
-    protected String dt;
+    protected  String dt;
     int id;
-    public static Pj d_f = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
+    public static Pj defaultPj = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
 
     public Pj(String name, EPj epj, EPjc epjc, Enum<Location> loca, ColorsEnum color, int num) {
         this.name = name;

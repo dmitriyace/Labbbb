@@ -22,11 +22,8 @@ public class ThreadServer1 implements Runnable {
             if (!client.isClosed()) {
                 try {
                     String command = (String) in.readObject();
-//                    String output = PjCollection.commands(command);
                     PjCollection.commands(command);
                     collection = PjCollection.pjeys;
-
-//                    if (output == null)
 
                     out.writeObject(PjCollection.pjeysSrt(collection));
 
@@ -35,9 +32,6 @@ public class ThreadServer1 implements Runnable {
                 } catch (IllegalArgumentException e) {
                     out.writeObject("Command format trouble");
                 }
-//                catch (ExcFall excFall) {
-//                    excFall.printStackTrace();
-//                }
                 catch (ExcFall excFall) {
                     excFall.printStackTrace();
                 } finally {

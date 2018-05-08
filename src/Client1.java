@@ -10,9 +10,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Client1 {
     private final static int port = 1111;
 
-    public static void main(String... args) {
+    public static void main(String... args) throws ExcFall {
         Scanner in = new Scanner(System.in);
-        CopyOnWriteArrayList<Pj> collection;
+        CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
         while (true) {
             try {
                 String command = in.nextLine();
@@ -28,9 +28,12 @@ public class Client1 {
                     else {collection = (CopyOnWriteArrayList<Pj>) o;
                         System.out.println(collection.size()>0);}
                     try {
-//                        if (command.startsWith("show")){
-//                            System.out.println((String)ois.readObject());
-//                        }
+                        if(command.startsWith("show")){
+                            PjCollection.show(collection);
+                        }
+                        else {
+                            PjCollection.commands(command);
+                        }
 
 
                     } catch (ClassCastException cce) {
