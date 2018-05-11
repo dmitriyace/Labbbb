@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ThreadServer1 implements Runnable {
@@ -16,7 +17,6 @@ public class ThreadServer1 implements Runnable {
 
     @Override
     public void run() {
-
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
@@ -31,8 +31,7 @@ public class ThreadServer1 implements Runnable {
                     out.writeObject("File handle mistake!!!");
                 } catch (IllegalArgumentException e) {
                     out.writeObject("Command format trouble");
-                }
-                catch (ExcFall excFall) {
+                } catch (ExcFall excFall) {
                     excFall.printStackTrace();
                 } finally {
                     out.flush();

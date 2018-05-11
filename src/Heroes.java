@@ -167,7 +167,7 @@ public class Heroes implements Moves {
                     i++;
                 }
                 int charPos = dostupLoca.length();
-                dostupLoca = dostupLoca.substring(0, charPos - 2);
+                dostupLoca = dostupLoca.substring(0, charPos -2);
                 System.out.println("В какой шкаф пойдет " + this.name + "? Доступные варианты: " + dostupLoca);
                 consoleLineForChoosing = scnChoice.nextLine();
 

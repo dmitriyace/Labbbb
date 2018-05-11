@@ -11,14 +11,12 @@ import java.util.stream.Collectors;
 class PjCollection implements Serializable {
 
     public static CopyOnWriteArrayList<Pj> pjeys = new CopyOnWriteArrayList<>();
-    static int first_elem_hash;
-    static Pj pj_save;//объект для промежуточного сохранения
+    static Pj pj_save;
 
 
     protected static String commands(String command) throws ExcFall {
         String[] commands = {"sort", "show", "start", "size", "remove_lower", "remove_greater",
-                "remove_by_value", "out", "help", "q"};
-
+                "remove_by_value", "out", "help", "q", "in"};
         String kekery = null;
         int i;
         for (i = 0; i < commands.length; i++) if (command.startsWith(commands[i])) break;
@@ -32,7 +30,6 @@ class PjCollection implements Serializable {
             case 2:
                 Scenary.starting();
                 break;
-
             case 3:
                 System.out.println(PjCollection.pjeys.size());
                 break;
@@ -58,6 +55,10 @@ class PjCollection implements Serializable {
             case 9:
                 System.exit(0);
                 break;
+            case 10:
+                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+                In.getPjeys(path, PjCollection.pjeys);
+                break;
             default:
                 throw new IllegalArgumentException();
         }
@@ -66,62 +67,15 @@ class PjCollection implements Serializable {
     }
 
     protected static void show(CopyOnWriteArrayList<Pj> collectionName) {
-        int counter = 0;
-        String result = "";
-//        for (Pj pj : collectionName) {
-//
-//
-//            String strSize = pj.epj.toString();
-//            String strClear = pj.epjc.toString();
-//            String strLocation = pj.loca.toString();
-//            String strColor = pj.color.toString();
-//            result = result + "\n"  + ") Size of the pijama is " + strSize.toLowerCase() + ", and it's color is " + strColor.toLowerCase();
-//
-//            if (strClear.equals("WASHED")) result += ". Pijama is clear and fresh.";
-//            else result += ". Pijama is dirty.";
-//            result += "It was found in \"" + strLocation.toLowerCase() + "\n";
-//
-//        }System.out.println(result);
         collectionName.forEach(n -> System.out.println(formatOut(n)));
     }
 
-    protected static String formatOut(Pj pj) {
-        StringBuilder stb = new StringBuilder();
-        stb.append("Name of Pj - " + pj.name);
-        stb.append("size of pijama: ");
-        stb.append(pj.epj.toString().toLowerCase() + ". ");
-        stb.append("color: ");
-        stb.append(pj.color.toString().toLowerCase() + ". ");
-        stb.append(pj.epjc.toString().toLowerCase().equals("washed") ? "pijama is clear" :
-                "pijama is dirty");
-        stb.append("location of pijama is " + pj.loca.toString().toLowerCase() + ". ");
-        stb.append("data of creation: " + pj.dt);
-        return stb.toString();
-    }
 
     public static CopyOnWriteArrayList<Pj> pjeysSrt(CopyOnWriteArrayList<Pj> pjs) {
         Collections.sort(pjs, (Pj p1, Pj p2) -> p1.name.compareTo(p2.name));
         return pjs;
-//        TreeSet<Pj> pjList = new TreeSet<>();
-//
-//        for (Pj pj : pjeys) {
-//            pjList.add(new Pj(pj.name,pj.epj, pj.epjc, pj.loca, pj.color, pj.id));
-//        }
-
     }
 
-    public static void removeFirst() {
-        for (Pj pj : pjeys) {
-            if (pj.hashCode() == 1) {
-                pj_save = pj;
-
-            }
-        }
-        first_elem_hash++;
-        pjeys.remove(pj_save);
-        System.out.println(pjeys.size() + " - размер коллекции");
-
-    }
 
     /**
      * <p>Удаляет из коллекции все элементы, которые меньше заданного</p>
@@ -130,19 +84,8 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов меньше себя
      */
     public static void removeLower(Pj pj) {
-        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
-
-        for (Pj pjiteratored : pjeys) {
-            if (pj.compareTo(pjiteratored) == -1) {
-                pjArrayList.add(pjiteratored);
-            }
-        }
-        for (Pj pjiteratored : pjArrayList) {
-            pjeys.remove(pjiteratored);
-        }
-        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList());
-
-
+//        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList());
+        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
     }
 
 
@@ -153,16 +96,7 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов больше себя
      */
     public static void removeGreater(Pj pj) {
-        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
-
-        for (Pj pjiteratored : pjeys) {
-            if (pj.compareTo(pjiteratored) == 1) {
-                pjArrayList.add(pjiteratored);
-            }
-        }
-        for (Pj pjiteratored : pjArrayList) {
-            pjeys.remove(pjiteratored);
-        }
+        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) == -1).collect(Collectors.toList());
     }
 
     /**
@@ -172,7 +106,7 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции
      */
     public static void remove(Pj pj) {
-        pjeys.remove(pj);
+        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) != 0).collect(Collectors.toList());
     }
 
     public static void getElemByString(String line) {
@@ -206,7 +140,19 @@ class PjCollection implements Serializable {
 
     }
 
-
+    protected static String formatOut(Pj pj) {
+        StringBuilder stb = new StringBuilder();
+        stb.append("Name of Pj - " + pj.name);
+        stb.append("size of pijama: ");
+        stb.append(pj.epj.toString().toLowerCase() + ". ");
+        stb.append("color: ");
+        stb.append(pj.color.toString().toLowerCase() + ". ");
+        stb.append(pj.epjc.toString().toLowerCase().equals("washed") ? "pijama is clear" :
+                "pijama is dirty");
+        stb.append("location of pijama is " + pj.loca.toString().toLowerCase() + ". ");
+        stb.append("data of creation: " + pj.dt);
+        return stb.toString();
+    }
 }
 
 

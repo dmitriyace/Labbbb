@@ -17,7 +17,6 @@ public class In {
         Enum<Location> loca;
         int id = 0;
         int i = 0;
-//        String dt;
         String name;
         ColorsEnum color;
         SimpleDateFormat sdt = new SimpleDateFormat("hh:mm:ss:SSS");
@@ -47,9 +46,7 @@ public class In {
 
 
                 id++;
-//                dt = sdt.format(new Date());
 
-//                System.out.println(dt);
                 pjeys.add(new Pj(name, size, clearance, loca, color, id ));
             }
         } catch (FileNotFoundException e) {

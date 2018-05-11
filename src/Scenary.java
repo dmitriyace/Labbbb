@@ -30,10 +30,13 @@ public class Scenary {
         String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
         Output.save(path_save, PjCollection.pjeys);
 
-//        Carlson.choosingPj(PjCollection.pjeys);
-// Boy.choosingPj(PjCollection.pjeys);
-// Bimbo.choosingPj(PjCollection.pjeys);
+
         help();
+        try {
+            starting();
+        } catch (ExcFall excFall) {
+            excFall.printStackTrace();
+        }
 //        try {
 //            while (true) {
 //                System.out.println("enter the move");
@@ -70,10 +73,13 @@ public class Scenary {
     }
 
     static void starting() throws ExcFall {
+        Carlson.choosingPj(PjCollection.pjeys);
+//        Boy.choosingPj(PjCollection.pjeys);
+//        Bimbo.choosingPj(PjCollection.pjeys);
         System.out.println("Все герои одеты. Все начали готовиться ко сну");
         Carlson.preparingProcess(Hero_Pj.h_p, 0);
-        Boy.preparingProcess(Hero_Pj.h_p, 1);
-        Bimbo.preparingProcess(Hero_Pj.h_p, 2);
+//        Boy.preparingProcess(Hero_Pj.h_p, 1);
+//        Bimbo.preparingProcess(Hero_Pj.h_p, 2);
     }
 
     static void help() {
