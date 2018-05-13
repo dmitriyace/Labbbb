@@ -5,7 +5,6 @@ import Enums.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
 public class Heroes implements Moves {
 
     protected Type t;
@@ -28,7 +27,7 @@ public class Heroes implements Moves {
 
     static int eating;// переменная, используемая в рассчете вероятности того, что герой съест варенье
 
-    String consoleLine = "";
+    String consoleLineForChoosing = "";
 
     Heroes(String name, Emotional e, Type t) {
         this.name = name;
@@ -147,16 +146,15 @@ public class Heroes implements Moves {
         String[] strLoca = new String[colLength];
         String[] strColor = new String[colLength];
         String[] strClearance = new String[colLength];
-        String locationHas = new String();
+        String dostupLoca = new String();
         String pname;
-        int checkForIndex = 100;
-        int count;
+        int charPos;
         boolean gotDressed = false;
-        CopyOnWriteArrayList<Pj> saveProgress = new CopyOnWriteArrayList<>();
+
         while (!gotDressed) {
             try {
                 gotDressed = false;
-                locationHas = "";
+                dostupLoca = "";
 
                 int i = 0;
                 for (Pj pj : pjcol) {
@@ -164,125 +162,103 @@ public class Heroes implements Moves {
                     strLoca[i] = pj.loca.toString();
                     strClearance[i] = pj.epjc.toString();
                     strColor[i] = pj.color.toString();
+//                    dostupLoca += strLoca[i] + ", ";
                     i++;
                 }
                 i = 0;
                 System.out.println("В какой шкаф пойдет Карлсон?");
                 for (Pj pj : pjcol) {
                     i++;
+
+
                     System.out.println(i + ") Локация: " + strLoca[i - 1]);
-                    locationHas += "\n" + i + ") Локация: " + strLoca[i - 1];
+                    dostupLoca += "\n" + i + ") Локация: " + strLoca[i - 1];
                 }
 
-                consoleLine = scnChoice.nextLine();
+//                charPos = dostupLoca.length();
+//                dostupLoca = dostupLoca.substring(0, charPos - 2);
+//                System.out.println("В какой шкаф пойдет " + this.name + "? Доступные варианты: " + dostupLoca);
+                consoleLineForChoosing = scnChoice.nextLine();
 
-//                consoleLine = "ss";
+//                consoleLineForChoosing = "ss";
                 boolean exists = true;
-                while (check(locationHas, consoleLine, i - 1)) {
+                int indexOf = dostupLoca.lastIndexOf(consoleLineForChoosing.toUpperCase());
+                while (((indexOf == -1) || consoleLineForChoosing.equals(""))) {
                     System.out.println("Введите корректный шкаф или его номер");
                     System.out.println();
-                    System.out.println("Доступные варианты: " + locationHas);
-                    consoleLine = scnChoice.nextLine();
+                    System.out.println("Доступные варианты: " + dostupLoca);
+                    consoleLineForChoosing = scnChoice.nextLine();
+                    indexOf = dostupLoca.lastIndexOf(consoleLineForChoosing.toUpperCase());
 
                 }
-                if (isNumAndSize(consoleLine, i - 1)) {
-                    count = 0;
-                    for (Pj pj : pjcol) {
-                        if (count == (int) Double.parseDouble(consoleLine) - 1) {
-                            consoleLine = pj.loca.toString().toUpperCase();
-                            break;
-                        }
-                        count++;
-                    }
-                }
-
-                System.out.println("Следующие пижамы в шкафу " + consoleLine + " доступны: ");
+                System.out.println("Следующие пижамы в шкафу " + consoleLineForChoosing + " доступны: ");
                 i = 0;
                 int listItemNumber = 0;
-
+                String locationHas = "";
 
                 for (Pj pj : pjcol) {
-                    if (pj.loca.equals(Location.valueOf(consoleLine.trim().toUpperCase()))) {
+                    if (pj.loca.equals(Location.valueOf(consoleLineForChoosing.trim().toUpperCase()))) {
                         listItemNumber++;
                         locationHas = locationHas + strColor[i];
                         System.out.println((listItemNumber) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
-                        saveProgress.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(consoleLine.toUpperCase()), ColorsEnum.valueOf(strColor[i].toUpperCase()), listItemNumber - 1));
 
                     }
                     i++;
                 }
-                String saveloca = consoleLine;
+                String saveloca = consoleLineForChoosing;
                 System.out.println("Теперь выберите цвет из предложенных пижам или напишите команду \"exit\"");
-                consoleLine = scnChoice.nextLine();
-                if (!consoleLine.equals("exit")) {
-                    while (check(locationHas, consoleLine, listItemNumber )) {
+                consoleLineForChoosing = scnChoice.nextLine();
+                if (!consoleLineForChoosing.equals("exit")) {
+                    indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
+                    while ((indexOf == -1) || consoleLineForChoosing.equals("")) {
                         System.out.println("Введите корректный цвет");
-                        consoleLine = scnChoice.nextLine();
-                    }
-                    if (isNumAndSize(consoleLine, listItemNumber - 1)) {
-                        count = 0;
-                        for (Pj pj : saveProgress) {
-                            if (count == (int) Double.parseDouble(consoleLine) - 1) {
-                                consoleLine = pj.color.toString().toUpperCase();
-                                break;
-                            }
-                            count++;
-                        }
-                    }
+                        consoleLineForChoosing = scnChoice.nextLine();
+                        indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
 
-                    saveProgress.clear();
+                    }
+//                    consoleLineForChoosing = "blue";
                     locationHas = "";
-                    System.out.println("Следующие пижамы цвета " + consoleLine + " доступны: ");
+                    System.out.println("Следующие пижамы цвета " + consoleLineForChoosing + " доступны: ");
                     i = 0;
                     listItemNumber = 0;
                     for (Pj pj : pjcol) {
-                        if (pj.color.equals(ColorsEnum.valueOf(consoleLine.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
+                        if (pj.color.equals(ColorsEnum.valueOf(consoleLineForChoosing.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
                             listItemNumber++;
                             locationHas = locationHas + strSize[i];
                             System.out.println((listItemNumber) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
-                            saveProgress.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(saveloca.toUpperCase()), ColorsEnum.valueOf(consoleLine.toUpperCase()), listItemNumber - 1));
 
                         }
-//                    pjcol.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(consoleLine.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
+//                    pjcol.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(consoleLineForChoosing.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
 //                            forEach(n -> System.out.println(n.name));
                         i++;
                     }
-                    String saveCol = consoleLine;
+                    String saveCol = consoleLineForChoosing;
                     System.out.println("Теперь выберите размер из предложенных пижам или напишите команду \"exit\"");
-                    consoleLine = scnChoice.nextLine();
-                    if (!consoleLine.equals("exit")) {
+                    consoleLineForChoosing = scnChoice.nextLine();
+                    if (!consoleLineForChoosing.equals("exit")) {
 
-//                        consoleLine = "long";
-                        while (check(locationHas, consoleLine, i - 1)) {
+//                        consoleLineForChoosing = "long";
+                        indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
+                        while ((indexOf == -1) || consoleLineForChoosing.equals("")) {
                             System.out.println("Введите корректный размер");
-                            consoleLine = scnChoice.nextLine();
+                            consoleLineForChoosing = scnChoice.nextLine();
+                            indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
 
                         }
-                        if (isNumAndSize(consoleLine, i - 1)) {
-                            count = 0;
-                            for (Pj pj : saveProgress) {
-                                if (count == (int) Double.parseDouble(consoleLine) - 1) {
-                                    consoleLine = pj.epj.toString().toUpperCase();
-                                    break;
-                                }
-                                count++;
-                            }
-                        }
+
                         System.out.println("Следующие пижамы доступны: ");
 
                         i = -1;
                         listItemNumber = 0;
-                        String saveEPj = consoleLine;
+                        String saveEPj = consoleLineForChoosing;
                         locationHas = "";
-                        saveProgress.clear();
                         for (Pj pj : pjcol) {
 
                             i++;
-                            if (pj.epj.equals(EPj.valueOf(consoleLine.trim().toUpperCase())) && pj.color.equals(ColorsEnum.valueOf(saveCol.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
+                            if (pj.epj.equals(EPj.valueOf(consoleLineForChoosing.trim().toUpperCase())) && pj.color.equals(ColorsEnum.valueOf(saveCol.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
                                 locationHas = locationHas + strClearance[i];
                                 listItemNumber++;
                                 System.out.println((listItemNumber) + ") Чистота: " + strClearance[i]);
-                                saveProgress.add(new Pj("", EPj.valueOf(consoleLine.toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(saveloca.toUpperCase()), ColorsEnum.valueOf(saveCol.toUpperCase()), listItemNumber - 1));
 
                             }
 
@@ -290,30 +266,20 @@ public class Heroes implements Moves {
                         System.out.println("выберите пижаму из предложенных или напишите команду \"exit\". Для этого напишите чистоту пижамы");
 
 
-                        consoleLine = scnChoice.nextLine();
-                        if (!consoleLine.equals("exit")) {
+                        consoleLineForChoosing = scnChoice.nextLine();
+                        if (!consoleLineForChoosing.equals("exit")) {
 
-
-                            while (check(locationHas, consoleLine, i)) {
+                            indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
+                            while ((indexOf == -1) || consoleLineForChoosing.equals("")) {
                                 System.out.println("Введите корректную чистоту");
-                                consoleLine = scnChoice.nextLine();
+                                consoleLineForChoosing = scnChoice.nextLine();
+                                indexOf = locationHas.lastIndexOf(consoleLineForChoosing.toUpperCase());
 
                             }
-                            if (isNumAndSize(consoleLine, i)) {
-                                count = 0;
-                                for (Pj pj : saveProgress) {
-                                    if (count == (int) Double.parseDouble(consoleLine) - 1) {
-                                        consoleLine = pj.epjc.toString().toUpperCase();
-                                        break;
-                                    }
-                                    count++;
-                                }
-                            }
-                            saveProgress.clear();
-                            String saveClearance = consoleLine;
+                            String saveClearance = consoleLineForChoosing;
                             System.out.println("how would you name Her?");
-                            consoleLine = scnChoice.nextLine();
-                            pname = consoleLine;
+                            consoleLineForChoosing = scnChoice.nextLine();
+                            pname = consoleLineForChoosing;
                             System.out.println(this.name + " выбрал пижаму по имени" + pname + " в шкафу." + saveloca + " " + "Цвет: " + saveCol + ", чистота: " + saveClearance + ", размер: " + saveEPj);
 
                             Pj pj = new Pj(pname, EPj.valueOf(saveEPj.trim().toUpperCase()), EPjc.valueOf(saveClearance.trim().toUpperCase()), Location.valueOf(saveloca.trim().toUpperCase()), ColorsEnum.valueOf(saveCol.trim().toUpperCase()), i);
@@ -378,32 +344,6 @@ public class Heroes implements Moves {
         }
         p.epj = epj.OK;
 
-    }
-
-    static boolean isNumeric(String str) {
-        try {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    boolean isInSize(int a, int size) {
-        if (0 < a && a <= size) return true;
-        else return false;
-    }
-
-    boolean isNumAndSize(String s, int size) {
-        if (isNumeric(s))
-            return isInSize((int) Double.parseDouble(s), size);
-        else return false;
-    }
-
-    boolean check(String inputCheck, String consoleLine, int checkSize) {
-        if (inputCheck.lastIndexOf(consoleLine) == -1 || consoleLine.equals("") || !isNumAndSize(consoleLine, checkSize))
-            return true;
-        else return false;
     }
 
 }
