@@ -152,6 +152,7 @@ public class Heroes implements Moves {
         int checkForIndex = 100;
         int count;
         boolean gotDressed = false;
+        CopyOnWriteArrayList<Pj> saveProgress = new CopyOnWriteArrayList<>();
         while (!gotDressed) {
             try {
                 gotDressed = false;
@@ -177,7 +178,7 @@ public class Heroes implements Moves {
 
 //                consoleLine = "ss";
                 boolean exists = true;
-                while (check(locationHas,consoleLine,i-1)) {
+                while (check(locationHas, consoleLine, i - 1)) {
                     System.out.println("Введите корректный шкаф или его номер");
                     System.out.println();
                     System.out.println("Доступные варианты: " + locationHas);
@@ -188,7 +189,8 @@ public class Heroes implements Moves {
                     count = 0;
                     for (Pj pj : pjcol) {
                         if (count == (int) Double.parseDouble(consoleLine) - 1) {
-                            consoleLine = pj.loca.toString().toUpperCase();break;
+                            consoleLine = pj.loca.toString().toUpperCase();
+                            break;
                         }
                         count++;
                     }
@@ -204,6 +206,7 @@ public class Heroes implements Moves {
                         listItemNumber++;
                         locationHas = locationHas + strColor[i];
                         System.out.println((listItemNumber) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                        saveProgress.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(consoleLine.toUpperCase()), ColorsEnum.valueOf(strColor[i].toUpperCase()), listItemNumber - 1));
 
                     }
                     i++;
@@ -212,13 +215,13 @@ public class Heroes implements Moves {
                 System.out.println("Теперь выберите цвет из предложенных пижам или напишите команду \"exit\"");
                 consoleLine = scnChoice.nextLine();
                 if (!consoleLine.equals("exit")) {
-                    while (check(locationHas,consoleLine,listItemNumber-1)) {
+                    while (check(locationHas, consoleLine, listItemNumber )) {
                         System.out.println("Введите корректный цвет");
                         consoleLine = scnChoice.nextLine();
                     }
                     if (isNumAndSize(consoleLine, listItemNumber - 1)) {
                         count = 0;
-                        for (Pj pj : pjcol) {
+                        for (Pj pj : saveProgress) {
                             if (count == (int) Double.parseDouble(consoleLine) - 1) {
                                 consoleLine = pj.color.toString().toUpperCase();
                                 break;
@@ -227,7 +230,7 @@ public class Heroes implements Moves {
                         }
                     }
 
-
+                    saveProgress.clear();
                     locationHas = "";
                     System.out.println("Следующие пижамы цвета " + consoleLine + " доступны: ");
                     i = 0;
@@ -237,6 +240,7 @@ public class Heroes implements Moves {
                             listItemNumber++;
                             locationHas = locationHas + strSize[i];
                             System.out.println((listItemNumber) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                            saveProgress.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(saveloca.toUpperCase()), ColorsEnum.valueOf(consoleLine.toUpperCase()), listItemNumber - 1));
 
                         }
 //                    pjcol.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(consoleLine.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
@@ -249,14 +253,14 @@ public class Heroes implements Moves {
                     if (!consoleLine.equals("exit")) {
 
 //                        consoleLine = "long";
-                        while (check(locationHas,consoleLine,i-1)) {
+                        while (check(locationHas, consoleLine, i - 1)) {
                             System.out.println("Введите корректный размер");
                             consoleLine = scnChoice.nextLine();
 
                         }
-                        if (isNumAndSize(consoleLine, i-1)) {
+                        if (isNumAndSize(consoleLine, i - 1)) {
                             count = 0;
-                            for (Pj pj : pjcol) {
+                            for (Pj pj : saveProgress) {
                                 if (count == (int) Double.parseDouble(consoleLine) - 1) {
                                     consoleLine = pj.epj.toString().toUpperCase();
                                     break;
@@ -270,6 +274,7 @@ public class Heroes implements Moves {
                         listItemNumber = 0;
                         String saveEPj = consoleLine;
                         locationHas = "";
+                        saveProgress.clear();
                         for (Pj pj : pjcol) {
 
                             i++;
@@ -277,6 +282,7 @@ public class Heroes implements Moves {
                                 locationHas = locationHas + strClearance[i];
                                 listItemNumber++;
                                 System.out.println((listItemNumber) + ") Чистота: " + strClearance[i]);
+                                saveProgress.add(new Pj("", EPj.valueOf(consoleLine.toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(saveloca.toUpperCase()), ColorsEnum.valueOf(saveCol.toUpperCase()), listItemNumber - 1));
 
                             }
 
@@ -288,14 +294,14 @@ public class Heroes implements Moves {
                         if (!consoleLine.equals("exit")) {
 
 
-                            while (check(locationHas,consoleLine,i)) {
+                            while (check(locationHas, consoleLine, i)) {
                                 System.out.println("Введите корректную чистоту");
                                 consoleLine = scnChoice.nextLine();
 
                             }
-                            if (isNumAndSize(consoleLine, i )) {
+                            if (isNumAndSize(consoleLine, i)) {
                                 count = 0;
-                                for (Pj pj : pjcol) {
+                                for (Pj pj : saveProgress) {
                                     if (count == (int) Double.parseDouble(consoleLine) - 1) {
                                         consoleLine = pj.epjc.toString().toUpperCase();
                                         break;
@@ -303,6 +309,7 @@ public class Heroes implements Moves {
                                     count++;
                                 }
                             }
+                            saveProgress.clear();
                             String saveClearance = consoleLine;
                             System.out.println("how would you name Her?");
                             consoleLine = scnChoice.nextLine();
@@ -383,7 +390,7 @@ public class Heroes implements Moves {
     }
 
     boolean isInSize(int a, int size) {
-        if (0 < a && a < size) return true;
+        if (0 < a && a <= size) return true;
         else return false;
     }
 
@@ -393,8 +400,9 @@ public class Heroes implements Moves {
         else return false;
     }
 
-    boolean check(String inputCheck, String consoleLine, int checkSize){
-        if (inputCheck.lastIndexOf(consoleLine)==-1||consoleLine.equals("")||!isNumAndSize(consoleLine,checkSize)) return true;
+    boolean check(String inputCheck, String consoleLine, int checkSize) {
+        if (inputCheck.lastIndexOf(consoleLine) == -1 || consoleLine.equals("") || !isNumAndSize(consoleLine, checkSize))
+            return true;
         else return false;
     }
 
