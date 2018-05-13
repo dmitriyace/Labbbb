@@ -24,21 +24,19 @@ public class Client1 {
                     oos.writeObject(command);
                     Object o = ois.readObject();
                     if (o instanceof String)
-                    System.out.println((String)o);
-                    else {collection = (CopyOnWriteArrayList<Pj>) o;
-                        System.out.println(collection.size()>0);}
-                    try {
-                        if(command.startsWith("show")){
-                            PjCollection.show(collection);
-                        }
-                        else {
-                            PjCollection.commands(command);
-                        }
-
-
-                    } catch (ClassCastException cce) {
-
+                        System.out.println((String) o);
+                    else {
+                        collection = (CopyOnWriteArrayList<Pj>) o;
+                        System.out.println(collection.size() > 0);
                     }
+                    if (command.startsWith("show")) {
+                        PjCollection.show(collection);
+                    } else {
+                        if (!command.startsWith("start"))
+                            PjCollection.commands(command);
+                    }
+
+
                 } else throw new ConnectException();
             } catch (UnknownHostException e) {
                 System.err.println("Host is incorrect");

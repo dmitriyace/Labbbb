@@ -31,8 +31,6 @@ public class ThreadServer1 implements Runnable {
                     out.writeObject("File handle mistake!!!");
                 } catch (IllegalArgumentException e) {
                     out.writeObject("Command format trouble");
-                } catch (ExcFall excFall) {
-                    excFall.printStackTrace();
                 } finally {
                     out.flush();
                     in.close();

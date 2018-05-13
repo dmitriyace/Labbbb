@@ -14,7 +14,7 @@ class PjCollection implements Serializable {
     static Pj pj_save;
 
 
-    protected static String commands(String command) throws ExcFall {
+    protected static String commands(String command) {
         String[] commands = {"sort", "show", "start", "size", "remove_lower", "remove_greater",
                 "remove_by_value", "out", "help", "q", "in"};
         String kekery = null;
@@ -46,7 +46,8 @@ class PjCollection implements Serializable {
                 PjCollection.remove(PjCollection.pj_save);
                 break;
             case 7:
-                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+                // String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+                String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
                 Output.save(path_save, PjCollection.pjeys);
                 break;
             case 8:
@@ -56,11 +57,12 @@ class PjCollection implements Serializable {
                 System.exit(0);
                 break;
             case 10:
-                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+//                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+                String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
                 In.getPjeys(path, PjCollection.pjeys);
                 break;
             default:
-                throw new IllegalArgumentException();
+                System.out.println("command is Illegal");
         }
         return kekery;
 

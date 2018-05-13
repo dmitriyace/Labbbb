@@ -22,21 +22,18 @@ public class Scenary {
 //        });
 
         Scanner scn = new Scanner(System.in);
-//In.getPjeys();
-// String path = "D:\\PROGAYU\\Eclipseeeee\\Lab3\\src\\form.xml";
-        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+//        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
         In.getPjeys(path, PjCollection.pjeys);
 //        PjCollection p = new PjCollection();
-        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+//        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+        String path_save="D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
         Output.save(path_save, PjCollection.pjeys);
 
 
-        help();
-        try {
-            starting();
-        } catch (ExcFall excFall) {
-            excFall.printStackTrace();
-        }
+//        help();
+        starting();
+
 //        try {
 //            while (true) {
 //                System.out.println("enter the move");
@@ -72,7 +69,7 @@ public class Scenary {
 
     }
 
-    static void starting() throws ExcFall {
+    static void starting() {
         Carlson.choosingPj(PjCollection.pjeys);
 //        Boy.choosingPj(PjCollection.pjeys);
 //        Bimbo.choosingPj(PjCollection.pjeys);
@@ -86,7 +83,7 @@ public class Scenary {
         System.out.println("show - отображает элементы коллекции в кастомизированной форме");
         System.out.println("start - запускает сюжет");
         System.out.println("size - показывает размер коллекции");
-        System.out.println("remove_lower или rl - удаляет элементы коллекции ниже выбранного");
+        System.out.println("remove_lower - удаляет элементы коллекции ниже выбранного");
         System.out.println("remove_greater - удаляет элементы коллекции выше выбранного");
         System.out.println("remove_by_value - удаляет элемент по заданному значению");
         System.out.println("out - сохраняет коллекцию в файл");
