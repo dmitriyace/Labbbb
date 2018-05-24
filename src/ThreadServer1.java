@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,7 +32,9 @@ public class ThreadServer1 implements Runnable {
                     out.writeObject("File handle mistake!!!");
                 } catch (IllegalArgumentException e) {
                     out.writeObject("Command format trouble");
-                } finally {
+                } catch (SocketException se){
+                    System.err.println("client disconnected");
+                }finally {
                     out.flush();
                     in.close();
                     out.close();

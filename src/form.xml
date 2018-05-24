@@ -49,12 +49,4 @@
         <pijamaname>Vstre</pijamaname>
 
     </pijama>
-    <pijama>
-        <pijamasize>short</pijamasize>
-        <pijamaclearance>unwashed</pijamaclearance>
-        <pijamalocation>ss</pijamalocation>
-        <pijamacolor>red</pijamacolor>
-        <pijamaname>Cha</pijamaname>
-
-    </pijama>
 </pijamacollection>

@@ -46,8 +46,8 @@ class PjCollection implements Serializable {
                 PjCollection.remove(PjCollection.pj_save);
                 break;
             case 7:
-                // String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
-                String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
+                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
+//                String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
                 Output.save(path_save, PjCollection.pjeys);
                 break;
             case 8:
@@ -57,8 +57,8 @@ class PjCollection implements Serializable {
                 System.exit(0);
                 break;
             case 10:
-//                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
-                String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
+//                String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
                 In.getPjeys(path, PjCollection.pjeys);
                 break;
             default:
@@ -87,7 +87,17 @@ class PjCollection implements Serializable {
      */
     public static void removeLower(Pj pj) {
 //        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList());
-        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
+//        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
+        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
+
+        for (Pj pjiteratored : pjeys) {
+            if (pj.compareTo(pjiteratored) == -1) {
+                pjArrayList.add(pjiteratored);
+            }
+        }
+        for (Pj pjiteratored : pjArrayList) {
+            pjeys.remove(pjiteratored);
+        }
     }
 
 
@@ -98,7 +108,17 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов больше себя
      */
     public static void removeGreater(Pj pj) {
-        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) == -1).collect(Collectors.toList());
+//        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) == -1).collect(Collectors.toList());
+        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
+
+        for (Pj pjiteratored : pjeys) {
+            if (pj.compareTo(pjiteratored) == 1) {
+                pjArrayList.add(pjiteratored);
+            }
+        }
+        for (Pj pjiteratored : pjArrayList) {
+            pjeys.remove(pjiteratored);
+        }
     }
 
     /**
@@ -108,7 +128,9 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции
      */
     public static void remove(Pj pj) {
-        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) != 0).collect(Collectors.toList());
+//        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) != 0).collect(Collectors.toList());
+        pjeys.remove(pj);
+
     }
 
     public static void getElemByString(String line) {

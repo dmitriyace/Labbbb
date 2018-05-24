@@ -22,12 +22,12 @@ public class Scenary {
 //        });
 
         Scanner scn = new Scanner(System.in);
-        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
-//        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+//        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
         In.getPjeys(path, PjCollection.pjeys);
 //        PjCollection p = new PjCollection();
-//        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
-        String path_save="D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
+        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+//        String path_save="D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
         Output.save(path_save, PjCollection.pjeys);
 
 
