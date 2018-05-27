@@ -48,25 +48,29 @@ public class Client {
 
         @Override
         public void run() {
-
             String message;
-            Object o;
+            Object o = null;
             boolean end = false;
-            try {
 
-                while ((o = reader.readObject()) != null) {
-                    if (o instanceof String) {
-                        message = (String) o;
-                        analyseInput(message, incoming);
+                try {
 
+                    while ((o = reader.readObject()) != null) {
+                        if (o instanceof String) {
+                            message = (String) o;
+                            analyseInput(message, incoming);
+
+                        }
                     }
-                }
-            } catch (ConnectException ce) {
-                System.err.println("not connected");
-            } catch (IOException ex) {
-                incoming.append("IO exception");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                } catch (ConnectException ce) {
+                    System.err.println("not connected");
+                } catch (IOException ex) {
+                    incoming.append("IO exception");
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+
+//    catch (NullPointerException ex){
+//        System.out.print("");
+//    }
             }
 
 

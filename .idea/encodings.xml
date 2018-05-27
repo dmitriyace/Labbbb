@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/Client1.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/CommandHandling.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Enums/ColorsEnum.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Enums/EPj.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Enums/EPjc.java" charset="windows-1251" />

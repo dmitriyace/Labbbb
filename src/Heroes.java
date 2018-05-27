@@ -66,79 +66,83 @@ public class Heroes implements Moves {
     }
 
     @Override
-    public void sleep(Heroes h) {
-        System.out.println();
-        System.out.println(h.getName() + " уже готов ко сну");
+    public String sleep(Heroes h, String s) {
+        s += ("\n" + getName() + " уже готов ко сну");
+        return s;
     }
 
     @Override
-    public void suspicious(Heroes h) {
-        System.out.printf("%s уже улегся в кровать и пытался заснуть," + " но то и дело открывал глаза, задумываясь"
-                + " о том, сколько же осталось варенья %n", h.getName());
+    public String suspicious(Heroes h, String s) {
+        s += (getName() + " уже улегся в кровать и пытался заснуть," + " но то и дело открывал глаза, задумываясь"
+                + " о том, сколько же осталось варенья \n");
+        return s;
     }
 
-    public void preparingProcess(ArrayList<Hero_Pj> hero_pjs, int ind) {
+    public void preparingProcess(ArrayList<Hero_Pj> hero_pjs, int ind, ObjectOutputStream out) {
         Heroes heroes = hero_pjs.get(ind).heroes;
         Pj pijama = hero_pjs.get(ind).pijama;
+        String saveStrings = "end";
         do {
-            System.out.println(heroes.getName() + " примеряет пижаму");
+            saveStrings += ("\n" + heroes.getName() + " примеряет пижаму\n");
             switch (pijama.getSize()) {
                 case LONG: {
-                    System.out.printf("У %s штанины и рукава оказались черезчур длинными", heroes.getName());
-                    System.out.println();
-                    givePjsmall(heroes, pijama);
+                    saveStrings += ("У " + heroes.getName() + " штанины и рукава оказались черезчур длинными\n");
+
+                    saveStrings = givePjsmall(heroes, pijama, saveStrings);
                     break;
 
                 }
                 case SHORT:
-                    System.out.printf("%s сидел на краю кровати и пытался натянуть на себя штаны,"
-                            + " но, как ни старался, ничего не получалось.", heroes.getName());
-                    System.out.println();
-                    givePj(heroes, pijama);
+                    saveStrings += (getName() + " сидел на краю кровати и пытался натянуть на себя штаны,"
+                            + " но, как ни старался, ничего не получалось.\n");
+                    saveStrings = givePj(heroes, pijama, saveStrings);
                     break;
                 case OK:
 
-                    sleep(heroes);
+                    saveStrings = sleep(heroes, saveStrings);
                     break;
             }
             eating = (int) (Math.random() * 2);
             if (eating == 0)
-                eatJam(heroes, pijama);
+                saveStrings = eatJam(heroes, pijama, saveStrings);
             if (pijama.getClearance() == EPjc.UNWASHED) {
-                System.out.println(heroes.getName() + " запачкал пижаму");
-                giveClearPj(heroes, pijama);
+                saveStrings += ("\n" + heroes.getName() + " запачкал пижаму");
+                saveStrings = giveClearPj(heroes, pijama, saveStrings);
             }
         } while (pijama.epj != epj.OK || pijama.epjc != epjc.WASHED);
 
         thoughtful = (int) (Math.random() * 3);
-        if (thoughtful == 1) suspicious(heroes);
+        if (thoughtful == 1) saveStrings = suspicious(heroes, saveStrings);
 
-        System.out.println();
-
+        try {
+            out.writeObject(saveStrings);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
-    public void givePj(Heroes h, Pj p) {
+    public String givePj(Heroes h, Pj p, String s) {
         bosse = (int) (Math.random() * 2);
 
         if (bosse == 0) {
-            System.out.printf("— Я дам тебе пижаму Боссе, — сказал %s, " + "метнулся в комнату брата и принёс оттуда "
-                    + "большую пижаму. Она налезла и на такого " + "толстяка, как %s.%n", HOST.getName(), getName());
+            s += ("— Я дам тебе пижаму Боссе, — сказал " + HOST.getName() + ", " + "метнулся в комнату брата и принёс оттуда "
+                    + "большую пижаму. Она налезла и на такого " + "толстяка, как " + getName() + ".\n");
 
             p.epj = epj.LONG;
 
         } else {
-            System.out.printf("%s нашел новую пижаму для %s, как раз по размеру %n", HOST.getName(), getName());
+            s += (HOST.getName() + " нашел новую пижаму для " + getName() + ", как раз по размеру \n");
             p.epj = epj.OK;
         }
-
+        return s;
     }
 
-    public void eatJam(Heroes h, Pj p) {
-        System.out.println(getName() + " устал ждать пока все улягутся спать и он решил съесть варенье \n"
+    public String eatJam(Heroes h, Pj p, String s) {
+        s += ("\n" + getName() + " устал ждать пока все улягутся спать и он решил съесть варенье \n"
                 + "Ой... Кажется, пижаму запачкал... Опять в стирку...");
         p.epjc = epjc.UNWASHED;
-
+        return s;
     }
 
 
@@ -153,7 +157,7 @@ public class Heroes implements Moves {
         String[] strLoca = new String[colLength];
         String[] strColor = new String[colLength];
         String[] strClearance = new String[colLength];
-        String dostupLoca = new String();
+        String dostupLoca = "";
         String pname;
         boolean gotDressed = false;
 
@@ -171,28 +175,27 @@ public class Heroes implements Moves {
                     i++;
                 }
                 i = 0;
-                System.out.println("В какой шкаф пойдет Карлсон?");
+
                 for (Pj pj : pjcol) {
                     i++;
 //                    System.out.println(i + ") Локация: " + strLoca[i - 1]);
                     dostupLoca += "\n" + i + ") Локация: " + strLoca[i - 1];
                 }
-                out.writeObject("cont"+dostupLoca);
-
+                out.writeObject("\nВ какой шкаф пойдет Герой?\n" + dostupLoca);
+                System.out.println("жду шкаф");
 //                charPos = dostupLoca.length();
 //                dostupLoca = dostupLoca.substring(0, charPos - 2);
 //                System.out.println("В какой шкаф пойдет " + this.name + "? Доступные варианты: " + dostupLoca);
-                console =(String) in.readObject();
+                console = (String) in.readObject();
 
 //                console = "ss";
                 int indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 while (((indexOf == -1) || console.equals(""))) {
-                    out.writeObject("cont\nВведите корректный шкаф или его номер\nДоступные варианты: \" + dostupLoca");
-
-                    console = scnChoice.nextLine();
+                    out.writeObject("cont\nВведите корректный шкаф\nДоступные варианты: \" + dostupLoca");
+                    console = (String) in.readObject();
                     indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 }
-                int count=0;
+                int count = 0;
 
 //                if (isNumeric(console)) {
 //                    for (Pj pj : pjcol) {
@@ -203,41 +206,44 @@ public class Heroes implements Moves {
 //                    }
 //                    count++;
 //                }
-
-                System.out.println("Следующие пижамы в шкафу " + console + " доступны: ");
+                dostupLoca = "";
+                dostupLoca += ("\nСледующие пижамы в шкафу " + console + " доступны: ");
                 i = 0;
                 int listItemNumber = 0;
                 String locationHas = "";
-                String saveloca=console;
+                String saveloca = console;
+
                 for (Pj pj : pjcol) {
                     if (pj.loca.equals(Location.valueOf(console.toUpperCase()))) {
                         listItemNumber++;
                         locationHas = locationHas + strColor[i];
-                        System.out.println((listItemNumber) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                        dostupLoca += ("\n" + (listItemNumber) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
 
                     }
                     i++;
                 }
-                System.out.println("Теперь выберите цвет из предложенных пижам или напишите команду \"exit\"");
-                console = scnChoice.nextLine();
+                dostupLoca += ("\nТеперь выберите цвет из предложенных пижам или напишите команду \"exit\"");
+                out.writeObject(dostupLoca);
+                console = (String) in.readObject();
                 if (!console.equals("exit")) {
                     indexOf = locationHas.lastIndexOf(console.toUpperCase());
                     while ((indexOf == -1) || console.equals("")) {
-                        System.out.println("Введите корректный цвет");
-                        console = scnChoice.nextLine();
+                        out.writeObject("\nВведите корректный цвет");
+                        console = (String) in.readObject();
                         indexOf = locationHas.lastIndexOf(console.toUpperCase());
 
                     }
 //                    console = "blue";
                     locationHas = "";
-                    System.out.println("Следующие пижамы цвета " + console + " доступны: ");
+                    dostupLoca = "";
+                    dostupLoca += ("\nСледующие пижамы цвета " + console + " доступны: ");
                     i = 0;
                     listItemNumber = 0;
                     for (Pj pj : pjcol) {
                         if (pj.color.equals(ColorsEnum.valueOf(console.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
                             listItemNumber++;
                             locationHas = locationHas + strSize[i];
-                            System.out.println((listItemNumber) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                            dostupLoca += ("\n" + (listItemNumber) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
 
                         }
 //                    pjcol.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(console.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
@@ -245,20 +251,21 @@ public class Heroes implements Moves {
                         i++;
                     }
                     String saveCol = console;
-                    System.out.println("Теперь выберите размер из предложенных пижам или напишите команду \"exit\"");
-                    console = scnChoice.nextLine();
+                    dostupLoca += ("\nТеперь выберите размер из предложенных пижам или напишите команду \"exit\"");
+                    out.writeObject(dostupLoca);
+                    console = (String) in.readObject();
                     if (!console.equals("exit")) {
 
 //                        console = "long";
                         indexOf = locationHas.lastIndexOf(console.toUpperCase());
                         while ((indexOf == -1) || console.equals("")) {
-                            System.out.println("Введите корректный размер");
-                            console = scnChoice.nextLine();
+                            out.writeObject("\nВведите корректный размер");
+                            console = (String) in.readObject();
                             indexOf = locationHas.lastIndexOf(console.toUpperCase());
 
                         }
-
-                        System.out.println("Следующие пижамы доступны: ");
+                        dostupLoca = "";
+                        dostupLoca += ("\nСледующие пижамы доступны: ");
 
                         i = -1;
                         listItemNumber = 0;
@@ -270,29 +277,30 @@ public class Heroes implements Moves {
                             if (pj.epj.equals(EPj.valueOf(console.trim().toUpperCase())) && pj.color.equals(ColorsEnum.valueOf(saveCol.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
                                 locationHas = locationHas + strClearance[i];
                                 listItemNumber++;
-                                System.out.println((listItemNumber) + ") Чистота: " + strClearance[i]);
+                                dostupLoca += ("\n" + (listItemNumber) + ") Чистота: " + strClearance[i]);
 
                             }
 
                         }
-                        System.out.println("выберите пижаму из предложенных или напишите команду \"exit\". Для этого напишите чистоту пижамы");
+                        dostupLoca += ("\nвыберите пижаму из предложенных или напишите команду \"exit\". Для этого напишите чистоту пижамы");
+                        out.writeObject(dostupLoca);
 
-
-                        console = scnChoice.nextLine();
+                        console = (String) in.readObject();
                         if (!console.equals("exit")) {
 
                             indexOf = locationHas.lastIndexOf(console.toUpperCase());
                             while ((indexOf == -1) || console.equals("")) {
-                                System.out.println("Введите корректную чистоту");
-                                console = scnChoice.nextLine();
+                                out.writeObject("\nВведите корректную чистоту");
+                                console = (String) in.readObject();
                                 indexOf = locationHas.lastIndexOf(console.toUpperCase());
 
                             }
                             String saveClearance = console;
-                            System.out.println("how would you name Her?");
-                            console = scnChoice.nextLine();
-                            pname = console;
-                            System.out.println(this.name + " выбрал пижаму по имени" + pname + " в шкафу." + saveloca + " " + "Цвет: " + saveCol + ", чистота: " + saveClearance + ", размер: " + saveEPj);
+
+                            out.writeObject("\nhow would you name Her?");
+                            pname = (String) in.readObject();
+                            out.writeObject("\n" + this.name + " выбрал пижаму по имени \"" + pname + "\" в шкафу " + saveloca + ". " + "Цвет: " + saveCol + ", чистота: " + saveClearance + ", размер: " + saveEPj+"\n " +
+                                    "Нажмите \"ввод\", если хотите продолжить");
 
                             Pj pj = new Pj(pname, EPj.valueOf(saveEPj.trim().toUpperCase()), EPjc.valueOf(saveClearance.trim().toUpperCase()), Location.valueOf(saveloca.trim().toUpperCase()), ColorsEnum.valueOf(saveCol.trim().toUpperCase()), i);
 
@@ -305,9 +313,9 @@ public class Heroes implements Moves {
                     }
                 }
             } catch (NoSuchElementException nsee) {
-                System.out.println("элемент не найден");
+                out.writeObject("элемент не найден");
             } catch (IllegalArgumentException eae) {
-                System.out.println("Введена неверная локация");
+                out.writeObject("Введена неверная локация");
             }
         }
 
@@ -330,32 +338,32 @@ public class Heroes implements Moves {
 
 
     @Override
-    public void giveClearPj(Heroes h, Pj p) {
+    public String giveClearPj(Heroes h, Pj p, String s) {
 
-        System.out.printf("Пришлось найти чистую пижаму для %s %n", getName());
+        s += ("Пришлось найти чистую пижаму для " + getName() + "\n");
         p.epjc = epjc.WASHED;
+        return s;
     }
 
     @Override
-    public void givePjsmall(Heroes h, Pj p) {
+    public String givePjsmall(Heroes h, Pj p, String saveStrings) {
 
         hmm = (int) (Math.random() * 2);
         if (hmm == 0) {
-            System.out.printf(
-                    ", но %s тут же нашёл выход — недолго думая он их обрезал. %n"
-                            + "%s не успел и слова вымолвить, но он, по правде "
-                            + "говоря, даже не очень огорчился. %n В конце концов, "
+            saveStrings += (
+                    ", но" + HOST.getName() + "тут же нашёл выход — недолго думая он их обрезал. \n"
+                            + getName() + " не успел и слова вымолвить, но он, по правде "
+                            + "говоря, даже не очень огорчился. \n В конце концов, "
                             + "рассуждал он, пижама — это пустяки, дело житейское, "
                             + "и то, что она погибла, не может омрачить его радости: "
-                            + "%n ведь это такое удивительное событие — " + "%s останется у него ночевать!%n ",
-                    HOST.getName(), getName(), getName());
+                            + "\n ведь это такое удивительное событие — " + getName() + " останется у него ночевать!\n ");
 
         } else {
-            System.out.printf("%s нашел новую пижаму для %s, как раз по размеру %n", HOST.getName(), getName());
+            saveStrings += (HOST.getName() + " нашел новую пижаму для " + getName() + ", как раз по размеру %n");
 
         }
         p.epj = epj.OK;
-
+        return saveStrings;
     }
 
     static boolean isNumeric(String str) {

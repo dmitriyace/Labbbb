@@ -20,12 +20,13 @@ public class Server1 {
 //        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
         String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
         In.getPjeys(path, PjCollection.pjeys);
-        collection = PjCollection.pjeys;
+
         try {
             ServerSocket server = new ServerSocket(port);
             while (!server.isClosed()) {
                 Socket client = server.accept();
-                executor.execute(new ThreadServer1(client, collection));
+                System.out.println("connected");
+                executor.execute(new ThreadServer1(client));
             }
         } catch (IOException e) {
 

@@ -5,18 +5,18 @@ public interface Moves {
 	//
 	// // отвечает за то, чтобы вызвать метод для момента, когда герои почти готовы
 	// // спать
-	void sleep(Heroes h);
+	String  sleep(Heroes h, String s);
 
 	// вызывается, когда все уже готовы ко сну
-	void giveClearPj(Heroes h, Pj p);// дать чистую пижаму
+	String giveClearPj(Heroes h, Pj p, String s);// дать чистую пижаму
 
-	void givePj(Heroes h, Pj p);// дать пижаму больше
+	String givePj(Heroes h, Pj p, String s);// дать пижаму больше
 
-	void givePjsmall(Heroes h, Pj p);// дать пижаму меньше
+	String givePjsmall(Heroes h, Pj p, String s);// дать пижаму меньше
 
-	void eatJam(Heroes h, Pj p);// съесть варенье
+	String eatJam(Heroes h, Pj p, String s);// съесть варенье
 
-	void suspicious(Heroes h);// подумать перед сном о варенье
+	String suspicious(Heroes h, String s);// подумать перед сном о варенье
 
 }
 // интерфейс действий героев , не связанных с пижамой
