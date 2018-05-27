@@ -19,9 +19,11 @@ public class CommandHandling {
             case 0:
                 PjCollection.pjeysSrt(collection);
                 out.writeObject("sorted");
+                out.flush();
                 break;
             case 1:
                 PjCollection.show(collection, out);
+                out.flush();
                 break;
             case 2:
                 Scenary.starting(out, in, collection);

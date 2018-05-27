@@ -37,9 +37,8 @@ public class Client1 {
             writer.writeObject(collection);
             while (true) {
                 String command = in.nextLine();
-                writer.flush();
-
                 if (s.isConnected()) {
+                    writer.flush();
                     writer.writeObject(command);
                     if (command.startsWith("prl") || command.startsWith("prg") || command.startsWith("prv"))
                         command = command.substring(0, 3);
@@ -63,7 +62,7 @@ public class Client1 {
 
                             break;
                         case "psort":
-                            System.out.println();
+                            System.out.println("sorted");
                             break;
                         case "prl":
                             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
