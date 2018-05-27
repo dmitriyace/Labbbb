@@ -86,8 +86,6 @@ public class Scenary {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
 
     static String help() {
@@ -95,13 +93,13 @@ public class Scenary {
         result+=("\npshow - отображает элементы коллекции в кастомизированной форме");
         result+=("\npsort - сортирует элементы коллекции");
         result+=("\npin - добавляет элементы в коллекцию");
-        result+=("\nps - запускает сюжет");
+        result+=("\npst - запускает сюжет");
         result+=("\npsize - показывает размер коллекции");
         result+=("\nprl - удаляет элементы коллекции ниже выбранного");
         result+=("\nprg - удаляет элементы коллекции выше выбранного");
         result+=("\nprv - удаляет элемент по заданному значению");
         result+=("\npout - сохраняет коллекцию в файл");
-//        result+=("\nphelp - справочник команд");
+        result+=("\nph - справочник команд");
         return result;
     }
 }

@@ -105,7 +105,7 @@ class PjCollection implements Serializable {
      *
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов меньше себя
      */
-    public static void removeLower(Pj pj, CopyOnWriteArrayList<Pj> collection) {
+    public static CopyOnWriteArrayList<Pj> removeLower(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = collection.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
 //        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
 //        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
@@ -118,6 +118,7 @@ class PjCollection implements Serializable {
 //        for (Pj pjiteratored : pjArrayList) {
 //            pjeys.remove(pjiteratored);
 //        }
+        return collection;
     }
 
 
@@ -127,7 +128,7 @@ class PjCollection implements Serializable {
      *
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов больше себя
      */
-    public static void removeGreater(Pj pj, CopyOnWriteArrayList<Pj> collection) {
+    public static CopyOnWriteArrayList<Pj> removeGreater(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = pjeys.stream().filter(n -> n.compareTo(pj) == -1).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
 //        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
 //
@@ -139,6 +140,7 @@ class PjCollection implements Serializable {
 //        for (Pj pjiteratored : pjArrayList) {
 //            pjeys.remove(pjiteratored);
 //        }
+        return collection;
     }
 
     /**
@@ -147,10 +149,10 @@ class PjCollection implements Serializable {
      *
      * @param pj Объект класса Pj, требующий удаления из коллекции
      */
-    public static void remove(Pj pj, CopyOnWriteArrayList<Pj> collection) {
+    public static CopyOnWriteArrayList<Pj> remove(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = collection.stream().filter(n -> n.compareTo(pj) != 0).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
 //        pjeys.remove(pj);
-
+        return collection;
     }
 
     public static void getElemByString(String line) {

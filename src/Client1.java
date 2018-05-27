@@ -41,6 +41,8 @@ public class Client1 {
 
                 if (s.isConnected()) {
                     writer.writeObject(command);
+                    if (command.startsWith("prl") || command.startsWith("prg") || command.startsWith("prv"))
+                        command = command.substring(0, 3);
                     switch (command) {
                         case "pshow":
 
@@ -49,7 +51,7 @@ public class Client1 {
                             }
                             System.out.println(result);
                             break;
-                        case "ps":
+                        case "pst":
 //                            writer.writeObject(command);
                             while (true) {
                                 answer = (String) reader.readObject();
@@ -61,27 +63,37 @@ public class Client1 {
 
                             break;
                         case "psort":
-                            System.out.println((String) reader.readObject());
+                            System.out.println();
                             break;
                         case "prl":
+                            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
+                            System.out.println(1);
+//                            System.out.println((String) reader.readObject());
                             break;
                         case "prg":
+                            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
+                            System.out.println(1);
+                            break;
+                        case "prv":
+                            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
+                            System.out.println(1);
                             break;
                         case "pin":
                             while (!(answer = (String) reader.readObject()).startsWith("end")) {
                                 result += "\n" + answer;
                             }
-                            System.out.println("Collection now views like: \n"+result);
+                            System.out.println("Collection now views like: \n" + result);
                             break;
 //                        case "pq":
 //                            break;
                         case "psize":
+                            System.out.println(collection.size());
                             break;
                         case "pout":
                             answer = (String) reader.readObject();
                             System.out.println(answer);
                             break;
-                        case "phelp":
+                        case "ph":
                             System.out.println((String) reader.readObject());
                             break;
 
