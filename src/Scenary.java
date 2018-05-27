@@ -1,6 +1,10 @@
 import Enums.Emotional;
 import Enums.Type;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Scenary {
@@ -22,18 +26,17 @@ public class Scenary {
 //        });
 
         Scanner scn = new Scanner(System.in);
-//        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
-        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
+        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+//        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\form.xml";
         In.getPjeys(path, PjCollection.pjeys);
 //        PjCollection p = new PjCollection();
-        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
-//        String path_save="D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
+//        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Lab3\\src\\Output.txt";
+        String path_save="D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
         Output.save(path_save, PjCollection.pjeys);
 
 
 //        help();
-        starting();
-
+//        starting();
 //        try {
 //            while (true) {
 //                System.out.println("enter the move");
@@ -68,15 +71,21 @@ public class Scenary {
 //        }
 
     }
+//    static void starting(ObjectOutputStream out) {
+    static void starting(ObjectOutputStream out, ObjectInputStream in) {
 
-    static void starting() {
-        Carlson.choosingPj(PjCollection.pjeys);
-//        Boy.choosingPj(PjCollection.pjeys);
-//        Bimbo.choosingPj(PjCollection.pjeys);
+//        Carlson.choosingPj(PjCollection.pjeys, out);
+        try {
+            Carlson.choosingPj(PjCollection.pjeys,out,in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         System.out.println("Все герои одеты. Все начали готовиться ко сну");
         Carlson.preparingProcess(Hero_Pj.h_p, 0);
-//        Boy.preparingProcess(Hero_Pj.h_p, 1);
-//        Bimbo.preparingProcess(Hero_Pj.h_p, 2);
     }
 
     static void help() {

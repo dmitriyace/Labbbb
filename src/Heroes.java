@@ -2,6 +2,10 @@
 
 import Enums.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -48,7 +52,7 @@ public class Heroes implements Moves {
     }
 
     public String getName() {
-        if (name == "")
+        if (name.equals(""))
             throw new Nametion();
         return this.name;
     }
@@ -138,7 +142,10 @@ public class Heroes implements Moves {
     }
 
 
-    public void choosingPj(CopyOnWriteArrayList<Pj> pjcol) {
+    public void choosingPj(CopyOnWriteArrayList<Pj> pjcol, ObjectOutputStream out, ObjectInputStream in) throws IOException, ClassNotFoundException {
+//        public void choosingPj(CopyOnWriteArrayList<Pj> pjcol) {
+
+
         System.out.println(this.name + " выбирает пижаму...");
         Scanner scnChoice = new Scanner(System.in);
         int colLength = pjcol.size();
@@ -161,28 +168,27 @@ public class Heroes implements Moves {
                     strLoca[i] = pj.loca.toString();
                     strClearance[i] = pj.epjc.toString();
                     strColor[i] = pj.color.toString();
-//                    dostupLoca += strLoca[i] + ", ";
                     i++;
                 }
                 i = 0;
                 System.out.println("В какой шкаф пойдет Карлсон?");
                 for (Pj pj : pjcol) {
                     i++;
-                    System.out.println(i + ") Локация: " + strLoca[i - 1]);
+//                    System.out.println(i + ") Локация: " + strLoca[i - 1]);
                     dostupLoca += "\n" + i + ") Локация: " + strLoca[i - 1];
                 }
+                out.writeObject("cont"+dostupLoca);
 
 //                charPos = dostupLoca.length();
 //                dostupLoca = dostupLoca.substring(0, charPos - 2);
 //                System.out.println("В какой шкаф пойдет " + this.name + "? Доступные варианты: " + dostupLoca);
-                console = scnChoice.nextLine();
+                console =(String) in.readObject();
 
 //                console = "ss";
                 int indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 while (((indexOf == -1) || console.equals(""))) {
-                    System.out.println("Введите корректный шкаф или его номер");
-                    System.out.println();
-                    System.out.println("Доступные варианты: " + dostupLoca);
+                    out.writeObject("cont\nВведите корректный шкаф или его номер\nДоступные варианты: \" + dostupLoca");
+
                     console = scnChoice.nextLine();
                     indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 }

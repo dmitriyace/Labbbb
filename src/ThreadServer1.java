@@ -10,6 +10,8 @@ public class ThreadServer1 implements Runnable {
     private Socket client;
     private CopyOnWriteArrayList<Pj> collection;
     private String way;
+    String command;
+    String answer;
 
     public ThreadServer1(Socket client, CopyOnWriteArrayList<Pj> collection) {
         this.client = client;
@@ -22,19 +24,25 @@ public class ThreadServer1 implements Runnable {
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
                 try {
-                    String command = (String) in.readObject();
-                    PjCollection.commands(command);
-                    collection = PjCollection.pjeys;
+                    command = (String) in.readObject();
+//                    while (!command.equals("end") || !command.equals("q")) {
+                    while (true) {
 
-                    out.writeObject(PjCollection.pjeysSrt(collection));
+                        if (command.startsWith("p"))
+                            PjCollection.commands(command.substring(1), collection, out, in);
+//                        CommandHandling.treat(answer);
+                    }
+//                    collection = PjCollection.pjeys;
+
+//                    out.writeObject(PjCollection.pjeysSrt(collection));
 
                 } catch (ClassNotFoundException e) {
                     out.writeObject("File handle mistake!!!");
                 } catch (IllegalArgumentException e) {
                     out.writeObject("Command format trouble");
-                } catch (SocketException se){
+                } catch (SocketException se) {
                     System.err.println("client disconnected");
-                }finally {
+                } finally {
                     out.flush();
                     in.close();
                     out.close();

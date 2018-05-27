@@ -1,4 +1,6 @@
-// Дерево с отображаением флажков в листьях
+package GUI;// Дерево с отображаением флажков в листьях
+import GUI.CheckBoxElement;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -36,7 +38,7 @@ public class CheckBoxTree extends JTree
                 return renderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
             }
             Object data = ((DefaultMutableTreeNode)value).getUserObject();
-            // Проверка, являются ли данные CheckBoxElement
+            // Проверка, являются ли данные GUI.CheckBoxElement
             if (data instanceof CheckBoxElement ) {
                 CheckBoxElement element = (CheckBoxElement)data;
                 // Настройка флажка и текста

@@ -3,6 +3,9 @@ import Enums.EPj;
 import Enums.EPjc;
 import Enums.Location;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,10 +17,9 @@ class PjCollection implements Serializable {
     static Pj pj_save;
 
 
-    protected static String commands(String command) {
-        String[] commands = {"sort", "show", "start", "size", "remove_lower", "remove_greater",
+    protected static void commands(String command, CopyOnWriteArrayList<Pj> col, ObjectOutputStream out, ObjectInputStream in) throws IOException {
+        String[] commands = {"sort", "show", "s", "size", "remove_lower", "remove_greater",
                 "remove_by_value", "out", "help", "q", "in"};
-        String kekery = null;
         int i;
         for (i = 0; i < commands.length; i++) if (command.startsWith(commands[i])) break;
         switch (i) {
@@ -25,13 +27,13 @@ class PjCollection implements Serializable {
                 PjCollection.pjeysSrt(pjeys);
                 break;
             case 1:
-                PjCollection.show(new CopyOnWriteArrayList<Pj>());
+                PjCollection.show(pjeys,out);
                 break;
             case 2:
-                Scenary.starting();
+                Scenary.starting(out, in);
                 break;
             case 3:
-                System.out.println(PjCollection.pjeys.size());
+                out.writeObject(PjCollection.pjeys.size());
                 break;
             case 4:
                 PjCollection.getElemByString(command);
@@ -46,8 +48,8 @@ class PjCollection implements Serializable {
                 PjCollection.remove(PjCollection.pj_save);
                 break;
             case 7:
-                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
-//                String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
+//                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
+                String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
                 Output.save(path_save, PjCollection.pjeys);
                 break;
             case 8:
@@ -57,25 +59,40 @@ class PjCollection implements Serializable {
                 System.exit(0);
                 break;
             case 10:
-                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
-//                String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+//                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
+                String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
                 In.getPjeys(path, PjCollection.pjeys);
                 break;
             default:
                 System.out.println("command is Illegal");
         }
-        return kekery;
+
 
     }
 
-    protected static void show(CopyOnWriteArrayList<Pj> collectionName) {
-        collectionName.forEach(n -> System.out.println(formatOut(n)));
+    protected static void show(CopyOnWriteArrayList<Pj> collectionName, ObjectOutputStream out ) {
+///ВЕРНУТЬСЯ К ЭТОМУ
+        collectionName.
+                forEach(PjCollection::addToOS);
+
     }
 
+    private static void addToOS(Pj pj, ObjectOutputStream out ) {
 
-    public static CopyOnWriteArrayList<Pj> pjeysSrt(CopyOnWriteArrayList<Pj> pjs) {
+        try {
+            out.writeObject(pj);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void addToOS(Object o){
+
+}
+
+    public static void pjeysSrt(CopyOnWriteArrayList<Pj> pjs) {
         Collections.sort(pjs, (Pj p1, Pj p2) -> p1.name.compareTo(p2.name));
-        return pjs;
+
     }
 
 
@@ -86,18 +103,18 @@ class PjCollection implements Serializable {
      * @param pj Объект класса Pj, требующий удаления из коллекции элементов меньше себя
      */
     public static void removeLower(Pj pj) {
-//        pjeys = (CopyOnWriteArrayList<Pj>) pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList());
+        pjeys = pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
 //        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
-        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
-
-        for (Pj pjiteratored : pjeys) {
-            if (pj.compareTo(pjiteratored) == -1) {
-                pjArrayList.add(pjiteratored);
-            }
-        }
-        for (Pj pjiteratored : pjArrayList) {
-            pjeys.remove(pjiteratored);
-        }
+//        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
+//
+//        for (Pj pjiteratored : pjeys) {
+//            if (pj.compareTo(pjiteratored) == -1) {
+//                pjArrayList.add(pjiteratored);
+//            }
+//        }
+//        for (Pj pjiteratored : pjArrayList) {
+//            pjeys.remove(pjiteratored);
+//        }
     }
 
 

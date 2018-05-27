@@ -13,6 +13,7 @@ public class Client1 {
     public static void main(String... args) throws ExcFall {
         Scanner in = new Scanner(System.in);
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
+        String answer;
         while (true) {
             try {
                 String command = in.nextLine();
@@ -23,18 +24,29 @@ public class Client1 {
                     if (command.equalsIgnoreCase("qq")) System.exit(0);
                     oos.writeObject(command);
                     Object o = ois.readObject();
-                    if (o instanceof String)
-                        System.out.println((String) o);
-                    else {
+                    if (o instanceof String) {
+                        answer = o.toString();
+                        String switchS = startsWithCheck(answer);
+                        switch (switchS) {
+                            case "pj1":
+                                break;
+                            case "pj2":
+                                break;
+                            case "pj3":
+                                break;
+                        }
+
+                    }
+                    else{
                         collection = (CopyOnWriteArrayList<Pj>) o;
                         System.out.println(collection.size() > 0);
                     }
-                    if (command.startsWith("show")) {
-                        PjCollection.show(collection);
-                    } else {
-                        if (!command.startsWith("start"))
-                            PjCollection.commands(command);
-                    }
+//                    if (command.startsWith("show")) {
+//                        PjCollection.show(collection);
+//                    } else {
+//                        if (!command.startsWith("start"))
+//                            PjCollection.commands(command);
+//                    }
 
 
                 } else throw new ConnectException();
@@ -46,6 +58,14 @@ public class Client1 {
                 System.err.println("R u sure 'bout da class?");
             }
         }
+    }
+
+    static String startsWithCheck(String s) {
+        if (s.startsWith("pj1")) return "pj1";
+        if (s.startsWith("pj2")) return "pj2";
+        if (s.startsWith("pj3")) return "pj3";
+        if (s.startsWith("pj4")) return "pj4";
+        return "hm";
     }
 
 }
