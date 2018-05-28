@@ -78,7 +78,8 @@ public class Scenary {
 
 //        Carlson.choosingPj(PjCollection.pjeys, out);
         try {
-            Carlson.choosingPj(collection, out, in);
+//            Carlson.choosingPj(collection, out, in);
+            Carlson.testChoosing(collection, out, in);
             System.out.println("Все герои одеты. Все начали готовиться ко сну");
             Carlson.preparingProcess(Hero_Pj.h_p, 0, out);
         } catch (IOException e) {
