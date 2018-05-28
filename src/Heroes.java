@@ -32,7 +32,6 @@ public class Heroes implements Moves {
 
     static int eating;// переменная, используемая в рассчете вероятности того, что герой съест варенье
 
-    String console = "";
 
     Heroes(String name, Emotional e, Type t) {
         this.name = name;
@@ -148,12 +147,12 @@ public class Heroes implements Moves {
 
 
     public void choosingPj(CopyOnWriteArrayList<Pj> pjcol, ObjectOutputStream out, ObjectInputStream in) throws IOException, ClassNotFoundException {
-//        public void choosingPj(CopyOnWriteArrayList<Pj> saveCollection) {
+//        public void choosingPj(CopyOnWriteArrayList<Pj> pjcol) {
 
-        ArrayList<Pj> saveCollection = (ArrayList<Pj>) pjcol.stream().collect(Collectors.toList());
+
         System.out.println(this.name + " выбирает пижаму...");
 //        Scanner scnChoice = new Scanner(System.in);
-        int colLength = saveCollection.size();
+        int colLength = pjcol.size();
         String[] strSize = new String[colLength];
         String[] strLoca = new String[colLength];
         String[] strColor = new String[colLength];
@@ -161,14 +160,14 @@ public class Heroes implements Moves {
         String dostupLoca = "";
         String pname;
         boolean gotDressed = false;
-
+        String console = "";
         while (!gotDressed) {
             try {
                 gotDressed = false;
                 dostupLoca = "";
 
                 int i = 0;
-                for (Pj pj : saveCollection) {
+                for (Pj pj : pjcol) {
                     strSize[i] = pj.epj.toString();
                     strLoca[i] = pj.loca.toString();
                     strClearance[i] = pj.epjc.toString();
@@ -177,7 +176,7 @@ public class Heroes implements Moves {
                 }
                 i = 0;
 
-                for (Pj pj : saveCollection) {
+                for (Pj pj : pjcol) {
                     i++;
 //                    System.out.println(i + ") Локация: " + strLoca[i - 1]);
                     dostupLoca += "\n" + i + ") Локация: " + strLoca[i - 1];
@@ -187,19 +186,19 @@ public class Heroes implements Moves {
 //                charPos = dostupLoca.length();
 //                dostupLoca = dostupLoca.substring(0, charPos - 2);
 //                System.out.println("В какой шкаф пойдет " + this.name + "? Доступные варианты: " + dostupLoca);
-//                console = (String) in.readObject();
+                console = (String) in.readObject();
 
 //                console = "ss";
                 int indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 while (((indexOf == -1) || console.equals(""))) {
-                    out.writeObject("cont\nВведите корректный шкаф\nДоступные варианты: \" + dostupLoca");
+                    out.writeObject("cont\nВведите корректный шкаф\nДоступные варианты: \n" + dostupLoca);
                     console = (String) in.readObject();
                     indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
                 }
                 int count = 0;
 
 //                if (isNumeric(console)) {
-//                    for (Pj pj : saveCollection) {
+//                    for (Pj pj : pjcol) {
 //                        if (count==(int) Double.parseDouble(console) - 1){
 //                            console=pj.loca.toString().toUpperCase();
 //                            save.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(console), ColorsEnum.valueOf(strColor[i].toUpperCase()), count));
@@ -213,62 +212,41 @@ public class Heroes implements Moves {
                 int listItemNumber = 0;
                 String locationHas = "";
                 String saveloca = console;
-                ////////////массив инт для запоминания корреляций между индексом ирл и индексом списка
-                int[] index = new int[saveCollection.size()];
-                int[] inCollection = new int[pjcol.size()];
 
-                int[][] corerelation = {index, inCollection};
-                /////////
-                saveCollection = (ArrayList<Pj>) saveCollection.stream().filter(n -> n.loca.equals(Location.valueOf(console.toUpperCase()))).collect(Collectors.toList());
-                for (Pj pj : saveCollection) {
+                for (Pj pj : pjcol) {
                     if (pj.loca.equals(Location.valueOf(console.toUpperCase()))) {
                         listItemNumber++;
                         locationHas = locationHas + strColor[i];
                         dostupLoca += ("\n" + (listItemNumber) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
-                        corerelation[listItemNumber - 1][i] = 1;
+
                     }
                     i++;
                 }
-                dostupLoca += ("\nТеперь выберите цвет из предложенных пижам или напишите команду \"exit\" для возвращения к выбору шкафа");
+                dostupLoca += ("\nТеперь выберите цвет из предложенных пижам или напишите команду \"exit\"");
                 out.writeObject(dostupLoca);
                 console = (String) in.readObject();
-
                 if (!console.equals("exit")) {
-
-                    indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
-
+                    indexOf = locationHas.lastIndexOf(console.toUpperCase());
                     while ((indexOf == -1) || console.equals("")) {
                         out.writeObject("\nВведите корректный цвет");
                         console = (String) in.readObject();
-                        indexOf = dostupLoca.lastIndexOf(console.toUpperCase());
+                        indexOf = locationHas.lastIndexOf(console.toUpperCase());
 
                     }
-                    int saveIndexes[] = new int[listItemNumber];
-                    if (isNumeric(console)) {
-                        i = Integer.valueOf(console);
-                        for (int a = 0; a < listItemNumber; a++) {
-                            for (int b = 0; b < pjcol.size(); b++) {
-                                if (corerelation[a][b] == 1) saveIndexes[a - 1] = b;
-                            }
-                        }
-                    }
-
-//                    saveCollection = (ArrayList<Pj>) saveCollection.stream().filter(n -> n.color.equals(ColorsEnum.valueOf())).collect(Collectors.toList());
 //                    console = "blue";
                     locationHas = "";
                     dostupLoca = "";
-                    console = strColor[i].toString();
                     dostupLoca += ("\nСледующие пижамы цвета " + console + " доступны: ");
                     i = 0;
                     listItemNumber = 0;
-                    for (Pj pj : saveCollection) {
+                    for (Pj pj : pjcol) {
                         if (pj.color.equals(ColorsEnum.valueOf(console.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
                             listItemNumber++;
                             locationHas = locationHas + strSize[i];
                             dostupLoca += ("\n" + (listItemNumber) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
 
                         }
-//                    saveCollection.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(console.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
+//                    pjcol.stream().filter(n ->n.color.equals(Enums.ColorsEnum.valueOf(console.trim().toUpperCase())) && n.loca.equals(Enums.Location.valueOf(saveloca.trim().toUpperCase()))).
 //                            forEach(n -> System.out.println(n.name));
                         i++;
                     }
@@ -293,7 +271,7 @@ public class Heroes implements Moves {
                         listItemNumber = 0;
                         String saveEPj = console;
                         locationHas = "";
-                        for (Pj pj : saveCollection) {
+                        for (Pj pj : pjcol) {
 
                             i++;
                             if (pj.epj.equals(EPj.valueOf(console.trim().toUpperCase())) && pj.color.equals(ColorsEnum.valueOf(saveCol.trim().toUpperCase())) && pj.loca.equals(Location.valueOf(saveloca.trim().toUpperCase()))) {
@@ -397,5 +375,161 @@ public class Heroes implements Moves {
         return true;
     }
 
+    public void testChoosing(CopyOnWriteArrayList<Pj> pjcol, ObjectOutputStream out, ObjectInputStream in) throws IOException, ClassNotFoundException {
+        String[] strSize = new String[pjcol.size()];
+        String[] strLoca = new String[pjcol.size()];
+        String[] strColor = new String[pjcol.size()];
+        String[] strClearance = new String[pjcol.size()];
+        String tempRes = "";
+        String answer = "";
+        int numAnswer;
+        ArrayList<HandleNumbers> handleNum = new ArrayList<>();
+        int i;
+        int lastIndex;
+        boolean getDressed = false;
+        ArrayList<Pj> saveC;
+        while (!getDressed) {
+            saveC = (ArrayList<Pj>) pjcol.stream().collect(Collectors.toList());
+            getDressed = false;
+            i = 0;
+            for (Pj pj : saveC) {
+                strSize[i] = pj.epj.toString();
+                strLoca[i] = pj.loca.toString();
+                strClearance[i] = pj.epjc.toString();
+                strColor[i] = pj.color.toString();
+                i++;
+            }
+
+            i = 0;
+            for (Pj pj : saveC) {
+                i++;
+                tempRes += "\n" + i + ") Локация: " + strLoca[i - 1];
+                handleNum.add(new HandleNumbers(i, i - 1));
+            }
+            out.writeObject(tempRes);
+            answer = (String) in.readObject();
+            answer = figureAnswer(tempRes, answer, in, out);
+//            lastIndex = tempRes.lastIndexOf(answer.toUpperCase());
+//            while ((lastIndex == -1) || (answer.equals(""))) {
+//                //out.writeObject("cont\nВведите корректный шкаф\nДоступные варианты: " + tempRes);
+//                //answer = (String)read...
+//                lastIndex = tempRes.lastIndexOf(answer.toUpperCase());
+//            }
+            if (isNumeric(answer)) {
+                numAnswer = Integer.valueOf(answer);
+                i = 0;
+                for (Pj pj : saveC) {
+                    if (numAnswer - 1 == i) {
+                        answer = strLoca[i];
+                        break;
+                    } else i++;
+                }
+            }
+            //if answer is still numeric, (check it), then you should again call figureAnswer while it isn't ok
+            String saveLocation = answer;
+            saveC = (ArrayList<Pj>) saveC.stream().filter(n -> n.loca.equals(Location.valueOf(saveLocation.toUpperCase()))).collect(Collectors.toList());
+            tempRes = ("\nСледующие пижамы в шкафу " + saveLocation + " доступны: ");
+            i = 0;
+            for (Pj pj : saveC) {
+                strSize[i] = pj.epj.toString();
+                strClearance[i] = pj.epjc.toString();
+                strColor[i] = pj.color.toString();
+                tempRes += ("\n" + (i + 1) + ") Цвет: " + strColor[i] + ", чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                i++;
+            }
+            tempRes += "Выберете цвет из предложенных пижам: ";
+            out.writeObject(tempRes);
+            answer = (String) in.readObject();
+            figureAnswer(tempRes, answer, in, out);
+            if (isNumeric(answer)) {
+                numAnswer = Integer.valueOf(answer);
+                i = 0;
+                for (Pj pj : saveC) {
+                    if (numAnswer - 1 == i) {
+                        answer = strColor[i];
+                        break;
+                    } else i++;
+                }
+            }
+            String saveColor = answer;
+            saveC = (ArrayList<Pj>) saveC.stream().filter(n -> n.color.equals(ColorsEnum.valueOf(saveColor.toUpperCase()))).collect(Collectors.toList());
+            tempRes = ("\nСледующие пижамы в шкафу " + saveLocation + " цвета " + saveColor + " доступны:");
+            i = 0;
+            for (Pj pj : saveC) {
+                strSize[i] = pj.epj.toString();
+                strClearance[i] = pj.epjc.toString();
+                tempRes += ("\n" + (i + 1) + ") Чистота: " + strClearance[i] + ", размер: " + strSize[i]);
+                i++;
+            }
+            tempRes += "Выберете размер из предложенных";
+            out.writeObject(tempRes);
+            answer = (String) in.readObject();
+            figureAnswer(tempRes, answer, in, out);
+            if (isNumeric(answer)) {
+                numAnswer = Integer.valueOf(answer);
+                i = 0;
+                for (Pj pj : saveC) {
+                    if (numAnswer - 1 == i) {
+                        answer = strSize[i];
+                        break;
+                    } else i++;
+                }
+            }
+            String saveSize = answer;
+            saveC = (ArrayList<Pj>) saveC.stream().filter(n -> n.epj.equals(EPj.valueOf(saveSize.toUpperCase()))).collect(Collectors.toList());
+            tempRes += ("\nСледующие пижамы в шкафу " + saveLocation + " цвета " + saveColor + " размера " + saveSize + " доступны:");
+            i = 0;
+            for (Pj pj : saveC) {
+                strClearance[i] = pj.epjc.toString();
+                tempRes += ("\n" + (i + 1) + ") Чистота: " + strClearance[i]);
+                i++;
+            }
+            tempRes += "Выберете чистоту из предложенных";
+            out.writeObject(tempRes);
+            answer = (String) in.readObject();
+            figureAnswer(tempRes, answer, in, out);
+            if (isNumeric(answer)) {
+                numAnswer = Integer.valueOf(answer);
+                i = 0;
+                for (Pj pj : saveC) {
+                    if (numAnswer - 1 == i) {
+                        answer = strClearance[i];
+                        break;
+                    } else i++;
+                }
+            }
+            String saveClear = answer;
+            out.writeObject("\nWhat is her name?");
+            String pname = (String) in.readObject();
+            out.writeObject("\n" + this.name + " выбрал пижаму по имени \"" + pname + "\" в шкафу " + saveLocation + ". " + "Цвет: " + saveColor + ", чистота: " + saveClear + ", размер: " + saveSize + "\n " +
+                    "Нажмите \"ввод\", если хотите продолжить");
+
+            Pj pj = new Pj(pname, EPj.valueOf(saveSize.trim().toUpperCase()), EPjc.valueOf(saveClear.trim().toUpperCase()), Location.valueOf(saveLocation.trim().toUpperCase()), ColorsEnum.valueOf(saveColor.trim().toUpperCase()), i);
+
+            getDressed = true;
+            Hero_Pj hero_pj = new Hero_Pj(this, pj);
+//            Hero_Pj.h_p.add()
+
+        }
+
+
+    }
+
+    static String figureAnswer(String tempRes, String answer, ObjectInputStream in, ObjectOutputStream out) {
+        int lastIndex = tempRes.lastIndexOf(answer.toUpperCase());
+        while ((lastIndex == -1) || (answer.equals(""))) {
+            try {
+                out.writeObject("\nВведите корректный шкаф\nДоступные варианты: " + tempRes);
+                answer = (String) in.readObject();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                System.err.println("клиент отвалился");
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            lastIndex = tempRes.lastIndexOf(answer.toUpperCase());
+        }
+        return answer;
+    }
 
 }
