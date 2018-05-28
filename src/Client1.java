@@ -44,7 +44,7 @@ public class Client1 {
                         command = command.substring(0, 3);
                     switch (command) {
                         case "pshow":
-
+result="";answer="";
                             while (!(answer = (String) reader.readObject()).startsWith("end")) {
                                 result += "\n" + answer;
                             }
@@ -66,18 +66,19 @@ public class Client1 {
                             break;
                         case "prl":
                             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
-                            System.out.println(1);
+                            System.out.println("ok");
 //                            System.out.println((String) reader.readObject());
                             break;
                         case "prg":
                             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
-                            System.out.println(1);
+                            System.out.println("ok");
                             break;
                         case "prv":
                             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
-                            System.out.println(1);
+                            System.out.println("ok");
                             break;
                         case "pin":
+                            result=""; answer="";
                             while (!(answer = (String) reader.readObject()).startsWith("end")) {
                                 result += "\n" + answer;
                             }

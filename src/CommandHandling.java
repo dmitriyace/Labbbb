@@ -18,8 +18,8 @@ public class CommandHandling {
         switch (i) {
             case 0:
                 PjCollection.pjeysSrt(collection);
-                out.writeObject("sorted");
-                out.flush();
+//                out.writeObject("sorted");
+//                out.flush();
                 break;
             case 1:
                 PjCollection.show(collection, out);
@@ -58,8 +58,8 @@ public class CommandHandling {
                 out.writeObject(Scenary.help());
                 break;
 //            case 9:
-//                System.exit(0);
-//                break;
+////                System.exit(0);
+////                break;
             case 10:
                 In.getPjeys(path, collection);
                 PjCollection.show(collection, out);

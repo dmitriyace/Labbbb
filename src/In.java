@@ -44,7 +44,6 @@ public class In {
                 loca = Location.valueOf(strLocation);
                 color = ColorsEnum.valueOf(strColor);
 
-
                 id++;
 
                 pjeys.add(new Pj(name, size, clearance, loca, color, id ));
