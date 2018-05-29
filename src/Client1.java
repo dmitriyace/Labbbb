@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Client1 {
     private final static int port = 1111;
+    private static final String host = "127.0.0.1";
 
     public static void main(String... args) throws ExcFall {
         Scanner in = new Scanner(System.in);
@@ -22,7 +24,7 @@ public class Client1 {
 
         while (true) {
             try {
-                s = new Socket("localhost", port);
+                s = new Socket(host, port);
                 reader = new ObjectInputStream(s.getInputStream());
                 writer = new ObjectOutputStream(s.getOutputStream());
                 break;
@@ -32,10 +34,14 @@ public class Client1 {
         }
 
         try {
-            String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+//            String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+//            String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
+            File file = new File(".\\form.xml");
+            String path = file.getAbsolutePath();
             In.getPjeys(path, collection);
-            writer.writeObject(collection);
+
             while (true) {
+                writer.writeObject(collection);
                 String command = in.nextLine();
                 if (s.isConnected()) {
                     writer.flush();
@@ -44,7 +50,8 @@ public class Client1 {
                         command = command.substring(0, 3);
                     switch (command) {
                         case "pshow":
-result="";answer="";
+                            result = "";
+                            answer = "";
                             while (!(answer = (String) reader.readObject()).startsWith("end")) {
                                 result += "\n" + answer;
                             }
@@ -78,7 +85,8 @@ result="";answer="";
                             System.out.println("ok");
                             break;
                         case "pin":
-                            result=""; answer="";
+                            result = "";
+                            answer = "";
                             while (!(answer = (String) reader.readObject()).startsWith("end")) {
                                 result += "\n" + answer;
                             }
@@ -90,8 +98,8 @@ result="";answer="";
                             System.out.println(collection.size());
                             break;
                         case "pout":
-                            answer = (String) reader.readObject();
-                            System.out.println(answer);
+//                            answer = (String) reader.readObject();
+                            System.out.println("ok");
                             break;
                         case "ph":
                             System.out.println((String) reader.readObject());

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,11 +9,15 @@ public class CommandHandling {
     static void treat(String command, CopyOnWriteArrayList<Pj> collection, ObjectOutputStream out, ObjectInputStream in) throws IOException {
         String[] commands = {"sort", "show", "st", "size", "rl", "rg",
                 "rv", "out", "h", "q", "in"};
-        //                String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
-        String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
-//                String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
-        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
 
+//        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
+////        String path_save = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\Output.txt";
+//        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
+////        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
+        File file = new File(".\\form.xml");
+        String path = file.getAbsolutePath();
+        File file_save = new File(".\\Output.out");
+        String path_save = file_save.getAbsolutePath();
         int i;
         for (i = 0; i < commands.length; i++) if (command.startsWith(commands[i])) break;
         switch (i) {
@@ -29,9 +34,9 @@ public class CommandHandling {
                 Scenary.starting(out, in, collection);
 
                 break;
-            case 3:
-                out.writeObject(collection.size());
-                break;
+//            case 3:
+//                out.writeObject(collection.size());
+//                break;
             case 4:
                 PjCollection.getElemByString(command);
                 out.writeObject(PjCollection.removeLower(PjCollection.pj_save, collection));
@@ -52,7 +57,8 @@ public class CommandHandling {
                 break;
             case 7:
                 Output.save(path_save, collection);
-                out.writeObject("saved");
+//                out.flush();
+//                out.writeObject("saved");
                 break;
             case 8:
                 out.writeObject(Scenary.help());

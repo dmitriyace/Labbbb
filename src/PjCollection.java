@@ -70,7 +70,6 @@ class PjCollection implements Serializable {
 //    }
 
     protected static void show(CopyOnWriteArrayList<Pj> collectionName, ObjectOutputStream out) {
-///ÂÅÐÍÓÒÜÑß Ê ÝÒÎÌÓ
         String answer = "";
         collectionName.
                 forEach(n -> PjCollection.showOut(n, out));

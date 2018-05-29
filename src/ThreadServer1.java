@@ -23,9 +23,10 @@ public class ThreadServer1 implements Runnable {
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
                 try {
-                    collection = (CopyOnWriteArrayList<Pj>) in.readObject();
+
 //                    while (!command.equals("end") || !command.equals("q")) {
                     while (true) {
+                        collection = (CopyOnWriteArrayList<Pj>) in.readObject();
                         command = (String) in.readObject();
                         if (command.startsWith("p"))
                             CommandHandling.treat(command.substring(1), collection, out, in);

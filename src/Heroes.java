@@ -508,7 +508,8 @@ public class Heroes implements Moves {
 
             getDressed = true;
             Hero_Pj hero_pj = new Hero_Pj(this, pj);
-//            Hero_Pj.h_p.add()
+//            Hero_Pj.h_p.add()Hero_Pj hero_pj = new Hero_Pj(this, pj);
+            Hero_Pj.h_p.add(hero_pj);
 
         }
 

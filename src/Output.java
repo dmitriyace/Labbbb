@@ -11,14 +11,14 @@ public class Output {
     /**
      * <p>Сохраняет коллекцию в текстовый файл в формате задания объектов json</p>
      *  @param path  Путь, по которому будет сохранена коллекция
-     * @param pjeys Коллекция, элементы которой будут сохраняться в текстовый файл
+     * @param collection Коллекция, элементы которой будут сохраняться в текстовый файл
      */
-    public static void save(String path, CopyOnWriteArrayList<Pj> pjeys) {
+    public static void save(String path, CopyOnWriteArrayList<Pj> collection) {
 
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path))) {
 
             json = "";
-            for (Pj pj : pjeys) {
+            for (Pj pj : collection) {
                 json = json + "\r\n" + gson.toJson(pj);
             }
             outputStream.write(json.getBytes());
