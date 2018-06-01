@@ -1,7 +1,7 @@
 
-{"epj":"OK","epjc":"WASHED","name":"OH","loca":{"name":"NEAR_BED","ordinal":0},"color":"RED","dt":"02:04:27:898","id":1}
-{"epj":"LONG","epjc":"UNWASHED","name":"GRE","loca":{"name":"NEAR_KITCHEN","ordinal":1},"color":"WHITE","dt":"02:04:27:904","id":2}
-{"epj":"SHORT","epjc":"UNWASHED","name":"TCHA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"02:04:27:906","id":3}
-{"epj":"SHORT","epjc":"WASHED","name":"KA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"02:04:27:910","id":4}
-{"epj":"LONG","epjc":"WASHED","name":"KAYA","loca":{"name":"SS","ordinal":3},"color":"BLUE","dt":"02:04:27:912","id":5}
-{"epj":"SHORT","epjc":"UNWASHED","name":"VSTRE","loca":{"name":"SS","ordinal":3},"color":"RED","dt":"02:04:27:916","id":6}
+{"epj":"OK","epjc":"WASHED","name":"OH","loca":{"name":"NEAR_BED","ordinal":0},"color":"RED","dt":"06:23:43:708","id":1}
+{"epj":"LONG","epjc":"UNWASHED","name":"GRE","loca":{"name":"NEAR_KITCHEN","ordinal":1},"color":"WHITE","dt":"06:23:43:709","id":2}
+{"epj":"SHORT","epjc":"UNWASHED","name":"TCHA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"06:23:43:711","id":3}
+{"epj":"SHORT","epjc":"WASHED","name":"KA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"06:23:43:713","id":4}
+{"epj":"LONG","epjc":"WASHED","name":"KAYA","loca":{"name":"SS","ordinal":3},"color":"BLUE","dt":"06:23:43:715","id":5}
+{"epj":"SHORT","epjc":"UNWASHED","name":"VSTRE","loca":{"name":"SS","ordinal":3},"color":"RED","dt":"06:23:43:717","id":6}

@@ -58,7 +58,6 @@ public class Client {
                         if (o instanceof String) {
                             message = (String) o;
                             analyseInput(message, incoming);
-
                         }
                     }
                 } catch (ConnectException ce) {
