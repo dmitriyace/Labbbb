@@ -24,14 +24,7 @@
         <pijamaname>Tcha</pijamaname>
 
     </pijama>
-    <pijama>
-        <pijamasize>short</pijamasize>
-        <pijamaclearance>washed</pijamaclearance>
-        <pijamalocation>living_room</pijamalocation>
-        <pijamacolor>blue</pijamacolor>
-        <pijamaname>Ka</pijamaname>
 
-    </pijama>
     <pijama>
 
         <pijamasize>long</pijamasize>
@@ -41,12 +34,5 @@
         <pijamaname>Kaya</pijamaname>
 
     </pijama>
-    <pijama>
-        <pijamasize>short</pijamasize>
-        <pijamaclearance>unwashed</pijamaclearance>
-        <pijamalocation>ss</pijamalocation>
-        <pijamacolor>red</pijamacolor>
-        <pijamaname>Vstre</pijamaname>
 
-    </pijama>
 </pijamacollection>

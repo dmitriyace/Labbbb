@@ -19,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <enumeration id="3" language="java" name="Enums.Type" project="Lab3" file="/Lab3/src/Enums.Type.java" binary="false"
+  <enumeration id="3" language="java" name="Type" project="Lab3" file="/Lab3/src/Type.java" binary="false"
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="335" y="701"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

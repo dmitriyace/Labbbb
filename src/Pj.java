@@ -1,4 +1,9 @@
-import Enums.*;
+import Enums.ColorsEnum;
+import Enums.EPj;
+import Enums.EPjc;
+import Enums.Emotional;
+import Enums.Location;
+//import Enums.Type;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -9,10 +14,10 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected EPj epj;
     protected EPjc epjc;
 
-    protected Type t;
+//    protected Type t;
     protected Emotional e;
     protected String name;
-    protected Enum<Location> loca;
+    protected Location loca;
     protected ColorsEnum color;
     protected String h;
     transient SimpleDateFormat ft =
@@ -21,7 +26,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     int id;
     public static Pj defaultPj = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
 
-    public Pj(String name, EPj epj, EPjc epjc, Enum<Location> loca, ColorsEnum color, int num) {
+    public Pj(String name, EPj epj, EPjc epjc, Location loca, ColorsEnum color, int num) {
         this.name = name;
         id = num;
         this.epj = epj;
@@ -31,6 +36,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
         this.dt = ft.format(new Date());
 
     }
+
 
 
     public EPj getSize() {

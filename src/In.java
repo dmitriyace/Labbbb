@@ -14,7 +14,7 @@ public class In {
         String checkheroname = "", strSize, strClear, strLocation, strColor;
         EPj size;
         EPjc clearance;
-        Enum<Location> loca;
+        Location loca;
         int id = 0;
         int i = 0;
         String name;

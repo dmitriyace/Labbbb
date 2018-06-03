@@ -5,7 +5,6 @@ import Enums.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ public class Heroes implements Moves {
     protected Hero_Pj h_p;
     //    protected Pj pj;
     static Heroes HOST = new Heroes("Хозяин дома", Emotional.HAPPY, Type.HUMAN);// создали хозяина дома
-    //	static Heroes Carlson= new Heroes("Карлсон", Enums.Emotional.HAPPY, Enums.Type.FAIRY);
+    //	static Heroes Carlson= new Heroes("Карлсон", Enums.Emotional.HAPPY, Type.FAIRY);
     int hmm;// переменная, используемая в рассчете вероятности, что герой отрежет рукава у
     // пижамы
     int bosse;// переменная, используемая в рассчете вероятности, что герой получит пижаму
@@ -201,7 +200,7 @@ public class Heroes implements Moves {
 //                    for (Pj pj : pjcol) {
 //                        if (count==(int) Double.parseDouble(console) - 1){
 //                            console=pj.loca.toString().toUpperCase();
-//                            save.add(new Pj("", EPj.valueOf(strSize[i].toUpperCase()), EPjc.valueOf(strClearance[i].toUpperCase()), Location.valueOf(console), ColorsEnum.valueOf(strColor[i].toUpperCase()), count));
+//                            save.add(new Pj("", Enums.EPj.valueOf(strSize[i].toUpperCase()), Enums.EPjc.valueOf(strClearance[i].toUpperCase()), Enums.Location.valueOf(console), Enums.ColorsEnum.valueOf(strColor[i].toUpperCase()), count));
 //                        }
 //                    }
 //                    count++;
