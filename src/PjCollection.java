@@ -106,17 +106,6 @@ class PjCollection implements Serializable {
      */
     public static CopyOnWriteArrayList<Pj> removeLower(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = collection.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
-//        PjCollection.pjeys.retainAll(pjeys.stream().filter(n -> n.compareTo(pj) > -1).collect(Collectors.toList()));
-//        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
-//
-//        for (Pj pjiteratored : pjeys) {
-//            if (pj.compareTo(pjiteratored) == -1) {
-//                pjArrayList.add(pjiteratored);
-//            }
-//        }
-//        for (Pj pjiteratored : pjArrayList) {
-//            pjeys.remove(pjiteratored);
-//        }
         return collection;
     }
 
@@ -129,16 +118,7 @@ class PjCollection implements Serializable {
      */
     public static CopyOnWriteArrayList<Pj> removeGreater(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = pjeys.stream().filter(n -> n.compareTo(pj) == -1).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
-//        ArrayList<Pj> pjArrayList = new ArrayList<Pj>();
-//
-//        for (Pj pjiteratored : pjeys) {
-//            if (pj.compareTo(pjiteratored) == 1) {
-//                pjArrayList.add(pjiteratored);
-//            }
-//        }
-//        for (Pj pjiteratored : pjArrayList) {
-//            pjeys.remove(pjiteratored);
-//        }
+
         return collection;
     }
 
@@ -150,7 +130,6 @@ class PjCollection implements Serializable {
      */
     public static CopyOnWriteArrayList<Pj> remove(Pj pj, CopyOnWriteArrayList<Pj> collection) {
         collection = collection.stream().filter(n -> n.compareTo(pj) != 0).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
-//        pjeys.remove(pj);
         return collection;
     }
 

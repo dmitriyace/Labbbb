@@ -45,8 +45,13 @@ public class In {
                 color = ColorsEnum.valueOf(strColor);
 
                 id++;
+                try {
+                    Thread.sleep(2);
 
-                pjeys.add(new Pj(name, size, clearance, loca, color, id ));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                pjeys.add(new Pj(name, size, clearance, loca, color, id));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");

@@ -12,32 +12,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ServerWindow extends JFrame {
 
-    ////////MAKING DA TREEEEEEE
-//    final String[] nodes = new String[]{"Коллекция1", "Коллекция2"};
-//    final String[][] leafs = new String[][]{{"Чай", "Кофе", "Коктейль", "Сок", "Морс", "Минералка"},
-//            {"Пирожное", "Мороженое", "Зефир", "Халва"}};
-
-
-//    JPanel panel;
-//    ServerWindow thisWindow;
 
     private static final int width = 1000;
     private static final int height = 600;
     ServerWindow thisOne = this;
 
-//    JButton in = new JButton("load extra pyjamas");
     JButton save = new JButton("save collection");
     JButton addBtn = new JButton("add pyjama");
     JButton delete = new JButton("delete pyjama");
     JButton show = new JButton("show");
 
 
-//    JLabel empty = new JLabel("e");
 
 
     ServerWindow() {
         super("Menu");
-//        PjCollection.commands("in");
+
+
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
         File file = new File(".\\form.xml");
         String path = file.getAbsolutePath();
@@ -63,31 +54,24 @@ public class ServerWindow extends JFrame {
 
         JPanel panel1 = new JPanel(new GridLayout(7, 1));
         JPanel panel2 = new JPanel(new FlowLayout());
-//        save.setPreferredSize(new Dimension(40,40));
-//        delete.setPreferredSize(new Dimension(40,40));
-//        in.setPreferredSize(new Dimension(40,40));
-//        empty.setPreferredSize(new Dimension(40,40));
-//        addBtn.setPreferredSize(new Dimension(40,40));
-//        show.setPreferredSize(new Dimension(40,40));
+
         panel1.add(save);
         panel2.add(collectionTree);
         panel1.add(delete);
-//        panel1.add(in);
         panel1.add(addBtn);
         panel1.add(show);
-//        panel.add(new JScrollPane(tree2));
 
         this.add(panel1, BorderLayout.WEST);
         this.add(panel2, BorderLayout.CENTER);
         this.setVisible(true);
         this.setResizable(false);
+
         addBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
                 ServerWindow.super.setEnabled(false);
-                new ActAdd(thisOne);
+                new ActAdd(thisOne, collection);
             }
         });
         save.addMouseListener(new MouseAdapter() {
@@ -99,19 +83,17 @@ public class ServerWindow extends JFrame {
                 Output.save(path_save, collection);
             }
         });
+        delete.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ServerWindow.super.setEnabled(false);
+                new ActDelete(thisOne, collection);
+            }
+        });
     }
 
 
-    //
-//    void addButtons(JPanel panel) {
-//        JPanel jPanel = new JPanel();
-//        jPanel.setLayout(new GridLayout(5, 5));
-//
-//        addBtn.setPreferredSize(new Dimension(120, 120));
-//        jPanel.add(addBtn);
-//        jPanel.add(new Label("mmmmmmmm"));
-//
-//    }
     public static void main(String... args) {
         new ServerWindow();
 

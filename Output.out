@@ -1,7 +1,5 @@
 
-{"epj":"OK","epjc":"WASHED","name":"OH","loca":{"name":"NEAR_BED","ordinal":0},"color":"RED","dt":"06:22:46:670","id":1}
-{"epj":"LONG","epjc":"UNWASHED","name":"GRE","loca":{"name":"NEAR_KITCHEN","ordinal":1},"color":"WHITE","dt":"06:22:46:672","id":2}
-{"epj":"SHORT","epjc":"UNWASHED","name":"TCHA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"06:22:46:674","id":3}
-{"epj":"SHORT","epjc":"WASHED","name":"KA","loca":{"name":"LIVING_ROOM","ordinal":2},"color":"BLUE","dt":"06:22:46:676","id":4}
-{"epj":"LONG","epjc":"WASHED","name":"KAYA","loca":{"name":"SS","ordinal":3},"color":"BLUE","dt":"06:22:46:678","id":5}
-{"epj":"SHORT","epjc":"UNWASHED","name":"VSTRE","loca":{"name":"SS","ordinal":3},"color":"RED","dt":"06:22:46:679","id":6}
+{"epj":"OK","epjc":"WASHED","name":"OH","loca":"NEAR_BED","color":"RED","dt":"121","id":1}
+{"epj":"LONG","epjc":"UNWASHED","name":"GRE","loca":"NEAR_KITCHEN","color":"WHITE","dt":"126","id":2}
+{"epj":"SHORT","epjc":"UNWASHED","name":"TCHA","loca":"LIVING_ROOM","color":"BLUE","dt":"131","id":3}
+{"epj":"LONG","epjc":"WASHED","name":"KAYA","loca":"SS","color":"BLUE","dt":"137","id":4}

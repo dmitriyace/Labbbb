@@ -12,7 +12,7 @@ public class ServerSide extends JFrame{
 
 
         Server1 s1 = new Server1();
-        s1.go();
+//        s1.go();
 
     }
 

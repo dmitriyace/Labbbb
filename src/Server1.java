@@ -16,8 +16,8 @@ public class Server1 {
     private static CopyOnWriteArrayList<Pj> collection;
     private static ExecutorService executor = Executors.newFixedThreadPool(sizeOfPool);
 
-    //    public static void main(String... args) {
-    public static void go() {
+        public static void main(String... args) {
+//    public static void go() {
 //        String path = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\form.xml";
 //        String path = "D:\\0лабы\\Программирование(вуз)\\6\\Labbbb\\src\\form.xml";
 //        In.getPjeys(path, PjCollection.pjeys);

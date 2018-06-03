@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,17 +20,28 @@ public class ThreadServer1 implements Runnable {
 
     @Override
     public void run() {
+        File file = new File(".\\form.xml");
+        String path = file.getAbsolutePath();
+        In.getPjeys(path,collection);
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
                 try {
 
-//                    while (!command.equals("end") || !command.equals("q")) {
-                    while (true) {
-                        collection = (CopyOnWriteArrayList<Pj>) in.readObject();
-                        command = (String) in.readObject();
-                        if (command.startsWith("p"))
-                            CommandHandling.treat(command.substring(1), collection, out, in);
+
+        //  OLD WHILE TRUE
+//                    while (true) {
+//                        collection = (CopyOnWriteArrayList<Pj>) in.readObject();
+//                        command = (String) in.readObject();
+//                        if (command.startsWith("p"))
+//                            CommandHandling.treat(command.substring(1), collection, out, in);
+//                    }
+                    // NEW WHILE TRUE
+                    while (true){
+                        command = (String)in.readObject();
+                        if (command.startsWith("list")){
+                            out.writeObject(collection);
+                        }
                     }
                 } catch (ClassNotFoundException e) {
                     out.writeObject("File handle mistake!!!");

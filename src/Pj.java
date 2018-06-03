@@ -21,7 +21,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected ColorsEnum color;
     protected String h;
     transient SimpleDateFormat ft =
-            new SimpleDateFormat("hh:mm:ss:SSS");
+            new SimpleDateFormat("SSS");
     protected  String dt;
     int id;
     public static Pj defaultPj = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
