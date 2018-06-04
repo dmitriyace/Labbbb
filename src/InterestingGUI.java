@@ -3,21 +3,17 @@ import Enums.EPj;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InterestingGUI {
-
-    int x;
-    int y;
-    int width;
-    int height;
-    String name;
-    Color color;
-
+    public boolean alreadyReleased = false;
+    int kostyl=0;
     public static void main(String[] args) {
         new InterestingGUI().go();
     }
@@ -31,9 +27,6 @@ public class InterestingGUI {
         panel.setLocation(0, 0);
 
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-        File file = new File(".\\form.xml");
-        String path = file.getAbsolutePath();
-        In.getPjeys(path, collection);
 
 
 //        java.util.List<PBtn> list = new ArrayList<>();
@@ -47,16 +40,20 @@ public class InterestingGUI {
 //            list.add(new PBtn(x, y, width, height, name, color));
 //
 //        }
-        PBtn btn = new PBtn();
+//        btn.clearBtns();
         JPanel objectsPanel = new JPanel(null);
-
-        collection.forEach(e -> {
-            btn.addBtn(e.loca.getX(),e.loca.getY(),getSizeFromEnum(e.epj),2*getSizeFromEnum(e.epj),e.name,getColorFromEnum(e.color));
-        });
-        objectsPanel.add(btn);
         panel.add(objectsPanel);
         objectsPanel.setLocation(0, 0);
         objectsPanel.setSize(300, 300);
+
+        PBtn btn = new PBtn();
+        btn.setLocation(0, 0);
+        btn.setSize(300, 300);
+        collection.forEach(e -> {
+            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, getColorFromEnum(e.color));
+        });
+        objectsPanel.add(btn);
+
 
 //        list.forEach(n -> {
 //            objectsPanel.add(n);
@@ -68,23 +65,34 @@ public class InterestingGUI {
         clear.setLocation(250, 250);
         clear.setSize(30, 30);
         objectsPanel.add(clear);
-//        clear.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                super.mouseClicked(e);
-//                list.clear();
-//                list.forEach(e1->e1.repaint());
-//            }
-//        });
-//        clear.addActionListener(new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                list.clear();
-//                list.forEach(e1 -> e1.repaint());
-//            }
-//        });
+        clear.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn.clearBtns();
+                if (!alreadyReleased) {
+//                    if (kostyl!=3){
+                    File f = new File(".\\formtest.xml");
+                    String path = f.getAbsolutePath();
+                    In.getPjeys(path, collection);
+                    collection.forEach(n -> {
+                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+                    });
+//                    kostyl++;
+                    alreadyReleased = true;
+                } else {
+//                    kostyl=0;
+                    File file = new File(".\\form.xml");
+                    String path = file.getAbsolutePath();
+                    In.getPjeys(path, collection);
+                    collection.forEach(n -> {
+                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+                    });
+                    alreadyReleased = false;
+                }
+
+            }
+        });
         JPanel menuPanel = new JPanel(new GridLayout(10, 1));
-//        menuPanel.setBounds(0,335,200,300);
         menuPanel.setLocation(0, 355);
         menuPanel.setSize(400, 200);
         panel.add(menuPanel);
