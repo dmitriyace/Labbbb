@@ -28,18 +28,16 @@ public class ClientSide {
     public void go() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        DrawPanel dp = new DrawPanel();
-//        JPanel mainPanel = new JPanel();
+        JPanel dp = new JPanel();
         frame.getContentPane().add(dp);
 
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
         File file = new File(".\\form.xml");
         String path = file.getAbsolutePath();
         In.getPjeys(path, collection);
+
         frame.setSize(500, 500);
         frame.setVisible(true);
-
-
         opaque = true;
         for (Pj pj : collection) {
             Rects rect = new Rects();
@@ -54,7 +52,7 @@ public class ClientSide {
             color = getColorFromEnum(pj.color);
             width = getSizeFromEnum(pj.epj);
             height = (int) 1.8 * width;
-            dp.repaint();
+
         }
         opaque = false;
         System.out.println("ooo");
@@ -63,10 +61,10 @@ public class ClientSide {
     }
 
     //////////////////////////////////////
-    class DrawPanel extends JPanel {
+    class PaintButton extends JButton {
         private Rectangle rectangle = new Rectangle();
 
-        public DrawPanel() {
+        public PaintButton() {
             rectangle.setBounds(x, y, width, height);
 
 //            addMouseListener(new MouseMotionListener(){
@@ -93,12 +91,12 @@ public class ClientSide {
 
         @Override
         public void paintComponent(Graphics g) {
+            super.paintComponent(g);
             setToolTipText(name);
+
             if (opaque == true) {
                 g.setColor(color);
                 g.fillRect(x, y, width, height);
-
-
             }
         }
 

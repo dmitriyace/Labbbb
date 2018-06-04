@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<pijamacollection>
+    <pijama>
+        <pijamasize>long</pijamasize>
+        <pijamaclearance>washed</pijamaclearance>
+        <pijamalocation>near_bed</pijamalocation>
+        <pijamacolor>grey</pijamacolor>
+        <pijamaname>Oh</pijamaname>
+    </pijama>
+    <pijama>
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>near_kitchen</pijamalocation>
+        <pijamacolor>red</pijamacolor>
+        <pijamaname>Gre</pijamaname>
+
+    </pijama>
+    <pijama>
+        <pijamasize>ok</pijamasize>
+        <pijamaclearance>unwashed</pijamaclearance>
+        <pijamalocation>living_room</pijamalocation>
+        <pijamacolor>white</pijamacolor>
+        <pijamaname>Tcha</pijamaname>
+
+    </pijama>
+
+    <pijama>
+
+        <pijamasize>short</pijamasize>
+        <pijamaclearance>washed</pijamaclearance>
+        <pijamalocation>ss</pijamalocation>
+        <pijamacolor>blue</pijamacolor>
+        <pijamaname>Kaya</pijamaname>
+
+    </pijama>
+
+</pijamacollection>
