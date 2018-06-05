@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,27 +12,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class InterestingGUI {
-    public boolean alreadyReleased = false;
-    int kostyl = 0;
+    //    public boolean alreadyReleased = false;
+//    int kostyl = 0;
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-    String colorCheckBox;
+    String colorCheckBox = "";
+    boolean gotIt;
 
     public static void main(String[] args) {
         new InterestingGUI().go();
     }
 
     public void go() {
+        //создал фрейм и panel
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel panel = new JPanel(null);
         frame.setContentPane(panel);
         frame.setSize(800, 800);
         panel.setLocation(0, 0);
+        //создал объект класса PBtn
         PBtn btn = new PBtn();
 
-//        File file = new File(".\\formtest.xml");
-//        String path = file.getAbsolutePath();
-//        In.getPjeys(path, collection);
+        File file = new File(".\\formtest.xml");
+        String path = file.getAbsolutePath();
+        In.getPjeys(path, collection);
 //        collection.forEach(n -> {
 //            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
 //        });
@@ -50,96 +52,112 @@ public class InterestingGUI {
 //
 //        }
 //        btn.clearBtns();
+
+        System.out.println("создаю панель объектов");
+        //создал панель объектов
         JPanel objectsPanel = new JPanel(null);
         panel.add(objectsPanel);
         objectsPanel.setLocation(0, 0);
         objectsPanel.setSize(300, 300);
-
-
         btn.setLocation(0, 0);
         btn.setSize(300, 300);
+
+        //нарисовал
         collection.forEach(e -> {
             btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, getColorFromEnum(e.color));
         });
         objectsPanel.add(btn);
 
-
-//        list.forEach(n -> {
-//            objectsPanel.add(n);
-//            n.setBounds(n.x, n.y, n.width, n.height);
-////            n.repaint();
-//        });
-
+        //кнопка очистки канваса
         JButton clear = new JButton("clear");
-        clear.setLocation(250, 250);
-        clear.setSize(30, 30);
-//        objectsPanel.add(clear);
         clear.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.clearBtns();
-                collection.clear();
+//                collection.clear();
 //                if (!alreadyReleased) {
 //                    if (kostyl!=3){
-                File f = new File(".\\formtest.xml");
-                String path = f.getAbsolutePath();
-                In.getPjeys(path, collection);
-                collection = collection.stream().filter(n -> {
-//                    n.color.compareTo(ColorsEnum.WHITE);
-                    if (n.color.compareTo(ColorsEnum.WHITE) != 0) return true;
-                    else return false;
-                }).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
-                collection.forEach(n -> {
-                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-                });
 
+//                File f = new File(".\\formtest.xml");
+//                String path = f.getAbsolutePath();
+//                In.getPjeys(path, collection);
+                // фильтр по цвету
             }
         });
+
+        //кнопка фильтра
+        JButton filter = new JButton("filter");
+        filter.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
+                ArrayList<Pj> paintCollection = new ArrayList<>();
+                btn.clearBtns();
+
+                collection.forEach(n -> {
+//                    gotIt = false;
+                    filteredColors.forEach(cl -> {
+//                        if (!gotIt)
+                        if (n.color.compareTo(cl) == 0) {
+                            paintCollection.add(n);
+//                                gotIt = true;
+                            return;
+                        }
+                    });
+                });
+//                filteredColors.forEach(cl->{
+//                    paintCollection.stream().filter(n->{
+//                     if (n.color.compareTo(cl)==0) return true;
+//                     else return false;
+//                    });
+//                });
+
+//                collection = collection.stream().filter(n -> {
+//
+//                    if (n.color.compareTo(ColorsEnum.WHITE) != 0) return true;
+//                    else return false;
+//                }).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
+
+//                collection.forEach(n -> {
+//                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+//                });
+                paintCollection.forEach(n -> {
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+                });
+            }
+        });
+
+        //добавляю панель меню, на него добавляю фильтры и кнопки
         JPanel menuPanel = new JPanel(new GridLayout(10, 1));
         menuPanel.setLocation(0, 355);
         menuPanel.setSize(400, 200);
         panel.add(menuPanel);
-//        JLabel lbl = new JLabel("fsrgr");
-//        menuPanel.add(lbl);
         menuPanel.add(clear);
-//        lbl.setLocation(10, 10);
-//        lbl.setSize(25, 25);
+        menuPanel.add(filter);
+        //чекбоксы
         List<JCheckBox> cList = new ArrayList<>();
         JCheckBox blue = new JCheckBox("blue");
-        blue.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                getColorsString(cList);
-            }
-        });
         JCheckBox white = new JCheckBox("white");
-        white.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                getColorsString(cList);
-            }
-        });
         JCheckBox grey = new JCheckBox("grey");
-        grey.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                getColorsString(cList);
-            }
-        });
         JCheckBox red = new JCheckBox("red");
-        red.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                getColorsString(cList);
-            }
-        });
         cList.add(blue);
         cList.add(white);
         cList.add(grey);
         cList.add(red);
         cList.forEach(e -> {
             menuPanel.add(e);
+            e.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    getColorsString(cList);
+                }
+            });
         });
+        //текстфилд
+        JTextField sizeFilter = new JTextField();
+        
+        menuPanel.add(new JLabel("show pj by her name"));
+        menuPanel.add(sizeFilter);
         frame.setVisible(true);
     }
 
@@ -160,6 +178,23 @@ public class InterestingGUI {
         }
     }
 
+    public ArrayList<ColorsEnum> getColorFromCheckBox(String s) {
+        ArrayList<ColorsEnum> colorArray = new ArrayList<>();
+        if (s.contains("blue")) {
+            colorArray.add(ColorsEnum.BLUE);
+        }
+        if (s.contains("red")) {
+            colorArray.add(ColorsEnum.RED);
+        }
+        if (s.contains("white")) {
+            colorArray.add(ColorsEnum.WHITE);
+        }
+        if (s.contains("grey")) {
+            colorArray.add(ColorsEnum.GREY);
+        }
+        return colorArray;
+    }
+
     public int getSizeFromEnum(EPj size) {
         switch (size) {
             case OK:
@@ -172,10 +207,6 @@ public class InterestingGUI {
                 return 30;
         }
     }
-
-//    public void updColorsFilter(ArrayList<JCheckBox> cList) {
-//        colorCheckBox = getColorsString(cList);
-//    }
 
     public String getColorsString(List<JCheckBox> cList) {
         colorCheckBox = "";
