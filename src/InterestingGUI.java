@@ -32,12 +32,12 @@ public class InterestingGUI {
         PBtn btn = new PBtn();
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
 
-        File f = new File(".\\formtest.xml");
-        String path = f.getAbsolutePath();
-        In.getPjeys(path, collection);
-        collection.forEach(n -> {
-            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-        });
+//        File file = new File(".\\formtest.xml");
+//        String path = file.getAbsolutePath();
+//        In.getPjeys(path, collection);
+//        collection.forEach(n -> {
+//            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+//        });
 
 //        java.util.List<PBtn> list = new ArrayList<>();
 //        for (Pj pj : collection) {
@@ -74,11 +74,12 @@ public class InterestingGUI {
         JButton clear = new JButton("clear");
         clear.setLocation(250, 250);
         clear.setSize(30, 30);
-        objectsPanel.add(clear);
+//        objectsPanel.add(clear);
         clear.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.clearBtns();
+                collection.clear();
                 if (!alreadyReleased) {
 //                    if (kostyl!=3){
                     File f = new File(".\\formtest.xml");
@@ -91,12 +92,12 @@ public class InterestingGUI {
                     alreadyReleased = true;
                 } else {
 //                    kostyl=0;
-//                    File file = new File(".\\form.xml");
-//                    String path = file.getAbsolutePath();
-//                    In.getPjeys(path, collection);
-//                    collection.forEach(n -> {
-//                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-//                    });
+                    File file = new File(".\\form.xml");
+                    String path = file.getAbsolutePath();
+                    In.getPjeys(path, collection);
+                    collection.forEach(n -> {
+                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+                    });
                     alreadyReleased = false;
                 }
 
@@ -108,6 +109,7 @@ public class InterestingGUI {
         panel.add(menuPanel);
         JLabel lbl = new JLabel("fsrgr");
         menuPanel.add(lbl);
+        menuPanel.add(clear);
         lbl.setLocation(10, 10);
         lbl.setSize(25, 25);
         List<JCheckBox> cList = new ArrayList<>();
@@ -201,26 +203,27 @@ class PBtn extends JComponent {
     }
     void addBtn(int x, int y, int width, int height, String name, Color color) {
         MyBtn myBtn = new MyBtn(x, y, width, height, name, color);
-//        this.addMouseMotionListener(new MouseMotionListener() {
-//            @Override
-//            public void mouseDragged(MouseEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void mouseMoved(MouseEvent e) {
-//                if (myBtn.contains(e.getPoint())){
-//                    setToolTipText(name);
-//                }
-//                ToolTipManager.sharedInstance().mouseMoved(e);
-//            }
-//        });
-        addMouseListener(new MouseAdapter() {
+        this.addMouseMotionListener(new MouseMotionListener() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                setToolTipText(name);
+            public void mouseDragged(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (myBtn.contains(e.getPoint())){
+                    setToolTipText(name);
+                }
+                ToolTipManager.sharedInstance().mouseMoved(e);
             }
         });
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                setToolTipText(name);
+//            }
+//        });
+        myBtns.add(myBtn);
         repaint();
     }
     void clearBtns() {
@@ -236,6 +239,7 @@ class PBtn extends JComponent {
 //            graphics2D.fillRect(n.x, n.y, n.width, n.height);
             graphics2D.setColor(n.color);
             graphics2D.draw(n);
+            graphics2D.fill(n);
         });
 
     }
