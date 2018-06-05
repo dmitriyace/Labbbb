@@ -2,6 +2,8 @@ import Enums.ColorsEnum;
 import Enums.EPj;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -15,8 +17,11 @@ public class InterestingGUI {
     //    public boolean alreadyReleased = false;
 //    int kostyl = 0;
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-    String colorCheckBox = "";
-    boolean gotIt;
+    String colorCheckBox = "blueredwhitegrey";
+    //    boolean gotIt;
+    boolean ifSizeCorrect = false;
+    EPj saveCorrectSize;
+    ArrayList<Pj> paintCollection;
 
     public static void main(String[] args) {
         new InterestingGUI().go();
@@ -91,16 +96,14 @@ public class InterestingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
-                ArrayList<Pj> paintCollection = new ArrayList<>();
+                paintCollection = new ArrayList<>();
                 btn.clearBtns();
 
+                //по цветам
                 collection.forEach(n -> {
-//                    gotIt = false;
                     filteredColors.forEach(cl -> {
-//                        if (!gotIt)
                         if (n.color.compareTo(cl) == 0) {
                             paintCollection.add(n);
-//                                gotIt = true;
                             return;
                         }
                     });
@@ -121,6 +124,16 @@ public class InterestingGUI {
 //                collection.forEach(n -> {
 //                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
 //                });
+                if (ifSizeCorrect) {
+                    paintCollection = paintCollection.stream().filter(n -> {
+                        if (n.getSize().compareTo(saveCorrectSize) == 0) return true;
+                        return false;
+//                                System.out.println(n.name);
+//                                return true;
+                    }).collect(Collectors.toCollection(ArrayList::new));
+                }
+
+
                 paintCollection.forEach(n -> {
                     btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
                 });
@@ -146,6 +159,7 @@ public class InterestingGUI {
         cList.add(red);
         cList.forEach(e -> {
             menuPanel.add(e);
+            e.setSelected(true);
             e.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
@@ -154,13 +168,54 @@ public class InterestingGUI {
             });
         });
         //текстфилд
-        JTextField sizeFilter = new JTextField();
-        
+        JTextField sizeField = new JTextField();
+        JLabel checkTextField = new JLabel();
+        sizeField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!checkSize(sizeField.getText())) {
+                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
+                } else checkTextField.setText("");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (!checkSize(sizeField.getText())) {
+                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
+                } else checkTextField.setText("");
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+//                if (!checkSize(sizeField.getText())) {
+//                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
+//                }else checkTextField.setText("");
+            }
+        });
         menuPanel.add(new JLabel("show pj by her name"));
-        menuPanel.add(sizeFilter);
+        menuPanel.add(sizeField);
+        menuPanel.add(checkTextField);
+
+        //спиннер
+        String[] clearance = {"washed", "unwashed", "none"};
+        SpinnerListModel model = new SpinnerListModel(clearance);
+        JSpinner spinClearance = new JSpinner(model);
+        menuPanel.add(spinClearance);
+
         frame.setVisible(true);
     }
 
+
+    public boolean checkSize(String s) {
+        try {
+            saveCorrectSize = EPj.valueOf(s.toUpperCase());
+            ifSizeCorrect = true;
+            return ifSizeCorrect;
+        } catch (IllegalArgumentException iae) {
+            ifSizeCorrect = false;
+            return ifSizeCorrect;
+        }
+    }
 
     public Color getColorFromEnum(ColorsEnum e) {
         Color color;
