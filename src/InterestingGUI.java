@@ -4,6 +4,9 @@ import Enums.EPj;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,7 +16,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InterestingGUI {
     public boolean alreadyReleased = false;
-    int kostyl=0;
+    int kostyl = 0;
+
     public static void main(String[] args) {
         new InterestingGUI().go();
     }
@@ -25,9 +29,15 @@ public class InterestingGUI {
         frame.setContentPane(panel);
         frame.setSize(800, 800);
         panel.setLocation(0, 0);
-
+        PBtn btn = new PBtn();
         CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
 
+        File f = new File(".\\formtest.xml");
+        String path = f.getAbsolutePath();
+        In.getPjeys(path, collection);
+        collection.forEach(n -> {
+            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+        });
 
 //        java.util.List<PBtn> list = new ArrayList<>();
 //        for (Pj pj : collection) {
@@ -46,7 +56,7 @@ public class InterestingGUI {
         objectsPanel.setLocation(0, 0);
         objectsPanel.setSize(300, 300);
 
-        PBtn btn = new PBtn();
+
         btn.setLocation(0, 0);
         btn.setSize(300, 300);
         collection.forEach(e -> {
@@ -81,12 +91,12 @@ public class InterestingGUI {
                     alreadyReleased = true;
                 } else {
 //                    kostyl=0;
-                    File file = new File(".\\form.xml");
-                    String path = file.getAbsolutePath();
-                    In.getPjeys(path, collection);
-                    collection.forEach(n -> {
-                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-                    });
+//                    File file = new File(".\\form.xml");
+//                    String path = file.getAbsolutePath();
+//                    In.getPjeys(path, collection);
+//                    collection.forEach(n -> {
+//                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+//                    });
                     alreadyReleased = false;
                 }
 
@@ -156,8 +166,25 @@ public class InterestingGUI {
 
 class PBtn extends JComponent {
     private LinkedList<MyBtn> myBtns = new LinkedList<>();
-
-    static class MyBtn {
+//    static class MyBtn {
+//        int x;
+//        int y;
+//        int width;
+//        int height;
+//        String name;
+//        Color color;
+//
+//        MyBtn(int x, int y, int width, int height, String name, Color color) {
+//            this.x = x;
+//            this.y = y;
+//            this.color = color;
+//            this.height = height;
+//            this.width = width;
+//            this.name = name;
+//        }
+//
+//    }
+    static class MyBtn extends Rectangle {
         int x;
         int y;
         int width;
@@ -166,34 +193,49 @@ class PBtn extends JComponent {
         Color color;
 
         MyBtn(int x, int y, int width, int height, String name, Color color) {
-            this.x = x;
-            this.y = y;
+            this.setBounds(x, y, width, height);
             this.color = color;
-            this.height = height;
-            this.width = width;
-            this.name = name;
 
         }
 
     }
-
     void addBtn(int x, int y, int width, int height, String name, Color color) {
-        myBtns.add(new MyBtn(x, y, width, height, name, color));
+        MyBtn myBtn = new MyBtn(x, y, width, height, name, color);
+//        this.addMouseMotionListener(new MouseMotionListener() {
+//            @Override
+//            public void mouseDragged(MouseEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void mouseMoved(MouseEvent e) {
+//                if (myBtn.contains(e.getPoint())){
+//                    setToolTipText(name);
+//                }
+//                ToolTipManager.sharedInstance().mouseMoved(e);
+//            }
+//        });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setToolTipText(name);
+            }
+        });
         repaint();
     }
-
     void clearBtns() {
         myBtns.clear();
         repaint();
     }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
         myBtns.forEach(n -> {
+//            graphics2D.setColor(n.color);
+//            graphics2D.fillRect(n.x, n.y, n.width, n.height);
             graphics2D.setColor(n.color);
-            graphics2D.fillRect(n.x, n.y, n.width, n.height);
+            graphics2D.draw(n);
         });
 
     }
