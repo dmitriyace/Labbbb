@@ -3,20 +3,20 @@ import Enums.EPj;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class InterestingGUI {
     public boolean alreadyReleased = false;
     int kostyl = 0;
+    CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
+    String colorCheckBox;
 
     public static void main(String[] args) {
         new InterestingGUI().go();
@@ -30,7 +30,6 @@ public class InterestingGUI {
         frame.setSize(800, 800);
         panel.setLocation(0, 0);
         PBtn btn = new PBtn();
-        CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
 
 //        File file = new File(".\\formtest.xml");
 //        String path = file.getAbsolutePath();
@@ -80,26 +79,19 @@ public class InterestingGUI {
             public void actionPerformed(ActionEvent e) {
                 btn.clearBtns();
                 collection.clear();
-                if (!alreadyReleased) {
+//                if (!alreadyReleased) {
 //                    if (kostyl!=3){
-                    File f = new File(".\\formtest.xml");
-                    String path = f.getAbsolutePath();
-                    In.getPjeys(path, collection);
-                    collection.forEach(n -> {
-                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-                    });
-//                    kostyl++;
-                    alreadyReleased = true;
-                } else {
-//                    kostyl=0;
-                    File file = new File(".\\form.xml");
-                    String path = file.getAbsolutePath();
-                    In.getPjeys(path, collection);
-                    collection.forEach(n -> {
-                        btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
-                    });
-                    alreadyReleased = false;
-                }
+                File f = new File(".\\formtest.xml");
+                String path = f.getAbsolutePath();
+                In.getPjeys(path, collection);
+                collection = collection.stream().filter(n -> {
+//                    n.color.compareTo(ColorsEnum.WHITE);
+                    if (n.color.compareTo(ColorsEnum.WHITE) != 0) return true;
+                    else return false;
+                }).collect(Collectors.toCollection(CopyOnWriteArrayList<Pj>::new));
+                collection.forEach(n -> {
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, getColorFromEnum(n.color));
+                });
 
             }
         });
@@ -107,31 +99,47 @@ public class InterestingGUI {
         menuPanel.setLocation(0, 355);
         menuPanel.setSize(400, 200);
         panel.add(menuPanel);
-        JLabel lbl = new JLabel("fsrgr");
-        menuPanel.add(lbl);
+//        JLabel lbl = new JLabel("fsrgr");
+//        menuPanel.add(lbl);
         menuPanel.add(clear);
-        lbl.setLocation(10, 10);
-        lbl.setSize(25, 25);
+//        lbl.setLocation(10, 10);
+//        lbl.setSize(25, 25);
         List<JCheckBox> cList = new ArrayList<>();
         JCheckBox blue = new JCheckBox("blue");
+        blue.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                getColorsString(cList);
+            }
+        });
         JCheckBox white = new JCheckBox("white");
+        white.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                getColorsString(cList);
+            }
+        });
         JCheckBox grey = new JCheckBox("grey");
+        grey.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                getColorsString(cList);
+            }
+        });
         JCheckBox red = new JCheckBox("red");
+        red.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                getColorsString(cList);
+            }
+        });
         cList.add(blue);
         cList.add(white);
         cList.add(grey);
         cList.add(red);
-        int changeLocation;
         cList.forEach(e -> {
-//            e.setLocation(25, 25);
-//            e.setSize(50, 15);
             menuPanel.add(e);
         });
-//        panel.remove(objectsPanel);
-//        menuPanel.add(blue);
-//        menuPanel.add(white);
-//        menuPanel.add(grey);
-//        menuPanel.add(red);
         frame.setVisible(true);
     }
 
@@ -164,11 +172,29 @@ public class InterestingGUI {
                 return 30;
         }
     }
+
+//    public void updColorsFilter(ArrayList<JCheckBox> cList) {
+//        colorCheckBox = getColorsString(cList);
+//    }
+
+    public String getColorsString(List<JCheckBox> cList) {
+        colorCheckBox = "";
+        cList.forEach(e -> {
+            if (e.isSelected()) {
+                colorCheckBox += e.getText();
+            }
+        });
+        System.out.println(colorCheckBox);
+        return colorCheckBox;
+    }
+
+
 }
 
 class PBtn extends JComponent {
     private LinkedList<MyBtn> myBtns = new LinkedList<>();
-//    static class MyBtn {
+
+    //    static class MyBtn {
 //        int x;
 //        int y;
 //        int width;
@@ -201,6 +227,7 @@ class PBtn extends JComponent {
         }
 
     }
+
     void addBtn(int x, int y, int width, int height, String name, Color color) {
         MyBtn myBtn = new MyBtn(x, y, width, height, name, color);
         this.addMouseMotionListener(new MouseMotionListener() {
@@ -211,7 +238,7 @@ class PBtn extends JComponent {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (myBtn.contains(e.getPoint())){
+                if (myBtn.contains(e.getPoint())) {
                     setToolTipText(name);
                 }
                 ToolTipManager.sharedInstance().mouseMoved(e);
@@ -226,10 +253,12 @@ class PBtn extends JComponent {
         myBtns.add(myBtn);
         repaint();
     }
+
     void clearBtns() {
         myBtns.clear();
         repaint();
     }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -245,3 +274,4 @@ class PBtn extends JComponent {
     }
 
 }
+
