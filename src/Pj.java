@@ -14,7 +14,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected EPj epj;
     protected EPjc epjc;
 
-//    protected Type t;
+    //    protected Type t;
     protected Emotional e;
     protected String name;
     protected Location loca;
@@ -22,9 +22,9 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected String h;
     transient SimpleDateFormat ft =
             new SimpleDateFormat("SSS");
-    protected  String dt;
+    protected String dt;
     int id;
-    public static Pj defaultPj = new Pj("default",EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
+    public static Pj defaultPj = new Pj("default", EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
 
     public Pj(String name, EPj epj, EPjc epjc, Location loca, ColorsEnum color, int num) {
         this.name = name;
@@ -37,7 +37,9 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
 
     }
 
-
+    public void setColor(ColorsEnum color) {
+        this.color = color;
+    }
 
     public EPj getSize() {
         return epj;
