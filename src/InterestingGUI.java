@@ -9,11 +9,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class InterestingGUI {
@@ -28,8 +26,9 @@ public class InterestingGUI {
     int red;
     int green;
     int blue;
-    Timer timer;
+    Timer timer1;
     PBtn btn;
+    int i;
     //    int animR;
 //    int animB;
 //    final int colorGr = new Color(192, 192, 192).getRGB();
@@ -164,34 +163,57 @@ public class InterestingGUI {
         //кнопка анимации
         JButton anime = new JButton("anime");
         isGrey = false;
-        ActionListener paintActions = new ActionListener() {
+
+        ActionListener paintGrey = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                LinkedList<PBtn.MyBtn> save = btn.getMyBtns();
-                btn.clearBtns();
-
-                save.forEach(n -> {
+//                LinkedList<PBtn.MyBtn> save = btn.getMyBtns();
+//                btn.clearBtns();
+                i = 0;
+                btn.getMyBtns().forEach(n -> {
                     if (!ifGrey(n.color)) {
                         n.color = new Color(changeToGrey(n.color.getRed()), changeToGrey(n.color.getGreen()), changeToGrey(n.color.getBlue()));
-                        btn.addBtn(n);
-                    } else isGrey=true;
+                        i++;
+//                        btn.addBtn(n);
+                    } else {
+                        isGrey = true;
+//                        System.out.println(isGrey);
+                    }
                 });
+                if (i == 0) {
+                    stop();
+                    System.out.println("разворот");
+
+                }
                 btn.repaint();
 
             }
         };
 
-        timer = new Timer(delay, paintActions);
-//        timer.setInitialDelay(0);
-//        timer.start();
+        ActionListener paintBack = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn.getMyBtns().forEach(n -> {
+//                    if () {
+//                        n.color = new Color()
+//                    }
+                });
+            }
+        };
+
+        timer1 = new Timer(delay, paintGrey);
+//        timer2 = new Timer(delay, );
+        System.out.print("");
+//        timer1.setInitialDelay(0);
+//        timer1.start();
 //        System.out.println(new Date());
 //        try {
 //            Thread.sleep(timeOfAnime);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-//        timer.stop();
+//        timer1.stop();
 //        System.out.println(new Date());
         anime.addActionListener(new AbstractAction() {
             @Override
@@ -213,25 +235,48 @@ public class InterestingGUI {
 
         frame.setVisible(true);
     }
+
     public void start() {
-        timer.start();
+        timer1.start();
     }
 
     public void stop() {
-        timer.stop();
+        timer1.stop();
     }
 
     public boolean ifGrey(Color color) {
-        if (color.getBlue() == color.getGreen()
-                && color.getGreen() == color.getRed()
-                && color.getGreen() == 192) {
+        if (Math.abs(color.getRed() - 192) < 10 && (Math.abs(color.getBlue() - 192) < 10) && (Math.abs(color.getGreen() - 192) < 10)) {
             return true;
-        }
-        return false;
+        } else return false;
     }
 
+    public boolean ifRed(Color color) {
+        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 0) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
+            return true;
+        } else return false;
+    }
+
+    public boolean ifBlue(Color color) {
+        if (Math.abs(color.getRed() - 0) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
+            return true;
+        } else return false;
+    }
+
+    public boolean ifWhite(Color color) {
+        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 255) < 10)) {
+            return true;
+        } else return false;
+    }
+
+//    public int changeToRed(int r, int g, int b) {
+//        int rStep = getStep(r,255);
+//        int gStep = getStep(g,0);
+//        int bStep = getStep(b,0);
+////        if ( ==)
+//    }
+
     public int changeToGrey(int definedColor) {
-        int step = getStep(definedColor);
+        int step = getStep(definedColor, 192);
         if (definedColor == greySpektr) {
             return greySpektr;
         } else if (definedColor < greySpektr) {
@@ -242,25 +287,13 @@ public class InterestingGUI {
         return greySpektr;
     }
 
-    public int getStep(int definedColor) {
-        if (definedColor == greySpektr)
+    public int getStep(int definedColor, int spektr) {
+        if (definedColor == spektr)
             return 0;
-        else if (definedColor < greySpektr)
-            return (greySpektr - definedColor) / (timeOfAnime / delay);
-        else return (definedColor - greySpektr) / (timeOfAnime / delay);
+        else if (definedColor < spektr)
+            return (spektr - definedColor) / (timeOfAnime / delay);
+        else return (definedColor - spektr) / (timeOfAnime / delay);
     }
-
-//    public void timerWork(){
-//        Timer timer = new Timer(30,)
-//    }
-
-//    public void anime(int animation, Color color) {
-//        int colorRed = new Color(255, 0, 0).getRGB();
-//        int colorBlue = new Color(0, 0, 255).getRGB();
-//
-//        int colorWhite = new Color(255, 255, 255).getRGB();
-//        animB = colorBlue - colorGr;
-//    }
 
 
     public boolean spinnerSetted() {
@@ -271,7 +304,7 @@ public class InterestingGUI {
         return false;
     }
 
-    public void filterM(){
+    public void filterM() {
         ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
         paintCollection = new ArrayList<>();
         btn.clearBtns();
@@ -305,6 +338,7 @@ public class InterestingGUI {
             btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color));
         });
     }
+
     public boolean checkSize(String s) {
         try {
             saveCorrectSize = EPj.valueOf(s.toUpperCase());
@@ -417,7 +451,7 @@ class PBtn extends JComponent {
         repaint();
     }
 
-    void addBtn(MyBtn m){
+    void addBtn(MyBtn m) {
         MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override

@@ -333,15 +333,15 @@ public class Client1 {
 //                    return timer1.isRunning() || timer2.isRunning();
 //                }
 //            }
-//            DoubleTimer timer = new DoubleTimer();
+//            DoubleTimer timer1 = new DoubleTimer();
 //            JButton stop = new JButton("stop");
 //            stop.addActionListener((event) -> {
 //                try {
-//                    if (!timer.isRunning())
+//                    if (!timer1.isRunning())
 //                        throw new NullPointerException();
 //                    else {
-//                        timer.stop();
-//                        timer.reset();
+//                        timer1.stop();
+//                        timer1.reset();
 //                        canvas.setStaticDraw(true);
 //                        canvas.repaint();
 //                        JOptionPane.showMessageDialog(this, "Анимация остановлена!", "Stop", JOptionPane.INFORMATION_MESSAGE);
@@ -382,7 +382,7 @@ public class Client1 {
 //            panel.add(colorPanel);
 //
 ////            start.addActionListener((event) -> {
-////                if (timer.isRunning()) {
+////                if (timer1.isRunning()) {
 ////                    JOptionPane.showMessageDialog(this, "Анимация уже запущена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
 ////                    return;
 ////                }
@@ -396,7 +396,7 @@ public class Client1 {
 ////                    JOptionPane.showMessageDialog(this, "Нет подходящих животных!", "Ошибка", JOptionPane.ERROR_MESSAGE);
 ////                    return;
 ////                }
-////                timer.set((event1)->{
+////                timer1.set((event1)->{
 ////                    animation.forEach(e->{
 ////                       e.getKey().setSize(e.getKey().getWidth());
 ////                    });
