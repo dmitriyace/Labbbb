@@ -38,10 +38,6 @@ public class InterestingGUI {
     Timer timer2;
     PBtn btn;
     int i;
-    //    int animR;
-//    int animB;
-//    final int colorGr = new Color(192, 192, 192).getRGB();
-//    int animW;
     boolean isGrey;
     int step;
     int stepRed;
@@ -88,7 +84,7 @@ public class InterestingGUI {
 //        String path = file.getAbsolutePath();
 //        In.getPjeys(path, collection);
 
-        System.out.println("получаю пижамы первый раз");
+        System.out.println("get pjs first time");
         try {
             writer.writeObject("list");
             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
@@ -97,7 +93,7 @@ public class InterestingGUI {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        System.out.println(collection.size());
 
         System.out.println("создаю панель объектов");
         //создал панель объектов
@@ -124,7 +120,7 @@ public class InterestingGUI {
             }
         });
 
-        //
+        //кнопка обновления
         JButton refresh = new JButton();
         refresh.addActionListener(new ActionListener() {
             @Override
@@ -132,6 +128,7 @@ public class InterestingGUI {
                 collection = refreshCollection();
             }
         });
+
 
         //кнопка фильтра
         JButton filter = new JButton("filter");
@@ -271,6 +268,7 @@ public class InterestingGUI {
         });
         menuPanel.add(stop);
         menuPanel.add(anime);
+        menuPanel.add(refresh);
 
         frame.setVisible(true);
     }
@@ -284,7 +282,7 @@ public class InterestingGUI {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        return new CopyOnWriteArrayList<>();
     }
 
     public void start1() {

@@ -133,7 +133,7 @@ class PjCollection implements Serializable {
         return collection;
     }
 
-    public static void getElemByString(String line) {
+    public static Pj getElemByString(String line) {
         pj_save = Pj.defaultPj;
         Scanner scan_element = new Scanner(line);
         scan_element.useDelimiter("\",");
@@ -143,7 +143,8 @@ class PjCollection implements Serializable {
         String clearance = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("name\":\"", 30);
         String name = scan_element.next().trim().toUpperCase();
-        poisk = scan_element.findWithinHorizon("loca\":\\{\"name\":\"", 30);
+        poisk = scan_element.findWithinHorizon("loca\":\\{\"name\":\"", 40);
+        if (poisk==null) poisk= scan_element.findWithinHorizon("loca\":\"",30);
         String location = scan_element.next().trim().toUpperCase();
         poisk = scan_element.findWithinHorizon("color\":\"", 40);
         String color = scan_element.next().trim().toUpperCase();
@@ -162,6 +163,7 @@ class PjCollection implements Serializable {
         pj_save.name = name;
         pj_save.dt = date;
 
+        return pj_save;
     }
 
     protected static String formatOut(Pj pj) {

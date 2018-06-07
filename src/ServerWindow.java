@@ -22,17 +22,16 @@ public class ServerWindow extends JFrame {
     JButton delete = new JButton("delete pyjama");
     JButton show = new JButton("show");
 
-
+    CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
 
 
     ServerWindow() {
         super("Menu");
 
-
-        CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
         File file = new File(".\\form.xml");
         String path = file.getAbsolutePath();
         In.getPjeys(path, collection);
+
 
         String saveProperties[] = new String[collection.size()];
         int j = 0;

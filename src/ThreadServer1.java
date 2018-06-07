@@ -8,38 +8,30 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ThreadServer1 implements Runnable {
     private Socket client;
-    private CopyOnWriteArrayList<Pj> collection;
+    private CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
     private String way;
+    ServerWindow GUI;
     String command;
-    String answer;
-//    PjCollection collectionFromClient;
 
-    public ThreadServer1(Socket client) {
+
+    public ThreadServer1(Socket client, ServerWindow GUI) {
         this.client = client;
+        this.GUI = GUI;
     }
 
     @Override
     public void run() {
         File file = new File(".\\form.xml");
         String path = file.getAbsolutePath();
-        In.getPjeys(path,collection);
+        In.getPjeys(path, collection);
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
                 try {
-
-
-        //  OLD WHILE TRUE
-//                    while (true) {
-//                        collection = (CopyOnWriteArrayList<Pj>) in.readObject();
-//                        command = (String) in.readObject();
-//                        if (command.startsWith("p"))
-//                            CommandHandling.treat(command.substring(1), collection, out, in);
-//                    }
-                    // NEW WHILE TRUE
-                    while (true){
-                        command = (String)in.readObject();
-                        if (command.startsWith("list")){
+                    while (true) {
+                        command = (String) in.readObject();
+                        if (command.startsWith("list")) {
+                            collection = GUI.collection;
                             out.writeObject(collection);
                         }
                     }
@@ -49,8 +41,7 @@ public class ThreadServer1 implements Runnable {
                     out.writeObject("Command format trouble");
                 } catch (SocketException se) {
                     System.err.println("client disconnected");
-                }
-                finally {
+                } finally {
                     out.flush();
                     in.close();
                     out.close();

@@ -13,17 +13,17 @@ import java.util.concurrent.Executors;
 public class Server1 {
     private final static int port = 1111;
     private final static int sizeOfPool = 5;
-    private static CopyOnWriteArrayList<Pj> collection;
     private static ExecutorService executor = Executors.newFixedThreadPool(sizeOfPool);
 
         public static void main(String... args) {
 
         try {
+            ServerWindow serverGUI = new ServerWindow();
             ServerSocket server = new ServerSocket(port);
             while (!server.isClosed()) {
                 Socket client = server.accept();
                 System.out.println("connected");
-                executor.execute(new ThreadServer1(client));
+                executor.execute(new ThreadServer1(client, serverGUI));
             }
         } catch (IOException e) {
 

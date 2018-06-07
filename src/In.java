@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class In {
 
-    public static void getPjeys(String path, CopyOnWriteArrayList<Pj> pjeys) {
+    public static void getPjeys(String path, CopyOnWriteArrayList<Pj> collection) {
         String checkheroname = "", strSize, strClear, strLocation, strColor;
         EPj size;
         EPjc clearance;
@@ -51,7 +51,7 @@ public class In {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                pjeys.add(new Pj(name, size, clearance, loca, color, id));
+                collection.add(new Pj(name, size, clearance, loca, color, id));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");

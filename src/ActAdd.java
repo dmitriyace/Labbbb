@@ -4,22 +4,28 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class ActAdd extends JFrame {
     final static int width = 500;
     final static int height = 500;
 
     boolean succeed;
-
+    String checkFields;
     JLabel addLabel = new JLabel("fill object properties");
     JLabel empty = new JLabel();
     JButton checkBtn = new JButton("check and add");
     JButton cancel = new JButton("cancel");
+    CopyOnWriteArrayList<Pj> checkCollection = new CopyOnWriteArrayList<>();
 
     ServerWindow parent;
 
     JTextField[] fields = {
+            new JTextField(""),
             new JTextField(""),
             new JTextField(""),
             new JTextField(""),
@@ -33,12 +39,12 @@ public class ActAdd extends JFrame {
         this.parent = parent;
         parent.setEnabled(false);
         parent.setVisible(true);
-
+        checkCollection = collection;
         this.setVisible(true);
         this.setBounds(100, 10, width, height);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 2, 2, 1));
+        panel.setLayout(new GridLayout(10, 2, 2, 1));
         panel.add(addLabel);
 
         JLabel[] labels = {
@@ -46,7 +52,8 @@ public class ActAdd extends JFrame {
                 new JLabel("Size"),
                 new JLabel("Clearance"),
                 new JLabel("Wardrobe location"),
-                new JLabel("Color")};
+                new JLabel("Color"),
+                new JLabel("id")};
 
         panel.add(empty);
         for (int i = 0; i < labels.length; i++) {
@@ -60,18 +67,40 @@ public class ActAdd extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                succeed=false;
-                ActAdd.super.setVisible(false);
-                parent.setVisible(true);
-                parent.setEnabled(true);
+                Pj pj;
+                try {
+                    pj = PjCollection.getElemByString(makeElem(fields));
+                    checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+                    if (checkCollection.size() > 0) {
+
+                    } else {
+                        ActAdd.super.setVisible(false);
+                        parent.setVisible(true);
+                        parent.setEnabled(true);
+                    }
+
+                } catch (NoSuchElementException nnn) {
+                    nnn.printStackTrace();
+//                    System.err.println("wrong parameter");
+                }
+
             }
         });
 
 
-
     }
 
-
+    public String makeElem(JTextField[] fields) {
+        checkFields = (
+                "epj\":\"" + fields[1].getText() +"\","+
+                        "epjc\":\"" + fields[2].getText() +"\","+
+                        "name\":\"" + fields[0].getText() +"\","+
+                        "loca\":\"" + fields[3].getText() +"\","+
+                        "color\":\"" + fields[4].getText() +"\","+
+                        "dt\":\"" + new SimpleDateFormat("SSS").format(new Date()) +"\","+
+                        "id\":" + fields[0].getText());
+        return checkFields;
+    }
 
 
     public static void main(String... args) {
