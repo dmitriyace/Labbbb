@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
 
-class MyTimerTask extends TimerTask {
+class test {
     boolean ok = true;
 
 //    public static void main(String[] args) {
@@ -29,11 +29,12 @@ class MyTimerTask extends TimerTask {
 //    }
 
     public static void main(String[] args) {
-        TimerTask task = new MyTimerTask();
-        Timer t = new Timer(true);
-        t.scheduleAtFixedRate(task, 0, 10000);
-        System.out.println("str");
-        t.cancel();
+        System.out.println(Color.red.getRGB());
+//        TimerTask task = new MyTimerTask();
+//        Timer t = new Timer(true);
+//        t.scheduleAtFixedRate(task, 0, 10000);
+//        System.out.println("str");
+//        t.cancel();
 //        int r = 255;
 //        int g = 130;
 //        int b = 25;
@@ -48,16 +49,16 @@ class MyTimerTask extends TimerTask {
 //            }
 //        };
 //        Timer t = new Timer(20, al);
-//        t.start();
+//        t.start1();
 //        System.out.println("vse");
     }
 
-    @Override
-    public void run() {
-//        if(ok)
-        System.out.println("lalalala");
-
-    }
+//    @Override
+//    public void run() {
+////        if(ok)
+//        System.out.println("lalalala");
+//
+//    }
 }
 //        int colorGrey=new Color(192, 192, 192).getRGB();
 //        System.out.println(colorGrey);
@@ -182,7 +183,7 @@ class MyTimerTask extends TimerTask {
 //
 //        public RectRunnable() {
 //            runner = new Thread(this);
-//            runner.start();
+//            runner.start1();
 //        }
 //
 //        public void run() {

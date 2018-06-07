@@ -43,7 +43,7 @@ public class Scenary {
 //                String command = scn.nextLine();
 //                if (command.equals("sort")) PjCollection.pjeysSrt();
 //                else if (command.equals("show")) PjCollection.show();
-//                else if (command.equals("start")) starting();
+//                else if (command.equals("start1")) starting();
 //                else if (command.equals("remove_first")) PjCollection.removeFirst();
 //                else if (command.equals("size")) System.out.println(PjCollection.pjeys.size());
 //                else if (command.startsWith("remove_lower") || command.startsWith("rl")) {

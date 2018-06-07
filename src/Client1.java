@@ -292,9 +292,9 @@ public class Client1 {
 //            JPanel panel = new JPanel();
 //            panel.setPreferredSize(new Dimension(900, 230));
 //
-//            JButton start = new JButton("start");
+//            JButton start1 = new JButton("start1");
 //
-//            panel.add(start);
+//            panel.add(start1);
 //
 //            class DoubleTimer {
 //                private Timer timer1, timer2;
@@ -305,24 +305,24 @@ public class Client1 {
 //                }
 //
 //                private void start1() {
-//                    timer1.start();
+//                    timer1.start1();
 //                }
 //
 //                private void start2() {
-//                    timer2.start();
+//                    timer2.start1();
 //                }
 //
 //                private void stop1() {
-//                    timer1.stop();
+//                    timer1.stop1();
 //                }
 //
 //                private void stop2() {
-//                    timer2.stop();
+//                    timer2.stop1();
 //                }
 //
-//                private void stop() {
-//                    timer1.stop();
-//                    timer2.stop();
+//                private void stop1() {
+//                    timer1.stop1();
+//                    timer2.stop1();
 //                }
 //
 //                private void reset() {
@@ -334,13 +334,13 @@ public class Client1 {
 //                }
 //            }
 //            DoubleTimer timer1 = new DoubleTimer();
-//            JButton stop = new JButton("stop");
-//            stop.addActionListener((event) -> {
+//            JButton stop1 = new JButton("stop1");
+//            stop1.addActionListener((event) -> {
 //                try {
 //                    if (!timer1.isRunning())
 //                        throw new NullPointerException();
 //                    else {
-//                        timer1.stop();
+//                        timer1.stop1();
 //                        timer1.reset();
 //                        canvas.setStaticDraw(true);
 //                        canvas.repaint();
@@ -350,14 +350,14 @@ public class Client1 {
 //                    JOptionPane.showMessageDialog(this, "Анимация не запущена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
 //                }
 //            });
-//            panel.add(stop);
+//            panel.add(stop1);
 //
 //            JButton update = new JButton("Update");
 //            update.addActionListener((event) -> {
 //                updateCollection();
 //                initList();
 //                if (!canvas.isStaticDraw())
-//                    stop.doClick();
+//                    stop1.doClick();
 //                canvas.repaint();
 //            });
 //            panel.add(update);
@@ -381,7 +381,7 @@ public class Client1 {
 //            colorPanel.add(white);
 //            panel.add(colorPanel);
 //
-////            start.addActionListener((event) -> {
+////            start1.addActionListener((event) -> {
 ////                if (timer1.isRunning()) {
 ////                    JOptionPane.showMessageDialog(this, "Анимация уже запущена!", "Ошибка", JOptionPane.ERROR_MESSAGE);
 ////                    return;

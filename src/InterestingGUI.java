@@ -1,6 +1,7 @@
 import Enums.ColorsEnum;
 import Enums.EPj;
 import Enums.EPjc;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -8,6 +9,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,11 +20,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class InterestingGUI {
+    private final static int port = 1111;
+    private static final String host = "127.0.0.1";
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
     String colorCheckBox = "blueredwhitegrey";
     boolean ifSizeCorrect = false;
     EPj saveCorrectSize;
     ArrayList<Pj> paintCollection;
+    List<Pair<Integer, Color>> gradients = new LinkedList<>();
     JSpinner spinClearance;
     final int delay = 200;
     final int timeOfAnime = 2000;
@@ -27,6 +35,7 @@ public class InterestingGUI {
     int green;
     int blue;
     Timer timer1;
+    Timer timer2;
     PBtn btn;
     int i;
     //    int animR;
@@ -41,7 +50,26 @@ public class InterestingGUI {
     final int greySpektr = 192;
 
     public static void main(String[] args) {
+        connect();
         new InterestingGUI().go();
+
+    }
+
+    static Socket s = null;
+    static ObjectInputStream reader = null;
+    static ObjectOutputStream writer = null;
+
+    public static void connect() {
+        while (true) {
+            try {
+                s = new Socket(host, port);
+                reader = new ObjectInputStream(s.getInputStream());
+                writer = new ObjectOutputStream(s.getOutputStream());
+                break;
+            } catch (IOException e) {
+            }
+        }
+
     }
 
     public void go() {
@@ -56,9 +84,19 @@ public class InterestingGUI {
         //создаю объект класса PBtn
         btn = new PBtn();
 
-        File file = new File(".\\formtest.xml");
-        String path = file.getAbsolutePath();
-        In.getPjeys(path, collection);
+//        File file = new File(".\\formtest.xml");
+//        String path = file.getAbsolutePath();
+//        In.getPjeys(path, collection);
+
+        System.out.println("получаю пижамы первый раз");
+        try {
+            writer.writeObject("list");
+            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
         System.out.println("создаю панель объектов");
@@ -83,6 +121,15 @@ public class InterestingGUI {
             public void actionPerformed(ActionEvent e) {
                 btn.clearBtns();
 
+            }
+        });
+
+        //
+        JButton refresh = new JButton();
+        refresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collection = refreshCollection();
             }
         });
 
@@ -174,16 +221,16 @@ public class InterestingGUI {
                 btn.getMyBtns().forEach(n -> {
                     if (!ifGrey(n.color)) {
                         n.color = new Color(changeToGrey(n.color.getRed()), changeToGrey(n.color.getGreen()), changeToGrey(n.color.getBlue()));
+                        gradients.add(new Pair<>(gradients.size(), n.color));
                         i++;
-//                        btn.addBtn(n);
                     } else {
                         isGrey = true;
-//                        System.out.println(isGrey);
                     }
                 });
                 if (i == 0) {
-                    stop();
-                    System.out.println("разворот");
+                    stop1();
+                    System.out.println("reverse");
+                    timer2.start();
 
                 }
                 btn.repaint();
@@ -195,39 +242,31 @@ public class InterestingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.getMyBtns().forEach(n -> {
-//                    if () {
-//                        n.color = new Color()
-//                    }
+                    {
+
+
+//                        System.out.println("w");
+                    }
                 });
+                btn.repaint();
             }
         };
 
         timer1 = new Timer(delay, paintGrey);
-//        timer2 = new Timer(delay, );
-        System.out.print("");
-//        timer1.setInitialDelay(0);
-//        timer1.start();
-//        System.out.println(new Date());
-//        try {
-//            Thread.sleep(timeOfAnime);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        timer1.stop();
-//        System.out.println(new Date());
+        timer2 = new Timer(delay, paintBack);
         anime.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                start();
+                start1();
 
             }
         });
-        JButton stop = new JButton("stop");
+        JButton stop = new JButton("stop1");
         stop.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stop();
+                stop1();
             }
         });
         menuPanel.add(stop);
@@ -236,13 +275,34 @@ public class InterestingGUI {
         frame.setVisible(true);
     }
 
-    public void start() {
+    public CopyOnWriteArrayList<Pj> refreshCollection() {
+        try {
+            writer.writeObject("list");
+            return (CopyOnWriteArrayList<Pj>) reader.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void start1() {
         timer1.start();
     }
 
-    public void stop() {
+    public void stop1() {
         timer1.stop();
     }
+
+    public void start2() {
+        timer2.start();
+    }
+
+    public void stop2() {
+        timer2.stop();
+    }
+
 
     public boolean ifGrey(Color color) {
         if (Math.abs(color.getRed() - 192) < 10 && (Math.abs(color.getBlue() - 192) < 10) && (Math.abs(color.getGreen() - 192) < 10)) {
@@ -250,29 +310,34 @@ public class InterestingGUI {
         } else return false;
     }
 
-    public boolean ifRed(Color color) {
-        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 0) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
-            return true;
-        } else return false;
-    }
-
-    public boolean ifBlue(Color color) {
-        if (Math.abs(color.getRed() - 0) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
-            return true;
-        } else return false;
-    }
-
-    public boolean ifWhite(Color color) {
-        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 255) < 10)) {
-            return true;
-        } else return false;
-    }
-
-//    public int changeToRed(int r, int g, int b) {
-//        int rStep = getStep(r,255);
-//        int gStep = getStep(g,0);
-//        int bStep = getStep(b,0);
-////        if ( ==)
+//    public Color ifRed(Color color) {
+//        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 0) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
+//
+//        } else {
+//            color = new Color(changeToRed(color.getRGB()));
+//        }
+//        return color;
+//    }
+//
+//    public boolean ifBlue(Color color) {
+//        if (Math.abs(color.getRed() - 0) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 0) < 10)) {
+//            return true;
+//        } else return false;
+//    }
+//
+//    public boolean ifWhite(Color color) {
+//        if (Math.abs(color.getRed() - 255) < 10 && (Math.abs(color.getBlue() - 255) < 10) && (Math.abs(color.getGreen() - 255) < 10)) {
+//            return true;
+//        } else return false;
+//    }
+//
+//    public int changeToRed(int rgb) {
+//        int step = getStep(rgb, -65536);
+//        if (rgb == -65536) {
+//            return rgb;
+//        } else if (rgb < -65536) {
+//            return rgb -= step;
+//        } else return rgb += step;
 //    }
 
     public int changeToGrey(int definedColor) {
