@@ -16,7 +16,7 @@ public class ActAdd extends JFrame {
 
     boolean succeed;
     String checkFields;
-    JLabel addLabel = new JLabel("fill object properties");
+    JLabel titleLabel = new JLabel("fill object properties");
     JLabel empty = new JLabel();
     JButton checkBtn = new JButton("check and add");
     JButton cancel = new JButton("cancel");
@@ -45,7 +45,7 @@ public class ActAdd extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(10, 2, 2, 1));
-        panel.add(addLabel);
+        panel.add(titleLabel);
 
         JLabel[] labels = {
                 new JLabel("Name"),
@@ -72,43 +72,54 @@ public class ActAdd extends JFrame {
                     pj = PjCollection.getElemByString(makeElem(fields));
                     checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
                     if (checkCollection.size() > 0) {
-
+                        titleLabel.setText("Set correct object properties! Such element already exists in collection");
+                        titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
                     } else {
                         ActAdd.super.setVisible(false);
+                        collection.add(pj);
                         parent.setVisible(true);
                         parent.setEnabled(true);
                     }
 
                 } catch (NoSuchElementException nnn) {
-                    nnn.printStackTrace();
+                    titleLabel.setText("Set correct object properties!");
+                    titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
 //                    System.err.println("wrong parameter");
                 }
 
             }
         });
+        cancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ActAdd.super.setVisible(false);
+                parent.setVisible(true);
+                parent.setEnabled(true);
 
-
+            }
+        });
     }
 
     public String makeElem(JTextField[] fields) {
         checkFields = (
-                "epj\":\"" + fields[1].getText() +"\","+
-                        "epjc\":\"" + fields[2].getText() +"\","+
-                        "name\":\"" + fields[0].getText() +"\","+
-                        "loca\":\"" + fields[3].getText() +"\","+
-                        "color\":\"" + fields[4].getText() +"\","+
-                        "dt\":\"" + new SimpleDateFormat("SSS").format(new Date()) +"\","+
-                        "id\":" + fields[0].getText());
+                "epj\":\"" + fields[1].getText() + "\"," +
+                        "epjc\":\"" + fields[2].getText() + "\"," +
+                        "name\":\"" + fields[0].getText() + "\"," +
+                        "loca\":\"" + fields[3].getText() + "\"," +
+                        "color\":\"" + fields[4].getText() + "\"," +
+                        "dt\":\"" + new SimpleDateFormat("SSS").format(new Date()) + "\"," +
+                        "id\":" + fields[5].getText() + "}");
         return checkFields;
     }
 
 
-    public static void main(String... args) {
-        CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-        File file = new File(".\\form.xml");
-        String path = file.getAbsolutePath();
-        In.getPjeys(path, collection);
-        new ActAdd(new ServerWindow(), collection);
-
-    }
+//        public static void main (String...args){
+//            CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
+//            File file = new File(".\\form.xml");
+//            String path = file.getAbsolutePath();
+//            In.getPjeys(path, collection);
+//            new ActAdd(new ServerWindow(), collection);
+//
+//        }
 }

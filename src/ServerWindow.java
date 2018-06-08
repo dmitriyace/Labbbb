@@ -40,8 +40,6 @@ public class ServerWindow extends JFrame {
             j++;
         }
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Collection");
-
         DefaultMutableTreeNode leaf = new DefaultMutableTreeNode();
         for (int i = 0; i < saveProperties.length; i++)
             leaf.add(new DefaultMutableTreeNode(saveProperties[i], false));

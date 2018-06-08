@@ -8,7 +8,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-public class InterestingGUI {
+public class ClientLaunch {
     private final static int port = 1111;
     private static final String host = "127.0.0.1";
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
@@ -47,7 +46,7 @@ public class InterestingGUI {
 
     public static void main(String[] args) {
         connect();
-        new InterestingGUI().go();
+        new ClientLaunch().go();
 
     }
 
@@ -79,10 +78,6 @@ public class InterestingGUI {
 
         //создаю объект класса PBtn
         btn = new PBtn();
-
-//        File file = new File(".\\formtest.xml");
-//        String path = file.getAbsolutePath();
-//        In.getPjeys(path, collection);
 
         System.out.println("get pjs first time");
         try {
@@ -126,6 +121,11 @@ public class InterestingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 collection = refreshCollection();
+                btn.clearBtns();
+                collection.forEach(n -> {
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color));
+                });
+
             }
         });
 
@@ -212,13 +212,11 @@ public class InterestingGUI {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-//                LinkedList<PBtn.MyBtn> save = btn.getMyBtns();
-//                btn.clearBtns();
                 i = 0;
                 btn.getMyBtns().forEach(n -> {
                     if (!ifGrey(n.color)) {
                         n.color = new Color(changeToGrey(n.color.getRed()), changeToGrey(n.color.getGreen()), changeToGrey(n.color.getBlue()));
-                        gradients.add(new Pair<>(gradients.size(), n.color));
+//                        gradients.add(new Pair<>(gradients.size(), n.color));
                         i++;
                     } else {
                         isGrey = true;
@@ -242,7 +240,6 @@ public class InterestingGUI {
                     {
 
 
-//                        System.out.println("w");
                     }
                 });
                 btn.repaint();
