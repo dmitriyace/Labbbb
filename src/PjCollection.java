@@ -17,7 +17,7 @@ class PjCollection implements Serializable {
 
 
 //    protected static void commands(String command, CopyOnWriteArrayList<Pj> col, ObjectOutputStream out, ObjectInputStream in) throws IOException {
-//        String[] commands = {"sort", "show", "s", "size", "remove_lower", "remove_greater",
+//        String[] commands = {"sort", "load", "s", "size", "remove_lower", "remove_greater",
 //                "remove_by_value", "out", "help", "q", "in"};
 //        int i;
 //        for (i = 0; i < commands.length; i++) if (command.startsWith(commands[i])) break;
@@ -26,7 +26,7 @@ class PjCollection implements Serializable {
 //                PjCollection.pjeysSrt(pjeys);
 //                break;
 //            case 1:
-//                PjCollection.show(pjeys,out);
+//                PjCollection.load(pjeys,out);
 //                break;
 //            case 2:
 //                Scenary.starting(out, in);

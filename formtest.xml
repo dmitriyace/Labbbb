@@ -6,14 +6,14 @@
         <pijamaclearance>washed</pijamaclearance>
         <pijamalocation>near_bed</pijamalocation>
         <pijamacolor>red</pijamacolor>
-        <pijamaname>Oh</pijamaname>
+        <pijamaname>OH</pijamaname>
     </pijama>
     <pijama>
         <pijamasize>short</pijamasize>
         <pijamaclearance>unwashed</pijamaclearance>
         <pijamalocation>near_kitchen</pijamalocation>
         <pijamacolor>red</pijamacolor>
-        <pijamaname>Gre</pijamaname>
+        <pijamaname>GRECHA</pijamaname>
 
     </pijama>
     <pijama>
@@ -21,7 +21,7 @@
         <pijamaclearance>unwashed</pijamaclearance>
         <pijamalocation>living_room</pijamalocation>
         <pijamacolor>white</pijamacolor>
-        <pijamaname>Tcha</pijamaname>
+        <pijamaname>KAKAYA</pijamaname>
 
     </pijama>
 
@@ -31,7 +31,7 @@
         <pijamaclearance>washed</pijamaclearance>
         <pijamalocation>ss</pijamalocation>
         <pijamacolor>blue</pijamacolor>
-        <pijamaname>Kaya</pijamaname>
+        <pijamaname>VSTRECHA</pijamaname>
 
     </pijama>
 

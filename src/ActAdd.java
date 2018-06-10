@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -11,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class ActAdd extends JFrame {
-    final static int width = 500;
+    final static int width = 800;
     final static int height = 500;
 
     boolean succeed;
@@ -48,12 +47,12 @@ public class ActAdd extends JFrame {
         panel.add(titleLabel);
 
         JLabel[] labels = {
-                new JLabel("Name"),
-                new JLabel("Size"),
-                new JLabel("Clearance"),
-                new JLabel("Wardrobe location"),
-                new JLabel("Color"),
-                new JLabel("id")};
+                new JLabel("Name (any you want)"),
+                new JLabel("Size (ok, long, short)"),
+                new JLabel("Clearance (washed, unwashed)"),
+                new JLabel("Wardrobe location (near_bed, living_room, near_kitchen, ss)"),
+                new JLabel("Color (red, blue, white, grey)"),
+                new JLabel("id (may be any, but not already taken)")};
 
         panel.add(empty);
         for (int i = 0; i < labels.length; i++) {
@@ -77,6 +76,7 @@ public class ActAdd extends JFrame {
                     } else {
                         ActAdd.super.setVisible(false);
                         collection.add(pj);
+                        parent.refreshTree();
                         parent.setVisible(true);
                         parent.setEnabled(true);
                     }
@@ -84,7 +84,6 @@ public class ActAdd extends JFrame {
                 } catch (NoSuchElementException nnn) {
                     titleLabel.setText("Set correct object properties!");
                     titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
-//                    System.err.println("wrong parameter");
                 }
 
             }

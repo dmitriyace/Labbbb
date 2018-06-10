@@ -1,30 +1,25 @@
-import Enums.ColorsEnum;
-import Enums.EPj;
-import Enums.EPjc;
-import Enums.Location;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class ActDelete extends JFrame {
-
-    final static int width = 500;
+    final static int width = 800;
     final static int height = 500;
-    static EPj size;
-    static EPjc clearance;
-    static ColorsEnum colors;
-    static Location location;
 
     boolean succeed;
-
-    JLabel deleteLabel = new JLabel("fill object properties");
-
+    String checkFields;
+    JLabel titleLabel = new JLabel("fill object properties");
+    JLabel empty = new JLabel();
     JButton checkBtn = new JButton("check and delete");
     JButton cancel = new JButton("cancel");
+    CopyOnWriteArrayList<Pj> checkCollection = new CopyOnWriteArrayList<>();
 
     ServerWindow parent;
 
@@ -38,28 +33,28 @@ public class ActDelete extends JFrame {
     };
 
     public ActDelete(ServerWindow parent, CopyOnWriteArrayList<Pj> collection) {
-        super("Delete pyjama by properties");
+        super("Deleting new pyjama");
 
         this.parent = parent;
         parent.setEnabled(false);
         parent.setVisible(true);
-
+        checkCollection = collection;
         this.setVisible(true);
         this.setBounds(100, 10, width, height);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 2, 2, 1));
-        panel.add(deleteLabel);
+        panel.setLayout(new GridLayout(10, 2, 2, 1));
+        panel.add(titleLabel);
 
         JLabel[] labels = {
-                new JLabel("Name"),
-                new JLabel("Size"),
-                new JLabel("Clearance"),
-                new JLabel("Wardrobe location"),
-                new JLabel("Color"),
-                new JLabel(("Time"))
-        };
+                new JLabel("Name (any you want)"),
+                new JLabel("Size (ok, long, short)"),
+                new JLabel("Clearance (washed, unwashed)"),
+                new JLabel("Wardrobe location (near_bed, living_room, near_kitchen, ss)"),
+                new JLabel("Color (red, blue, white, grey)"),
+                new JLabel("id (may be any, but not already taken)")};
 
+        panel.add(empty);
         for (int i = 0; i < labels.length; i++) {
             panel.add(labels[i]);
             panel.add(fields[i]);
@@ -71,8 +66,25 @@ public class ActDelete extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                Pj pj;
+                try {
+                    pj = PjCollection.getElemByString(makeElem(fields));
+                    checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+                    if (checkCollection.size() == 0) {
+                        titleLabel.setText("Set correct object properties! Such element doesn't exist in collection");
+                        titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
+                    } else {
+                        ActDelete.super.setVisible(false);
+                        collection.remove(pj);
+                        parent.refreshTree();
+                        parent.setVisible(true);
+                        parent.setEnabled(true);
+                    }
 
-//                PjCollection.remove()
+                } catch (Exception ex) {
+                    titleLabel.setText("Set correct object properties!");
+                    titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
+                }
 
             }
         });
@@ -83,34 +95,20 @@ public class ActDelete extends JFrame {
                 ActDelete.super.setVisible(false);
                 parent.setVisible(true);
                 parent.setEnabled(true);
+
             }
         });
-
-
     }
 
-    public Pj returnPj() {
-
-        String name = fields[0].getText().toUpperCase();
-        String ssize = fields[1].getText().toUpperCase();
-        String sclearance = fields[2].getText().toUpperCase();
-        String slocation = fields[3].getText().toUpperCase();
-        String scolor = fields[4].getText().toUpperCase();
-        size = EPj.valueOf(ssize);
-        clearance = EPjc.valueOf(sclearance);
-        location = Location.valueOf(slocation);
-        colors = ColorsEnum.valueOf(scolor);
-        return Pj.defaultPj;
-    }
-
-    public static void main(String... args) {
-        CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-        File file = new File(".\\form.xml");
-        String path = file.getAbsolutePath();
-        In.getPjeys(path, collection);
-        new ActDelete(new ServerWindow(), collection);
-
+    public String makeElem(JTextField[] fields) {
+        checkFields = (
+                "epj\":\"" + fields[1].getText() + "\"," +
+                        "epjc\":\"" + fields[2].getText() + "\"," +
+                        "name\":\"" + fields[0].getText() + "\"," +
+                        "loca\":\"" + fields[3].getText() + "\"," +
+                        "color\":\"" + fields[4].getText() + "\"," +
+                        "dt\":\"" + new SimpleDateFormat("SSS").format(new Date()) + "\"," +
+                        "id\":" + fields[5].getText() + "}");
+        return checkFields;
     }
 }
-
-

@@ -14,20 +14,23 @@ public class Server1 {
     private final static int port = 1111;
     private final static int sizeOfPool = 5;
     private static ExecutorService executor = Executors.newFixedThreadPool(sizeOfPool);
+    public static boolean auth;
 
-        public static void main(String... args) {
+    public static void main(String[] args) {
+        new AuthWindow();
+    }
 
+    public synchronized static void go() {
         try {
-            ServerWindow serverGUI = new ServerWindow();
             ServerSocket server = new ServerSocket(port);
             while (!server.isClosed()) {
                 Socket client = server.accept();
                 System.out.println("connected");
-                executor.execute(new ThreadServer1(client, serverGUI));
+                executor.execute(new ThreadServer1(client, AuthWindow.serverGUI));
             }
         } catch (IOException e) {
 
         }
-
     }
 }
+

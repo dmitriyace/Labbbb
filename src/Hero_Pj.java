@@ -4,8 +4,6 @@ public class Hero_Pj {
     protected Heroes heroes;
     protected Pj pijama;
 
-
-
     Hero_Pj(Heroes heroes, Pj pijama){
         this.heroes = heroes;
         this.pijama = pijama;

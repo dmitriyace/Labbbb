@@ -14,7 +14,7 @@ public class AuthWindow extends JFrame {
     JTextField logTF = new JTextField("");
     JLabel passL = new JLabel("Password:");
     JPasswordField passwordField = new JPasswordField();
-
+    static ServerWindow serverGUI;
     JButton checkBtn = new JButton();
 
 
@@ -29,7 +29,7 @@ public class AuthWindow extends JFrame {
 
         addField(panel, logL, logTF);
         addField(panel, passL, passwordField);
-        checkBtn.setText("OK");
+        checkBtn.setText("log in");
         panel.add(checkBtn);
         actCheckBtn();
         this.setContentPane(panel);
@@ -56,10 +56,11 @@ public class AuthWindow extends JFrame {
 
                                           if (password.equals(enteredPassword) && logTF.getText().equals("s")) {
                                               AuthWindow.super.setVisible(false);
-                                              new ServerWindow();
-                                          } else if (password.equals(enteredPassword) && logTF.getText().equals("c")) {
-                                              AuthWindow.super.setVisible(false);
-                                             new ClientWindow();
+                                              AuthWindow.super.setEnabled(false);
+                                              serverGUI = new ServerWindow();
+                                              serverGUI.setEnabled(true);
+
+                                              Server1.go();
                                           } else {
                                               Auth.setText("please write correct login and password");
                                               checkBtn.setText("try press me again");
@@ -70,7 +71,7 @@ public class AuthWindow extends JFrame {
         );
     }
 
-    public static void main(String... args) {
-        new AuthWindow();
-    }
+//    public static void main(String... args) {
+//        new AuthWindow();
+//    }
 }

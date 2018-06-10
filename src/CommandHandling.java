@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CommandHandling {
 
     static void treat(String command, CopyOnWriteArrayList<Pj> collection, ObjectOutputStream out, ObjectInputStream in) throws IOException {
-        String[] commands = {"sort", "show", "st", "size", "rl", "rg",
+        String[] commands = {"sort", "load", "st", "size", "rl", "rg",
                 "rv", "out", "h", "q", "in"};
 
 //        String path_save = "C:\\Users\\chist\\Documents\\itmo\\proga\\Labbbb\\src\\Output.txt";
