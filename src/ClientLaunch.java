@@ -2,6 +2,7 @@ import Enums.ColorsEnum;
 import Enums.EPj;
 import Enums.EPjc;
 import javafx.util.Pair;
+import org.pushingpixels.trident.Timeline;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -12,7 +13,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,25 +27,21 @@ public class ClientLaunch {
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
     String colorCheckBox = "blueredwhitegrey";
     boolean ifSizeCorrect = false;
+    int sizeWidth = 0;
     EPj saveCorrectSize;
     ArrayList<Pj> paintCollection;
     List<Pair<Integer, Color>> gradients = new LinkedList<>();
     JSpinner spinClearance;
     final int delay = 200;
     final int timeOfAnime = 2000;
-    int red;
-    int green;
-    int blue;
+    int stepRR, stepRG, stepRB, stepWR, stepWG, stepWB, stepBR, stepBG, stepBB, stepGrey = 0;
     Timer timer1;
     Timer timer2;
     PBtn btn;
     int i;
     boolean isGrey;
-    int step;
-    int stepRed;
-    int stepBlue;
-    int stepGreen;
     final int greySpektr = 192;
+    HashMap<Rectangle, Timeline> trHashMap = new HashMap<>();
 
     public static void main(String[] args) {
         connect();
@@ -68,6 +67,18 @@ public class ClientLaunch {
     }
 
     public void go() {
+        //расчитал шаги анимации
+        int countSteps = timeOfAnime / delay;
+        stepRR = (greySpektr - 255) / countSteps;
+        stepRG = (greySpektr - 0) / countSteps;
+        stepRB = stepRG;
+        stepBR = stepRG;
+        stepBG = stepBR;
+        stepBB = stepRR;
+        stepWR = stepRR;
+        stepWG = stepRR;
+        stepWB = stepRR;
+
         //создал фрейм и panel
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -101,7 +112,7 @@ public class ClientLaunch {
 
         //нарисовал
         collection.forEach(e -> {
-            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color));
+            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc);
         });
         objectsPanel.add(btn);
 
@@ -123,7 +134,7 @@ public class ClientLaunch {
                 collection = refreshCollection();
                 btn.clearBtns();
                 collection.forEach(n -> {
-                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color));
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc);
                 });
 
             }
@@ -136,7 +147,7 @@ public class ClientLaunch {
         filter.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filterM();
+                filterAnimated();
             }
         });
 
@@ -204,6 +215,34 @@ public class ClientLaunch {
         spinClearance = new JSpinner(model);
         menuPanel.add(spinClearance);
 
+
+        //Новая кнопка анимации
+        JButton anime1 = new JButton("normalnoeAnime");
+        menuPanel.add(anime1);
+        anime1.addActionListener(new ActionListener() {
+
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                trHashMap.clear();
+                btn.getMyBtns().forEach(n -> {
+                    initAnimation(n);
+                    Timeline t = trHashMap.get(n);
+                    t.playLoop(Timeline.RepeatBehavior.REVERSE);
+
+                });
+                while (true) {
+                    Timer timer = new Timer(200, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            btn.repaint();
+                        }
+                    });
+                }
+            }
+        });
+
+
         //кнопка анимации
         JButton anime = new JButton("anime");
         isGrey = false;
@@ -251,9 +290,7 @@ public class ClientLaunch {
         anime.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 start1();
-
             }
         });
         JButton stop = new JButton("stop1");
@@ -268,6 +305,14 @@ public class ClientLaunch {
         menuPanel.add(refresh);
 
         frame.setVisible(true);
+    }
+
+    public void initAnimation(PBtn.MyBtn n) {
+        Timeline timeline = new Timeline(n);
+        timeline.addPropertyToInterpolate("color", n.color, new Color(192, 192, 192));
+        timeline.setDuration(2000);
+        timeline.setName(n.name);
+        trHashMap.put(n, timeline);
     }
 
     public CopyOnWriteArrayList<Pj> refreshCollection() {
@@ -347,6 +392,7 @@ public class ClientLaunch {
         return greySpektr;
     }
 
+
     public int getStep(int definedColor, int spektr) {
         if (definedColor == spektr)
             return 0;
@@ -362,6 +408,34 @@ public class ClientLaunch {
             return true;
         }
         return false;
+    }
+
+    public void filterAnimated() {
+        ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
+
+        btn.getMyBtns().forEach(n -> {
+            filteredColors.forEach(color -> {
+                if (n.color == btn.getColorFromEnum(color)) {
+                    n.animated = true;
+                    return;
+                }
+            });
+
+            if (ifSizeCorrect) {
+                if (n.width == sizeWidth) {
+                    n.animated = true;
+                } else n.animated = false;
+            }
+
+            n.animated = true;
+            if (spinnerSetted()) {
+                if (!(n.clearance == EPjc.valueOf(spinClearance.getValue().toString().toUpperCase())))
+                    n.animated = false;
+            }
+
+        });
+
+
     }
 
     public void filterM() {
@@ -395,7 +469,7 @@ public class ClientLaunch {
         }
 
         paintCollection.forEach(n -> {
-            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color));
+            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc);
         });
     }
 
@@ -403,6 +477,7 @@ public class ClientLaunch {
         try {
             saveCorrectSize = EPj.valueOf(s.toUpperCase());
             ifSizeCorrect = true;
+            sizeWidth = getSizeFromEnum(saveCorrectSize);
             return ifSizeCorrect;
         } catch (IllegalArgumentException iae) {
             ifSizeCorrect = false;
@@ -481,18 +556,24 @@ class PBtn extends JComponent {
 
         String name;
         Color color;
+        Color nativeColor;
+        boolean isGrey = false;
+        boolean animated = false;
+        EPjc clearance;
 
-        MyBtn(int x, int y, int width, int height, String name, Color color) {
+        MyBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance) {
             this.setBounds(x, y, width, height);
             this.color = color;
-
+            this.nativeColor = color;
+            this.clearance = clearance;
         }
 
 
     }
 
-    void addBtn(int x, int y, int width, int height, String name, Color color) {
-        MyBtn myBtn = new MyBtn(x, y, width, height, name, color);
+
+    void addBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance) {
+        MyBtn myBtn = new MyBtn(x, y, width, height, name, color, clearance);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -512,7 +593,7 @@ class PBtn extends JComponent {
     }
 
     void addBtn(MyBtn m) {
-        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color);
+        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color, m.clearance);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
