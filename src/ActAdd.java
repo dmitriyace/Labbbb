@@ -70,16 +70,13 @@ public class ActAdd extends JFrame {
                 try {
                     pj = PjCollection.getElemByString(makeElem(fields));
                     checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
-                    if (checkCollection.size() > 0) {
-                        titleLabel.setText("Set correct object properties! Such element already exists in collection");
-                        titleLabel.setFont(new Font("Consolas", Font.PLAIN, 12));
-                    } else {
-                        ActAdd.super.setVisible(false);
-                        collection.add(pj);
-                        parent.refreshTree();
-                        parent.setVisible(true);
-                        parent.setEnabled(true);
-                    }
+
+                    ActAdd.super.setVisible(false);
+                    collection.add(pj);
+                    parent.refreshTree();
+                    parent.setVisible(true);
+                    parent.setEnabled(true);
+
 
                 } catch (NoSuchElementException nnn) {
                     titleLabel.setText("Set correct object properties!");

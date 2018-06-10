@@ -85,7 +85,15 @@ public class ClientLaunch {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+
         System.out.println(collection.size());
 
         System.out.println("создаю панель объектов");
@@ -103,48 +111,26 @@ public class ClientLaunch {
         });
         objectsPanel.add(btn);
 
-        //кнопка очистки канваса
-        JButton clear = new JButton("clear");
-        clear.addActionListener(new AbstractAction() {
+        JButton refresh = new JButton("обновить");
+        refresh.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                refreshCollection();
                 btn.clearBtns();
-
+                collection.forEach(n -> {
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
+                });
+                System.out.println(collection.size());
             }
         });
 
-        //кнопка обновления
-//        JButton refresh = new JButton("refresh");
-//        refresh.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                collection = refreshCollection();
-//                btn.clearBtns();
-//                collection.forEach(n -> {
-//                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
-//                });
-//
-//            }
-//        });
-
-
-        //кнопка фильтра
-        JButton filter = new JButton("filter");
-
-        filter.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                filterActors();
-            }
-        });
 
         //добавляю панель меню, на него добавляю фильтры и кнопки
         JPanel menuPanel = new JPanel(new GridLayout(10, 1));
         menuPanel.setLocation(0, 355);
         menuPanel.setSize(400, 200);
         panel.add(menuPanel);
-        menuPanel.add(clear);
-        menuPanel.add(filter);
+        menuPanel.add(refresh);
         //чекбоксы
         List<JCheckBox> cList = new ArrayList<>();
         JCheckBox blue = new JCheckBox("blue");
@@ -227,21 +213,30 @@ public class ClientLaunch {
         });
         menuPanel.add(stop);
         menuPanel.add(anime);
-//        menuPanel.add(refresh);
 
         frame.setVisible(true);
     }
 
-    public CopyOnWriteArrayList<Pj> refreshCollection() {
+    public void refreshCollection() {
         try {
+
             writer.writeObject("list");
-            return (CopyOnWriteArrayList<Pj>) reader.readObject();
+            System.out.println(reader.toString());
+            collection = new CopyOnWriteArrayList<>();
+            System.out.println(collection.size()+" new");
+            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
+            System.out.println(collection.size());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return new CopyOnWriteArrayList<>();
     }
 
     public boolean spinnerSetted() {
@@ -316,6 +311,7 @@ public class ClientLaunch {
 //            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
 //        });
 //    }
+
 
     public boolean checkSize(String s) {
         try {
