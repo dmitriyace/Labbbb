@@ -22,23 +22,31 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class ClientLaunch {
+    //vars of connect
     private final static int port = 1111;
     private static final String host = "127.0.0.1";
+    //collection
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
+    //vars of filters
     String colorCheckBox = "blueredwhitegrey";
     boolean ifSizeCorrect = false;
     int sizeWidth = 0;
     EPj saveCorrectSize;
+
     ArrayList<Pj> paintCollection;
-    List<Pair<Integer, Color>> gradients = new LinkedList<>();
+    //    List<Pair<Integer, Color>> gradients = new LinkedList<>();
     JSpinner spinClearance;
+
+    //variables of animation step
     final int delay = 200;
     final int timeOfAnime = 2000;
-    int stepRR, stepRG, stepRB, stepWR, stepWG, stepWB, stepBR, stepBG, stepBB, stepGrey = 0;
+    int stepRR, stepRG, stepRB, stepWR, stepWG, stepWB, stepBR, stepBG, stepBB;
+    int[] stepR = {}, stepB, stepW;
+    int countSteps;
     Timer timer1;
     Timer timer2;
+
     PBtn btn;
-    int i;
     boolean isGrey;
     final int greySpektr = 192;
     HashMap<Rectangle, Timeline> trHashMap = new HashMap<>();
@@ -68,7 +76,8 @@ public class ClientLaunch {
 
     public void go() {
         //расчитал шаги анимации
-        int countSteps = timeOfAnime / delay;
+        countSteps = timeOfAnime / delay;
+
         stepRR = (greySpektr - 255) / countSteps;
         stepRG = (greySpektr - 0) / countSteps;
         stepRB = stepRG;
@@ -78,6 +87,9 @@ public class ClientLaunch {
         stepWR = stepRR;
         stepWG = stepRR;
         stepWB = stepRR;
+        stepR = new int[]{stepRR, stepRG, stepRB};
+        stepB = new int[]{stepBR, stepBG, stepBB};
+        stepW = new int[]{stepWR, stepWG, stepWB};
 
         //создал фрейм и panel
         JFrame frame = new JFrame();
@@ -112,7 +124,7 @@ public class ClientLaunch {
 
         //нарисовал
         collection.forEach(e -> {
-            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc);
+            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc, btn);
         });
         objectsPanel.add(btn);
 
@@ -134,7 +146,7 @@ public class ClientLaunch {
                 collection = refreshCollection();
                 btn.clearBtns();
                 collection.forEach(n -> {
-                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc);
+                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
                 });
 
             }
@@ -217,30 +229,30 @@ public class ClientLaunch {
 
 
         //Новая кнопка анимации
-        JButton anime1 = new JButton("normalnoeAnime");
-        menuPanel.add(anime1);
-        anime1.addActionListener(new ActionListener() {
-
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                trHashMap.clear();
-                btn.getMyBtns().forEach(n -> {
-                    initAnimation(n);
-                    Timeline t = trHashMap.get(n);
-                    t.playLoop(Timeline.RepeatBehavior.REVERSE);
-
-                });
-                while (true) {
-                    Timer timer = new Timer(200, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            btn.repaint();
-                        }
-                    });
-                }
-            }
-        });
+//        JButton anime1 = new JButton("normalnoeAnime");
+//        menuPanel.add(anime1);
+//        anime1.addActionListener(new ActionListener() {
+//
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                trHashMap.clear();
+//                btn.getMyBtns().forEach(n -> {
+//                    initAnimation(n);
+//                    Timeline t = trHashMap.get(n);
+//                    t.playLoop(Timeline.RepeatBehavior.REVERSE);
+//
+//                });
+//                while (true) {
+//                    Timer timer = new Timer(200, new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent e) {
+//                            btn.repaint();
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
 
         //кнопка анимации
@@ -251,24 +263,24 @@ public class ClientLaunch {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                i = 0;
-                btn.getMyBtns().forEach(n -> {
-                    if (!ifGrey(n.color)) {
-                        n.color = new Color(changeToGrey(n.color.getRed()), changeToGrey(n.color.getGreen()), changeToGrey(n.color.getBlue()));
-//                        gradients.add(new Pair<>(gradients.size(), n.color));
-                        i++;
-                    } else {
-                        isGrey = true;
-                    }
-                });
-                if (i == 0) {
-                    stop1();
-                    System.out.println("reverse");
-                    timer2.start();
 
-                }
-                btn.repaint();
-
+//                i = 0;
+//                btn.getMyBtns().forEach(n -> {
+//                    if (!ifGrey(n.color)) {
+//                        n.color = new Color(changeToGrey(n.color.getRed()), changeToGrey(n.color.getGreen()), changeToGrey(n.color.getBlue()));
+////                        gradients.add(new Pair<>(gradients.size(), n.color));
+//                        i++;
+//                    } else {
+//                        isGrey = true;
+//                    }
+//                });
+//                if (i == 0) {
+//                    stop1();
+//                    System.out.println("reverse");
+//                    timer2.start();
+//
+//                }
+//                btn.repaint();
             }
         };
 
@@ -290,14 +302,21 @@ public class ClientLaunch {
         anime.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                start1();
+//                filterAnimated();
+                btn.getMyBtns().forEach(n -> {
+//                    if (n.color.getBlue()==255&&n.color.getRed()!=255)
+                        n.changeColor();
+                });
             }
         });
         JButton stop = new JButton("stop1");
         stop.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stop1();
+//                stop1();
+                btn.getMyBtns().forEach(n->{
+                    n.timer.stop();
+                });
             }
         });
         menuPanel.add(stop);
@@ -307,12 +326,44 @@ public class ClientLaunch {
         frame.setVisible(true);
     }
 
-    public void initAnimation(PBtn.MyBtn n) {
-        Timeline timeline = new Timeline(n);
-        timeline.addPropertyToInterpolate("color", n.color, new Color(192, 192, 192));
-        timeline.setDuration(2000);
-        timeline.setName(n.name);
-        trHashMap.put(n, timeline);
+//    public void initAnimation(PBtn.MyBtn n) {
+//        Timeline timeline = new Timeline(n);
+//        timeline.addPropertyToInterpolate("color", n.color, new Color(192, 192, 192));
+//        timeline.setDuration(2000);
+//        timeline.setName(n.name);
+//        trHashMap.put(n, timeline);
+//    }
+
+    public void animation() {
+        for (int j = 0; j < countSteps; j++) {
+            btn.getMyBtns().forEach(n -> {
+                if (n.animated == true) {
+                    if (n.nativeColor == Color.red) {
+                        n.color = new Color(n.color.getRed() + stepR[0], n.color.getGreen() + stepR[1], n.color.getBlue() + stepR[2]);
+                    } else if (n.nativeColor == Color.white) {
+                        n.color = new Color(n.color.getRed() + stepW[0], n.color.getGreen() + stepW[1], n.color.getBlue() + stepW[2]);
+                    } else if (n.nativeColor == Color.blue) {
+                        n.color = new Color(n.color.getRed() + stepB[0], n.color.getGreen() + stepB[1], n.color.getBlue() + stepB[2]);
+                    }
+                }
+            });
+            btn.repaint();
+
+        }
+        for (int j = 0; j < countSteps; j++) {
+            btn.getMyBtns().forEach(n -> {
+                if (n.animated == true) {
+                    if (n.nativeColor == Color.red) {
+                        n.color = new Color(n.color.getRed() - stepR[0], n.color.getGreen() - stepR[1], n.color.getBlue() - stepR[2]);
+                    } else if (n.nativeColor == Color.white) {
+                        n.color = new Color(n.color.getRed() - stepW[0], n.color.getGreen() - stepW[1], n.color.getBlue() - stepW[2]);
+                    } else if (n.nativeColor == Color.blue) {
+                        n.color = new Color(n.color.getRed() - stepB[0], n.color.getGreen() - stepB[1], n.color.getBlue() - stepB[2]);
+                    }
+                }
+            });
+
+        }
     }
 
     public CopyOnWriteArrayList<Pj> refreshCollection() {
@@ -414,24 +465,21 @@ public class ClientLaunch {
         ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
 
         btn.getMyBtns().forEach(n -> {
-            filteredColors.forEach(color -> {
-                if (n.color == btn.getColorFromEnum(color)) {
-                    n.animated = true;
-                    return;
-                }
-            });
-
-            if (ifSizeCorrect) {
-                if (n.width == sizeWidth) {
-                    n.animated = true;
-                } else n.animated = false;
-            }
-
             n.animated = true;
+            if (ifSizeCorrect) {
+                if (!(n.width == sizeWidth)) n.animated = false;
+            }
             if (spinnerSetted()) {
                 if (!(n.clearance == EPjc.valueOf(spinClearance.getValue().toString().toUpperCase())))
                     n.animated = false;
             }
+            filteredColors.forEach(color -> {
+                if ((n.color.getRed() == btn.getColorFromEnum(color).getRed()) && (n.color.getGreen() == btn.getColorFromEnum(color).getGreen()) && (n.color.getBlue() == btn.getColorFromEnum(color).getBlue())) {
+                    n.animated = true;
+                    return;
+                } else n.animated = false;
+            });
+
 
         });
 
@@ -469,7 +517,7 @@ public class ClientLaunch {
         }
 
         paintCollection.forEach(n -> {
-            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc);
+            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
         });
     }
 
@@ -557,23 +605,89 @@ class PBtn extends JComponent {
         String name;
         Color color;
         Color nativeColor;
-        boolean isGrey = false;
+        JComponent parent;
+
+         Timer timer;
+        private float R;
+        private float G;
+        private float B;
+        private float deltaR;
+        private float deltaG;
+        private float deltaB;
+
         boolean animated = false;
         EPjc clearance;
 
-        MyBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance) {
+        MyBtn(int x, int y, int width, int height, String name, Color compColor, EPjc clearance, JComponent parent) {
             this.setBounds(x, y, width, height);
-            this.color = color;
-            this.nativeColor = color;
+            this.color = compColor;
+            this.nativeColor = compColor;
             this.clearance = clearance;
+            this.parent = parent;
+            R = compColor.getRed();
+            G = compColor.getGreen();
+            B = compColor.getBlue();
+            deltaB = -(compColor.getBlue() - 192) / 500f;
+            deltaG = -(compColor.getGreen() - 192) / 500f;
+            deltaR = -(compColor.getRed() - 192) / 500f;
+            timer = new Timer(5, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+//(теоретически, новые объекты можно было бы организовать в пул, но я решил не усложнять алгоритм)
+                    //вычисление нового цвета
+                    R = Math.abs(R + deltaR);
+                    G = Math.abs(G + deltaG);
+                    B = Math.abs(B + deltaB);
+                    //плодить новые объекты - плохая мысль, но awt.Color не поддерживает настройку..
+                    System.out.println((int) R + "; " + (int) G + "; " + (int) B);
+                    color = new Color((int) R, (int) G, (int) B);
+
+                    //если достигнут серый цвет, дельта меняет знак, и начинается перекрашивание обратно
+                    if (isGray()) {
+                        deltaR = -deltaR;
+                        deltaG = -deltaG;
+                        deltaB = -deltaB;
+                    }
+                    //если достигнут дефолт, таймер останавливается
+                    if (isDefault()) {
+                        deltaR = -deltaR;
+                        deltaG = -deltaG;
+                        deltaB = -deltaB;
+                        timer.stop();
+                    }
+                    parent.repaint();
+                }
+            });
+
+        }
+
+        private boolean isGray() {
+            //из-за особенностей хранения float в памяти, обычные проверки тут не подходят
+            boolean redEqual = Math.abs(R - 192) < 0.1f;
+            boolean greenEqual = Math.abs(G - 192) < 0.1f;
+            boolean blueEqual = Math.abs(B - 192) < 0.1f;
+            return redEqual && greenEqual && blueEqual;
+        }
+
+        private boolean isDefault() {
+            boolean redEqual = Math.abs(R - nativeColor.getRed()) < 0.1f;
+            boolean greenEqual = Math.abs(G - nativeColor.getGreen()) < 0.1f;
+            boolean blueEqual = Math.abs(B - nativeColor.getBlue()) < 0.1f;
+            return redEqual && greenEqual && blueEqual;
+        }
+
+        public void changeColor() {
+            if (!timer.isRunning()) {
+                timer.start();
+            }
         }
 
 
     }
 
 
-    void addBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance) {
-        MyBtn myBtn = new MyBtn(x, y, width, height, name, color, clearance);
+    void addBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance, JComponent parent) {
+        MyBtn myBtn = new MyBtn(x, y, width, height, name, color, clearance, parent);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -593,11 +707,10 @@ class PBtn extends JComponent {
     }
 
     void addBtn(MyBtn m) {
-        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color, m.clearance);
+        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color, m.clearance, m.parent);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-
             }
 
             @Override
