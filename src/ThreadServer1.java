@@ -12,6 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -22,6 +25,10 @@ public class ThreadServer1 implements Runnable {
     private String way;
     String command;
     ServerWindow s;
+    static String dbURL = "jdbc:postgresql://localhost:5433/postgres";
+    static String username = "postgres";
+    static String password = "021198";
+    static Connection conn;
 
     public ThreadServer1(Socket client, ServerWindow s) {
         this.client = client;
@@ -37,6 +44,9 @@ public class ThreadServer1 implements Runnable {
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
             if (!client.isClosed()) {
+                Class.forName("org.postgresql.Driver");
+                conn = DriverManager.getConnection(dbURL, username, password);
+
                 try {
                     while (true) {
                         command = (String) in.readObject();
@@ -53,13 +63,17 @@ public class ThreadServer1 implements Runnable {
                 } catch (SocketException se) {
                     System.err.println("client disconnected");
                 } finally {
-//                    out.flush();
-//                    in.close();
-//                    out.close();
+                    out.flush();
+                    in.close();
+                    out.close();
                     client.close();
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -99,7 +113,7 @@ class ServerWindow extends JFrame {
         j = 0;
         saveProperties = new String[collection.size()];
         for (Pj pj : collection) {
-            saveProperties[j] = pj.name + " - id" + pj.id ;
+            saveProperties[j] = pj.name + " - id" + pj.id;
             j++;
         }
 
@@ -177,7 +191,7 @@ class ServerWindow extends JFrame {
         j = 0;
         saveProperties = new String[collection.size()];
         for (Pj pj : collection) {
-            saveProperties[j] = pj.name + " - id" + pj.id ;
+            saveProperties[j] = pj.name + " - id" + pj.id;
             j++;
         }
         leaf = new DefaultMutableTreeNode();

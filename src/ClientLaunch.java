@@ -4,6 +4,7 @@ import Enums.EPjc;
 import org.pushingpixels.trident.Timeline;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -12,9 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,16 +30,17 @@ public class ClientLaunch {
     EPj saveCorrectSize;
     boolean animeColor, animeSize, animeClearance;
     JSpinner spinClearance;
-
-
+    String selectedLocale;
     PBtn btn;
-    boolean isGrey;
-    final int greySpektr = 192;
-    HashMap<Rectangle, Timeline> trHashMap = new HashMap<>();
+    ResourceBundle lb;
+    JComboBox locCB;
+    static ClientLaunch c;
+    String localesList[] = {"en_IE", "da_DK", "ru_RU", "nl_NL"};
 
     public static void main(String[] args) {
         connect();
-        new ClientLaunch().go();
+        c = new ClientLaunch();
+        c.go();
 
     }
 
@@ -62,9 +62,14 @@ public class ClientLaunch {
     }
 
     public void go() {
+        locCB = new JComboBox(localesList);
+        lb = ResourceBundle.getBundle("Locales",
+                new Locale(locCB.getSelectedObjects().toString().substring(0, 2),
+                        locCB.getSelectedObjects().toString().substring(3, 5)), new EncodingControl());
 
         //создал фрейм и panel
         JFrame frame = new JFrame();
+        frame.setTitle(lb.getString("Client.title"));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel panel = new JPanel(null);
         frame.setContentPane(panel);
@@ -74,7 +79,6 @@ public class ClientLaunch {
         //создаю объект класса PBtn
         btn = new PBtn();
 
-        System.out.println("get pjs first time");
         try {
             writer.writeObject("list");
             collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
@@ -91,8 +95,6 @@ public class ClientLaunch {
 
         }
 
-        System.out.println(collection.size());
-
         //создал панель объектов
         JPanel objectsPanel = new JPanel(null);
         panel.add(objectsPanel);
@@ -106,8 +108,6 @@ public class ClientLaunch {
             btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc, btn);
         });
         objectsPanel.add(btn);
-
-
 
 
         //добавляю панель меню, на него добавляю фильтры и кнопки
@@ -144,14 +144,14 @@ public class ClientLaunch {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!checkSize(sizeField.getText())) {
-                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
+                    checkTextField.setText(lb.getString("Client.CTF"));
                 } else checkTextField.setText("");
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 if (!checkSize(sizeField.getText())) {
-                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
+                    checkTextField.setText(lb.getString("Client.CTF"));
                 } else checkTextField.setText("");
             }
 
@@ -173,7 +173,7 @@ public class ClientLaunch {
 
 
         //кнопка анимации
-        JButton anime = new JButton("animation");
+        JButton anime = new JButton(lb.getString("Client.anime"));
         anime.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,7 +185,7 @@ public class ClientLaunch {
             }
         });
 
-        JButton stop = new JButton("stop animation");
+        JButton stop = new JButton(lb.getString("Client.stop"));
         stop.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -197,9 +197,32 @@ public class ClientLaunch {
         menuPanel.add(stop);
         menuPanel.add(anime);
 
+        JPanel localePanel = new JPanel();
+        localePanel.setLocation(300, 0);
+        localePanel.setSize(100, 100);
+        panel.add(localePanel);
+
+        locCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedLocale = (String) locCB.getSelectedItem();
+                lb = ResourceBundle.getBundle("Locales",
+                        new Locale(selectedLocale.substring(0, 2),
+                                selectedLocale.substring(3, 5)), new EncodingControl());
+                frame.setTitle(lb.getString("Client.title"));
+                anime.setText(lb.getString("Client.anime"));
+                stop.setText(lb.getString("Client.stop"));
+
+                if (!checkSize(sizeField.getText())) {
+                    checkTextField.setText(lb.getString("Client.CTF"));
+                } else checkTextField.setText("");
+            }
+        });
+        localePanel.add(locCB);
+
+
         frame.setVisible(true);
     }
-
 
 
     public boolean spinnerSetted() {

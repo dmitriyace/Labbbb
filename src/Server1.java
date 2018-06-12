@@ -7,6 +7,9 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,6 +20,7 @@ public class Server1 {
     private final static int port = 1111;
     private final static int sizeOfPool = 5;
     static ServerWindow serverWindow;
+
     private static ExecutorService executor = Executors.newFixedThreadPool(sizeOfPool);
 
     public static void main(String[] args) {
@@ -25,6 +29,7 @@ public class Server1 {
 
     public static void go() {
         try {
+
             serverWindow = new ServerWindow();
             ServerSocket server = new ServerSocket(port);
             while (!server.isClosed()) {
