@@ -16,10 +16,8 @@ import java.util.logging.LogRecord;
 public class Server1 {
     private final static int port = 1111;
     private final static int sizeOfPool = 5;
-    static Handler handler;
     static ServerWindow serverWindow;
     private static ExecutorService executor = Executors.newFixedThreadPool(sizeOfPool);
-    static Thread auth;
 
     public static void main(String[] args) {
         go();
@@ -39,4 +37,3 @@ public class Server1 {
         }
     }
 }
-

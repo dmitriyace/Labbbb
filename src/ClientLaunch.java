@@ -30,9 +30,6 @@ public class ClientLaunch {
     int sizeWidth = 0;
     EPj saveCorrectSize;
     boolean animeColor, animeSize, animeClearance;
-
-    ArrayList<Pj> paintCollection;
-    //    List<Pair<Integer, Color>> gradients = new LinkedList<>();
     JSpinner spinClearance;
 
 
@@ -96,7 +93,6 @@ public class ClientLaunch {
 
         System.out.println(collection.size());
 
-        System.out.println("создаю панель объектов");
         //создал панель объектов
         JPanel objectsPanel = new JPanel(null);
         panel.add(objectsPanel);
@@ -111,26 +107,14 @@ public class ClientLaunch {
         });
         objectsPanel.add(btn);
 
-        JButton refresh = new JButton("обновить");
-        refresh.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                refreshCollection();
-                btn.clearBtns();
-                collection.forEach(n -> {
-                    btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
-                });
-                System.out.println(collection.size());
-            }
-        });
+
 
 
         //добавляю панель меню, на него добавляю фильтры и кнопки
-        JPanel menuPanel = new JPanel(new GridLayout(10, 1));
+        JPanel menuPanel = new JPanel(new GridLayout(11, 1));
         menuPanel.setLocation(0, 355);
         menuPanel.setSize(400, 200);
         panel.add(menuPanel);
-        menuPanel.add(refresh);
         //чекбоксы
         List<JCheckBox> cList = new ArrayList<>();
         JCheckBox blue = new JCheckBox("blue");
@@ -173,12 +157,9 @@ public class ClientLaunch {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-//                if (!checkSize(sizeField.getText())) {
-//                    checkTextField.setText("Enter correct size, \nVariants: LONG, SHORT, OK");
-//                }else checkTextField.setText("");
             }
         });
-        menuPanel.add(new JLabel("load pj by her name"));
+        menuPanel.add(new JLabel("choose pyjama by her size"));
         menuPanel.add(sizeField);
         menuPanel.add(checkTextField);
 
@@ -186,11 +167,13 @@ public class ClientLaunch {
         String[] clearance = {"doesn't matter", "unwashed", "washed"};
         SpinnerListModel model = new SpinnerListModel(clearance);
         spinClearance = new JSpinner(model);
+        JLabel spinLabel = new JLabel("choose pyjama clearance parameter");
+        menuPanel.add(spinLabel);
         menuPanel.add(spinClearance);
 
 
         //кнопка анимации
-        JButton anime = new JButton("anime");
+        JButton anime = new JButton("animation");
         anime.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -202,7 +185,7 @@ public class ClientLaunch {
             }
         });
 
-        JButton stop = new JButton("stop1");
+        JButton stop = new JButton("stop animation");
         stop.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,27 +200,7 @@ public class ClientLaunch {
         frame.setVisible(true);
     }
 
-    public void refreshCollection() {
-        try {
 
-            writer.writeObject("list");
-            System.out.println(reader.toString());
-            collection = new CopyOnWriteArrayList<>();
-            System.out.println(collection.size()+" new");
-            collection = (CopyOnWriteArrayList<Pj>) reader.readObject();
-            System.out.println(collection.size());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public boolean spinnerSetted() {
         String value = spinClearance.getValue().toString();
@@ -264,54 +227,11 @@ public class ClientLaunch {
                 animeColor = filteredColors.stream().anyMatch(color -> ((n.nativeColor.getRed() == btn.getColorFromEnum(color).getRed()) &&
                         (n.nativeColor.getGreen() == btn.getColorFromEnum(color).getGreen()) &&
                         (n.nativeColor.getBlue() == btn.getColorFromEnum(color).getBlue())));
-//                filteredColors.forEach(color -> {
-//                    if ((n.nativeColor.getRed() == btn.getColorFromEnum(color).getRed()) && (n.nativeColor.getGreen() == btn.getColorFromEnum(color).getGreen()) && (n.nativeColor.getBlue() == btn.getColorFromEnum(color).getBlue())) {
-//                        animeColor = true;
-//                        return;
-//                    }
-//                    else animeColor = false;
-//                });
             n.animated = (animeClearance && animeColor && animeSize);
         });
 
 
     }
-
-//    public void filterM() {
-//        ArrayList<ColorsEnum> filteredColors = getColorFromCheckBox(colorCheckBox);
-//        paintCollection = new ArrayList<>();
-//        btn.clearBtns();
-//
-//        //по цветам
-//        collection.forEach(n -> {
-//            filteredColors.forEach(cl -> {
-//                if (n.color.compareTo(cl) == 0) {
-//                    paintCollection.add(n);
-//                    return;
-//                }
-//            });
-//        });
-//        //по размеру
-//        if (ifSizeCorrect) {
-//            paintCollection = paintCollection.stream().filter(n -> {
-//                if (n.getSize().compareTo(saveCorrectSize) == 0) return true;
-//                return false;
-//            }).collect(Collectors.toCollection(ArrayList::new));
-//        }
-//        //по чистоте
-//        if (spinnerSetted()) {
-//            paintCollection = paintCollection.stream().filter(n -> {
-//                if (n.getClearance().compareTo(EPjc.valueOf(spinClearance.getValue().toString().toUpperCase())) == 0)
-//                    return true;
-//                return false;
-//            }).collect(Collectors.toCollection(ArrayList::new));
-//        }
-//
-//        paintCollection.forEach(n -> {
-//            btn.addBtn(n.loca.getX(), n.loca.getY(), getSizeFromEnum(n.epj), (int) 1.3 * getSizeFromEnum(n.epj), n.name, btn.getColorFromEnum(n.color), n.epjc, btn);
-//        });
-//    }
-
 
     public boolean checkSize(String s) {
         try {

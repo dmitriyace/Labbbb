@@ -7,8 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class AuthWindow extends JFrame {
-
-
     final static int width = 500;
     final static int height = 500;
     JLabel Auth = new JLabel("enter login and pass");
@@ -16,12 +14,10 @@ public class AuthWindow extends JFrame {
     JTextField logTF = new JTextField("");
     JLabel passL = new JLabel("Password:");
     JPasswordField passwordField = new JPasswordField();
-    static ServerWindow serverGUI;
     JButton checkBtn = new JButton();
 
 
-        public AuthWindow(ServerWindow parent) {
-//    public AuthWindow() {
+    public AuthWindow(ServerWindow parent) {
 
         this.setBounds(100, 100, width, height);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,9 +41,7 @@ public class AuthWindow extends JFrame {
 
                                           if (password.equals(enteredPassword) && logTF.getText().equals("s")) {
                                               setVisible(false);
-//                                              Server1.go();
-                                                parent.setVisible(true);
-//                                              new ServerWindow().setVisible(true);
+                                              parent.setVisible(true);
                                           } else {
                                               Auth.setText("please write correct login and password");
                                               checkBtn.setText("try press me again");
@@ -59,8 +53,6 @@ public class AuthWindow extends JFrame {
 
         this.setContentPane(panel);
         this.setVisible(true);
-//        ServerWindow s = new ServerWindow();
-//        s.setVisible(true);
 
     }
 
@@ -72,9 +64,4 @@ public class AuthWindow extends JFrame {
         panel.add(cmp);
         jPanel.add(panel);
     }
-
-
-//    public static void main(String... args) {
-//        new AuthWindow();
-//    }
 }

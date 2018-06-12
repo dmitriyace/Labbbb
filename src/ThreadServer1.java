@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
@@ -10,7 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class ThreadServer1 implements Runnable {
     private Socket client;
@@ -89,10 +93,13 @@ class ServerWindow extends JFrame {
         JPanel panel1 = new JPanel(new GridLayout(7, 1));
         JPanel panel2 = new JPanel(new FlowLayout());
 
+        file = new File(".\\form.xml");
+        path = file.getAbsolutePath();
+        In.getPjeys(path, collection);
         j = 0;
         saveProperties = new String[collection.size()];
         for (Pj pj : collection) {
-            saveProperties[j] = pj.name + "(id" + pj.id + ")";
+            saveProperties[j] = pj.name + " - id" + pj.id ;
             j++;
         }
 
@@ -101,7 +108,13 @@ class ServerWindow extends JFrame {
             leaf.add(new DefaultMutableTreeNode(saveProperties[i], false));
         model = new DefaultTreeModel(leaf, true);
         collectionTree = new JTree(model);
-
+        collectionTree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) collectionTree.getLastSelectedPathComponent();
+                System.out.println(collectionTree.getLastSelectedPathComponent());
+            }
+        });
         panel1.add(save);
         panel2.add(collectionTree);
         panel1.add(delete);
@@ -137,35 +150,34 @@ class ServerWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                ServerWindow.super.setEnabled(false);
-                new ActDelete(thisOne, collection);
+                if (!collectionTree.isSelectionEmpty()) {
+                    removeBySelectedNode(collectionTree.getLastSelectedPathComponent().toString());
+                }
             }
         });
         load.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                file = new File(".\\form.xml");
-                path = file.getAbsolutePath();
-                In.getPjeys(path, collection);
+                JFileChooser chooser = new JFileChooser();
+                int res = chooser.showDialog(null, "Choose file");
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    file = chooser.getSelectedFile();
+                    path = file.getAbsolutePath();
+                    In.getPjeys(path, collection);
+                } else JOptionPane.showMessageDialog(thisOne, "You hadn't chosen any file to save collection");
                 refreshTree();
             }
         });
         this.setResizable(false);
         new AuthWindow(thisOne);
-//        this.setVisible(true);
-
-//        ServerWindow.super.setEnabled(false);
-//        ServerWindow.super.setVisible(false);
-
-//        new AuthWindow(thisOne);
     }
 
     public void refreshTree() {
         j = 0;
         saveProperties = new String[collection.size()];
         for (Pj pj : collection) {
-            saveProperties[j] = pj.name + "(id" + pj.id + ")";
+            saveProperties[j] = pj.name + " - id" + pj.id ;
             j++;
         }
         leaf = new DefaultMutableTreeNode();
@@ -175,14 +187,20 @@ class ServerWindow extends JFrame {
         collectionTree.setModel(model);
     }
 
+    public void removeBySelectedNode(String selectedPath) {
+        Scanner scanner = new Scanner(selectedPath);
+        scanner.useDelimiter(" - id");
+        String name = scanner.next();
+        String sId = scanner.next();
+        int id = Integer.valueOf(sId);
+        collection = collection.stream().filter(n -> ((n.name.compareTo(name) != 0) && (n.id != id))).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+        refreshTree();
+    }
+
     public CopyOnWriteArrayList<Pj> getCollection() {
         return collection;
     }
 
-    //    public static void main(String... args) {
-//        new ServerWindow();
-//
-//    }
 
 }
 

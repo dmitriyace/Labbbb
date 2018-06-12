@@ -52,7 +52,7 @@ public class ActAdd extends JFrame {
                 new JLabel("Clearance (washed, unwashed)"),
                 new JLabel("Wardrobe location (near_bed, living_room, near_kitchen, ss)"),
                 new JLabel("Color (red, blue, white, grey)"),
-                new JLabel("id (may be any, but not already taken)")};
+                new JLabel("id")};
 
         panel.add(empty);
         for (int i = 0; i < labels.length; i++) {
