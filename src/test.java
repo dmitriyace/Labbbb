@@ -16,9 +16,7 @@ import javax.swing.*;
 
 class test {
     public static void main(String[] args) {
-String s = "ru_RU";
-        System.out.println(s.substring(0,2));
-        System.out.println(s.substring(3,5));
+
 
     }
 

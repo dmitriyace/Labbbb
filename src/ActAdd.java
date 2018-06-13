@@ -32,7 +32,7 @@ public class ActAdd extends JFrame {
             new JTextField("")
     };
 
-    public ActAdd(ServerWindow parent, CopyOnWriteArrayList<Pj> collection) {
+    public ActAdd(ServerWindow parent, CopyOnWriteArrayList<Pj> collection, DataBaseWork dbWork) {
         super("Adding new pyjama");
 
         this.parent = parent;
@@ -66,13 +66,15 @@ public class ActAdd extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Pj pj;
-                try {
-                    pj = PjCollection.getElemByString(makeElem(fields));
-                    checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
 
+                try {
+                    PjCollection.getElemByString(makeElem(fields));
+//                    checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+                    dbWork.addElement(fields[0].getText(), fields[1].getText(), fields[4].getText(),
+                            fields[2].getText(), fields[3].getText(), Integer.valueOf(fields[5].getText()));
+                    dbWork.getCollectionFromDB();
                     ActAdd.super.setVisible(false);
-                    collection.add(pj);
+//                    collection.add(pj);
                     parent.refreshTree();
                     parent.setVisible(true);
                     parent.setEnabled(true);
