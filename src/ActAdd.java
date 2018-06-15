@@ -69,12 +69,10 @@ public class ActAdd extends JFrame {
 
                 try {
                     PjCollection.getElemByString(makeElem(fields));
-//                    checkCollection = checkCollection.stream().filter(n -> n.compareTo(pj) == 0).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
                     dbWork.addElement(fields[0].getText(), fields[1].getText(), fields[4].getText(),
                             fields[2].getText(), fields[3].getText(), Integer.valueOf(fields[5].getText()));
                     dbWork.getCollectionFromDB();
-                    ActAdd.super.setVisible(false);
-//                    collection.add(pj);
+                    setVisible(false);
                     parent.refreshTree();
                     parent.setVisible(true);
                     parent.setEnabled(true);
@@ -112,12 +110,4 @@ public class ActAdd extends JFrame {
     }
 
 
-//        public static void main (String...args){
-//            CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
-//            File file = new File(".\\form.xml");
-//            String path = file.getAbsolutePath();
-//            In.getPjeys(path, collection);
-//            new ActAdd(new ServerWindow(), collection);
-//
-//        }
 }

@@ -15,7 +15,6 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected EPj epj;
     protected EPjc epjc;
 
-    //    protected Type t;
     protected Emotional e;
     protected String name;
     protected Location loca;
@@ -26,7 +25,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
     protected String dt;
     int id;
     public static Pj defaultPj = new Pj("default", EPj.LONG, EPjc.UNWASHED, Location.NEAR_BED, ColorsEnum.WHITE, 44444444);
-    transient OffsetDateTime odt;
+     OffsetDateTime odt;
     public Pj(String name, EPj epj, EPjc epjc, Location loca, ColorsEnum color, int num) {
         this.name = name;
         id = num;
@@ -35,7 +34,7 @@ public class Pj extends Over implements P_i, Comparable, Serializable {
         this.loca = loca;
         this.color = color;
         this.dt = ft.format(new Date());
-        odt = OffsetDateTime.now();
+        this.odt = OffsetDateTime.now();
     }
 
     public void setColor(ColorsEnum color) {

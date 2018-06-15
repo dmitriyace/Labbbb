@@ -39,10 +39,6 @@ public class ThreadServer1 implements Runnable {
     @Override
     public void run() {
 
-//        File file = new File(".\\form.xml");
-//        String path = file.getAbsolutePath();
-//        In.getPjeys(path, collection);
-
 
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(client.getInputStream());) {
@@ -76,27 +72,6 @@ public class ThreadServer1 implements Runnable {
 
     }
 
-//    public void getCollectionFromDB() {
-//        String selectPjs = "SELECT name, size, clear, location, color, id FROM pyjamas;";
-//        try {
-//            ResultSet pjsDB = statement.executeQuery(selectPjs);
-//            collection.clear();
-//            while (pjsDB.next()) {
-//                String name = pjsDB.getString("name");
-//                EPj size = EPj.valueOf(pjsDB.getString("size"));
-//                EPjc clear = EPjc.valueOf(pjsDB.getString("clear"));
-//                Location location = Location.valueOf(pjsDB.getString("location"));
-//                ColorsEnum color = ColorsEnum.valueOf(pjsDB.getString("color"));
-//                int id = pjsDB.getInt("id");
-//                Pj pj = new Pj(name, size, clear, location, color, id);
-//                collection.add(pj);
-//            }
-//            System.out.println(collection.size());
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
 
 class ServerWindow extends JFrame {
@@ -202,6 +177,7 @@ class ServerWindow extends JFrame {
                     try {
                         int a = Integer.valueOf(answer);
                         dbWork.deleteRow(a);
+                        refreshTree();
                     } catch (Exception exc) {
                         System.err.println("incorrect id");
                     }
@@ -306,8 +282,10 @@ class DataBaseWork {
     }
 
     public void addElement(String name, String size, String color, String clear, String location, int id) {
-        String insert = "INSERT INTO  pyjamas (name, \"size\",\"clear\" ," +
-                "\"location\",\"color\",id) VALUES (?,CAST(? AS valid_size),CAST(? AS clearance),CAST(? AS loca),CAST(? AS valid_color),?)";
+        String insert = "INSERT INTO  pyjamas (name, size,\"clear\" ," +
+                "\"location\",\"color\",id) VALUES (" +
+                "?,CAST(? AS valid_size),CAST(? AS clearance)," +
+                "CAST(? AS loca),CAST(? AS valid_color),?)";
         try {
             PreparedStatement statement = conn.prepareStatement(insert);
             statement.setString(1, name);
@@ -320,6 +298,7 @@ class DataBaseWork {
 
             System.out.println(statement.toString());
             statement.close();
+            getCollectionFromDB();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -333,6 +312,7 @@ class DataBaseWork {
             statement.setString(1, name);
             statement.setInt(2, id);
             statement.executeUpdate();
+            getCollectionFromDB();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -345,6 +325,8 @@ class DataBaseWork {
             PreparedStatement s = conn.prepareStatement(delete);
             s.setInt(1, id);
             s.executeUpdate();
+            getCollectionFromDB();
+
         } catch (SQLException e) {
             System.err.println("incorrect id: "+id+". Please insert correct id");
         }
@@ -365,6 +347,8 @@ class DataBaseWork {
             statement.setString(3, color.toUpperCase());
 
             statement.executeUpdate();
+            getCollectionFromDB();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

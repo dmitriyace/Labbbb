@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -105,7 +108,7 @@ public class ClientLaunch {
 
         //нарисовал
         collection.forEach(e -> {
-            btn.addBtn(e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc, btn);
+            btn.addBtn((lb.getString("Client.date")), e.loca.getX(), e.loca.getY(), getSizeFromEnum(e.epj), (int) 1.3 * getSizeFromEnum(e.epj), e.name, btn.getColorFromEnum(e.color), e.epjc, btn, e.odt);
         });
         objectsPanel.add(btn);
 
@@ -132,6 +135,13 @@ public class ClientLaunch {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     getColorsString(cList);
+                    filterActors();
+                    btn.getMyBtns().forEach(n -> {
+                        if (n.timer.isRunning())
+                            n.timer.stop();
+                        if (n.animated)
+                            n.changeColor();
+                    });
                 }
             });
         });
@@ -216,6 +226,11 @@ public class ClientLaunch {
                 if (!checkSize(sizeField.getText())) {
                     checkTextField.setText(lb.getString("Client.CTF"));
                 } else checkTextField.setText("");
+
+                btn.clearBtns();
+                collection.forEach(pj -> {
+                    btn.addBtn( lb.getString("Client.date") , pj.loca.getX(), pj.loca.getY(), getSizeFromEnum(pj.epj), (int) 1.3 * getSizeFromEnum(pj.epj), pj.name, btn.getColorFromEnum(pj.color), pj.epjc, btn, pj.odt);
+                });
             }
         });
         localePanel.add(locCB);
@@ -341,7 +356,7 @@ class PBtn extends JComponent {
         Color color;
         Color nativeColor;
         JComponent parent;
-
+        OffsetDateTime created;
         Timer timer;
         private float R;
         private float G;
@@ -353,12 +368,13 @@ class PBtn extends JComponent {
         boolean animated = false;
         EPjc clearance;
 
-        MyBtn(int x, int y, int width, int height, String name, Color compColor, EPjc clearance, JComponent parent) {
+        MyBtn(int x, int y, int width, int height, String name, Color compColor, EPjc clearance, JComponent parent, OffsetDateTime created) {
             this.setBounds(x, y, width, height);
             this.color = compColor;
             this.nativeColor = compColor;
             this.clearance = clearance;
             this.parent = parent;
+            this.created = created;
             R = compColor.getRed();
             G = compColor.getGreen();
             B = compColor.getBlue();
@@ -415,8 +431,8 @@ class PBtn extends JComponent {
     }
 
 
-    void addBtn(int x, int y, int width, int height, String name, Color color, EPjc clearance, JComponent parent) {
-        MyBtn myBtn = new MyBtn(x, y, width, height, name, color, clearance, parent);
+    void addBtn(String zone, int x, int y, int width, int height, String name, Color color, EPjc clearance, JComponent parent, OffsetDateTime created) {
+        MyBtn myBtn = new MyBtn(x, y, width, height, name, color, clearance, parent, created);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -426,7 +442,7 @@ class PBtn extends JComponent {
             @Override
             public void mouseMoved(MouseEvent e) {
                 if (myBtn.contains(e.getPoint())) {
-                    setToolTipText(name);
+                    setToolTipText(name + ", created: " + created.atZoneSameInstant(ZoneId.of(zone)));
                 }
                 ToolTipManager.sharedInstance().mouseMoved(e);
             }
@@ -436,7 +452,7 @@ class PBtn extends JComponent {
     }
 
     void addBtn(MyBtn m) {
-        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color, m.clearance, m.parent);
+        MyBtn myBtn = new MyBtn(m.x, m.y, m.width, m.height, m.name, m.color, m.clearance, m.parent, m.created);
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
