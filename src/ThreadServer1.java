@@ -312,10 +312,10 @@ class DataBaseWork {
             collection.clear();
             while (pjsDB.next()) {
                 String name = pjsDB.getString("name");
-                EPj size = EPj.values()[valueOf(pjsDB.getString("size"))];
-                EPjc clear = EPjc.values()[valueOf((pjsDB.getString("clear")))];
-                Location location = Location.values()[valueOf((pjsDB.getString("location")))];
-                ColorsEnum color = ColorsEnum.values()[valueOf((pjsDB.getString("color")))];
+                EPj size = EPj.values()[valueOf(pjsDB.getString("size"))-1];
+                EPjc clear = EPjc.values()[valueOf((pjsDB.getString("clear")))-1];
+                Location location = Location.values()[valueOf((pjsDB.getString("location")))-1];
+                ColorsEnum color = ColorsEnum.values()[valueOf((pjsDB.getString("color")))-1];
                 int id = pjsDB.getInt("id");
                 Pj pj = new Pj(name, size, clear, location, color, id);
                 collection.add(pj);
