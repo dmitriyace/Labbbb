@@ -5,23 +5,24 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import Enums.ColorsEnum;
 import Enums.EPj;
+import Enums.Location;
 import org.pushingpixels.trident.*;
 
 import javax.swing.*;
 
-
+import  static java.lang.System.out;
 class test {
     public static void main(String[] args) {
-        OffsetDateTime odt = OffsetDateTime.now( ZoneId.of("Europe/Moscow") ) ;
-        System.out.println(odt);
+//        OffsetDateTime odt = OffsetDateTime.now( ZoneId.of("Europe/Moscow") ) ;
+//        System.out.println(odt);
+        Class c = Location.class;
+        out.format("Enum constants: %s%n", Arrays.asList(c.getEnumConstants()));
+
 
     }
 
