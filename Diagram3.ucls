@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <interface id="1" language="java" name="Moves" project="Lab3" file="/Lab3/src/Moves.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="707" y="682"/>    
+    <position height="-1" width="-1" id="707" y="682"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </interface>  
   <enumeration id="2" language="java" name="Enums.Emotional" project="Lab3" file="/Lab3/src/Enums.Emotional.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="509" y="702"/>    
+    <position height="-1" width="-1" id="509" y="702"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </enumeration>  
   <enumeration id="3" language="java" name="Type" project="Lab3" file="/Lab3/src/Type.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="335" y="701"/>    
+    <position height="-1" width="-1" id="335" y="701"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </enumeration>  
   <enumeration id="4" language="java" name="Enums.EPjc" project="Lab3" file="/Lab3/src/Enums.EPjc.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="57" y="335"/>    
+    <position height="-1" width="-1" id="57" y="335"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </enumeration>  
   <enumeration id="5" language="java" name="Enums.EPj" project="Lab3" file="/Lab3/src/Enums.EPj.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="54" y="479"/>    
+    <position height="-1" width="-1" id="54" y="479"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </enumeration>  
   <interface id="6" language="java" name="P_i" project="Lab3" file="/Lab3/src/P_i.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="162" y="705"/>    
+    <position height="-1" width="-1" id="162" y="705"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -56,7 +56,7 @@
     </display>  
   </interface>  
   <class id="7" language="java" name="Pj" project="Lab3" file="/Lab3/src/Pj.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="333" width="193" x="181" y="277"/>    
+    <position height="333" width="193" id="181" y="277"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -65,7 +65,7 @@
   </class>  
   <class id="8" language="java" name="Heroes" project="Lab3" file="/Lab3/src/Heroes.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="576" y="466"/>    
+    <position height="-1" width="-1" id="576" y="466"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -74,7 +74,7 @@
   </class>  
   <class id="9" language="java" name="Over" project="Lab3" file="/Lab3/src/Over.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="429" y="194"/>    
+    <position height="-1" width="-1" id="429" y="194"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -83,7 +83,7 @@
   </class>  
   <class id="10" language="java" name="Scenary" project="Lab3" file="/Lab3/src/Scenary.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="628" y="197"/>    
+    <position height="-1" width="-1" id="628" y="197"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,10 +93,10 @@
   <association id="11">    
     <end type="SOURCE" refId="8" navigable="false">      
       <attribute id="12" name="t">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="13" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -105,10 +105,10 @@
   <association id="14">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="15" name="Bimbo">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="16" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
@@ -117,10 +117,10 @@
   <association id="17">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="18" name="BimPj">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="19" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
@@ -129,10 +129,10 @@
   <association id="20">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="21" name="BoyPj">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="22" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
@@ -141,10 +141,10 @@
   <association id="23">    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="24" name="epj">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="25" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -153,10 +153,10 @@
   <association id="26">    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="27" name="t">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="28" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -165,10 +165,10 @@
   <association id="29">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="30" name="Carlson">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="31" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
@@ -177,10 +177,10 @@
   <association id="32">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="33" name="CPj">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="34" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
@@ -189,10 +189,10 @@
   <association id="35">    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="36" name="e">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="37" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -217,10 +217,10 @@
   <association id="42">    
     <end type="SOURCE" refId="8" navigable="false">      
       <attribute id="43" name="e">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="44" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -229,10 +229,10 @@
   <association id="45">    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="46" name="epjc">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="47" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
@@ -241,10 +241,10 @@
   <association id="48">    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="49" name="Boy">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </attribute>      
       <multiplicity id="50" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" id="0" y="0"/>
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    

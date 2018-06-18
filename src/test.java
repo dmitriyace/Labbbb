@@ -21,7 +21,10 @@ class test {
 //        OffsetDateTime odt = OffsetDateTime.now( ZoneId.of("Europe/Moscow") ) ;
 //        System.out.println(odt);
         Class c = Location.class;
-        out.format("Enum constants: %s%n", Arrays.asList(c.getEnumConstants()));
+        for (Location l: (Location[]) c.getEnumConstants()){
+            out.format("%n%s", l.toString());
+        }
+
 
 
     }

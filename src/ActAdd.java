@@ -68,9 +68,10 @@ public class ActAdd extends JFrame {
                 super.mouseClicked(e);
 
                 try {
-                    PjCollection.getElemByString(makeElem(fields));
-                    dbWork.addElement(fields[0].getText(), fields[1].getText(), fields[4].getText(),
-                            fields[2].getText(), fields[3].getText(), Integer.valueOf(fields[5].getText()));
+                    Pj pj = PjCollection.getElemByString(makeElem(fields));
+//                    dbWork.addElement(fields[0].getText(), fields[1].getText(), fields[4].getText(),
+//                            fields[2].getText(), fields[3].getText(), Integer.valueOf(fields[5].getText()));
+                    dbWork.fillPyjamasInDB(pj);
                     dbWork.getCollectionFromDB();
                     setVisible(false);
                     parent.refreshTree();

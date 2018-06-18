@@ -24,6 +24,8 @@ import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
+import static java.lang.Integer.valueOf;
+
 public class ThreadServer1 implements Runnable {
     private Socket client;
     private CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
@@ -94,6 +96,7 @@ class ServerWindow extends JFrame {
     String path;
     CopyOnWriteArrayList<Pj> collection = new CopyOnWriteArrayList<>();
     DataBaseWork dbWork;
+    ReflectEnum re = new ReflectEnum(dbWork);
 
     ServerWindow() {
         super("Menu");
@@ -102,11 +105,10 @@ class ServerWindow extends JFrame {
         JPanel panel1 = new JPanel(new GridLayout(7, 1));
         JPanel panel2 = new JPanel(new FlowLayout());
 
-//        file = new File(".\\form.xml");
-//        path = file.getAbsolutePath();
-//        In.getPjeys(path, collection);
         dbWork = new DataBaseWork(collection);
         dbWork.initDB();
+        re.reflectEnums();
+        dbWork.loadFromFileToDB(collection);
         dbWork.getCollectionFromDB();
         j = 0;
         saveProperties = new String[collection.size()];
@@ -175,7 +177,7 @@ class ServerWindow extends JFrame {
                 String answer = JOptionPane.showInputDialog(thisOne, "Enter id of pj to delete", "insert a number");
                 if (answer != null) {
                     try {
-                        int a = Integer.valueOf(answer);
+                        int a = valueOf(answer);
                         dbWork.deleteRow(a);
                         refreshTree();
                     } catch (Exception exc) {
@@ -222,7 +224,7 @@ class ServerWindow extends JFrame {
         scanner.useDelimiter(" - id");
         String name = scanner.next();
         String sId = scanner.next();
-        int id = Integer.valueOf(sId);
+        int id = valueOf(sId);
         collection = collection.stream().filter(n -> ((n.name.compareTo(name) != 0) && (n.id != id))).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
         refreshTree();
     }
@@ -256,7 +258,51 @@ class DataBaseWork {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void loadFromFileToDB(CopyOnWriteArrayList<Pj> collection) {
+        File file = new File(".\\form.xml");
+        String path = file.getAbsolutePath();
+        In.getPjeys(path, collection);
+        collection.forEach(n -> fillPyjamasInDB(n));
+
+    }
+
+    public static void fillPyjamasInDB(Pj pj) {
+        String insert = "INSERT INTO pyjamas VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement s = conn.prepareStatement(insert);
+            s.setInt(1, pj.id);
+            s.setString(2, pj.name);
+            s.setInt(3, pj.epj.getId());
+            s.setInt(4, pj.epjc.getId());
+            s.setInt(5, pj.loca.getId());
+            s.setInt(6, pj.color.getId());
+            s.executeUpdate();
+            s.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void fillEnumTable(Enum e, String tableName, int id) {
+        String insertEnum = "INSERT INTO " + tableName + "(id,value) " + " VALUES (" + id + ",'" + e + "');";
+        try {
+            statement.executeUpdate(insertEnum);
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public static void deleteFromEnumTables(String tableName) {
+        String delete = "DELETE FROM " + tableName;
+        try {
+            statement.executeUpdate(delete);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void getCollectionFromDB() {
@@ -266,10 +312,10 @@ class DataBaseWork {
             collection.clear();
             while (pjsDB.next()) {
                 String name = pjsDB.getString("name");
-                EPj size = EPj.valueOf(pjsDB.getString("size"));
-                EPjc clear = EPjc.valueOf(pjsDB.getString("clear"));
-                Location location = Location.valueOf(pjsDB.getString("location"));
-                ColorsEnum color = ColorsEnum.valueOf(pjsDB.getString("color"));
+                EPj size = EPj.values()[valueOf(pjsDB.getString("size"))];
+                EPjc clear = EPjc.values()[valueOf((pjsDB.getString("clear")))];
+                Location location = Location.values()[valueOf((pjsDB.getString("location")))];
+                ColorsEnum color = ColorsEnum.values()[valueOf((pjsDB.getString("color")))];
                 int id = pjsDB.getInt("id");
                 Pj pj = new Pj(name, size, clear, location, color, id);
                 collection.add(pj);
@@ -281,28 +327,7 @@ class DataBaseWork {
         }
     }
 
-    public void addElement(String name, String size, String color, String clear, String location, int id) {
-        String insert = "INSERT INTO  pyjamas (name, size,\"clear\" ," +
-                "\"location\",\"color\",id) VALUES (" +
-                "?,CAST(? AS valid_size),CAST(? AS clearance)," +
-                "CAST(? AS loca),CAST(? AS valid_color),?)";
-        try {
-            PreparedStatement statement = conn.prepareStatement(insert);
-            statement.setString(1, name);
-            statement.setString(2, size.toUpperCase());
-            statement.setString(3, clear.toUpperCase());
-            statement.setString(4, location.toUpperCase());
-            statement.setString(5, color.toUpperCase());
-            statement.setInt(6, id);
-            statement.executeUpdate();
 
-            System.out.println(statement.toString());
-            statement.close();
-            getCollectionFromDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deleteRow(String name, int id) {
         String delete = "DELETE FROM pyjamas WHERE pyjamas.name = ? and pyjamas.id = ?";
@@ -328,7 +353,7 @@ class DataBaseWork {
             getCollectionFromDB();
 
         } catch (SQLException e) {
-            System.err.println("incorrect id: "+id+". Please insert correct id");
+            System.err.println("incorrect id: " + id + ". Please insert correct id");
         }
 
     }

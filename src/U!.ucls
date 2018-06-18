@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <interface id="1" language="java" name="Moves" project="Lab3" file="/Lab3/src/Moves.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="856" y="515"/>    
+    <position height="-1" width="-1" id="856" y="515"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </interface>  
   <enumeration id="2" language="java" name="Enums.Emotional" project="Lab3" file="/Lab3/src/Enums.Emotional.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="268" y="519"/>    
+    <position height="-1" width="-1" id="268" y="519"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </enumeration>  
   <enumeration id="3" language="java" name="Type" project="Lab3" file="/Lab3/src/Type.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="421" y="525"/>    
+    <position height="-1" width="-1" id="421" y="525"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </enumeration>  
   <enumeration id="4" language="java" name="Enums.EPjc" project="Lab3" file="/Lab3/src/Enums.EPjc.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="714" y="519"/>    
+    <position height="-1" width="-1" id="714" y="519"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </enumeration>  
   <enumeration id="5" language="java" name="Enums.EPj" project="Lab3" file="/Lab3/src/Enums.EPj.java" binary="false"
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="570" y="523"/>    
+    <position height="-1" width="-1" id="570" y="523"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </enumeration>  
   <interface id="6" language="java" name="P_i" project="Lab3" file="/Lab3/src/P_i.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="259" y="360"/>    
+    <position height="-1" width="-1" id="259" y="360"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -56,7 +56,7 @@
     </display>  
   </interface>  
   <class id="7" language="java" name="Pj" project="Lab3" file="/Lab3/src/Pj.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="319" y="172"/>    
+    <position height="-1" width="-1" id="319" y="172"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -65,7 +65,7 @@
   </class>  
   <class id="8" language="java" name="Heroes" project="Lab3" file="/Lab3/src/Heroes.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="823" y="197"/>    
+    <position height="-1" width="-1" id="823" y="197"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -74,7 +74,7 @@
   </class>  
   <class id="9" language="java" name="Over" project="Lab3" file="/Lab3/src/Over.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="550" y="238"/>    
+    <position height="-1" width="-1" id="550" y="238"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -83,7 +83,7 @@
   </class>  
   <class id="10" language="java" name="Scenary" project="Lab3" file="/Lab3/src/Scenary.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="544" y="67"/>    
+    <position height="-1" width="-1" id="544" y="67"/>
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

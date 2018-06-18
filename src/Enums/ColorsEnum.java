@@ -1,12 +1,16 @@
 package Enums;
 
-import java.awt.*;
-
 public enum ColorsEnum {
-    RED, BLUE, WHITE, GREY
 
-//    Enums.ColorsEnum(int r, int g, int b) {
-//
-//
-//    }
+
+    RED(1), BLUE(2), WHITE(3), GREY(4);
+    int id;
+
+    ColorsEnum(int id) {
+        this.id = id;
     }
+    public int getId() {
+        return id;
+    }
+
+}
